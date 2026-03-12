@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>HSV Color Picker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="page">
+    <div class="app">
+
+      <header class="app-header">
+        <h1 class="app-title">HSV Color Picker</h1>
+        <p class="app-subtitle">Photoshop / Figma と同じ HSV 方式のカラーピッカー</p>
+      </header>
+
+      <!-- ピッカー全体 -->
+      <section class="picker-block">
+
+        <!-- SLパネル（HSVのSVパネル） -->
+        <div id="slPanel" class="sl-panel">
+          <div id="slThumb" class="sl-thumb"></div>
+        </div>
+
+        <!-- Hueバー（横向き） -->
+        <div id="hueSlider" class="hue-slider">
+          <div id="hueHandle" class="hue-handle"></div>
+        </div>
+
+        <!-- プレビュー -->
+        <div id="preview" class="preview">
+          <div id="previewLabel" class="preview-inner">#ffffff</div>
+        </div>
+
+        <!-- 保存色 -->
+        <div class="saved-colors">
+          <div class="saved-title">Saved Colors</div>
+          <div id="savedList" class="saved-list"></div>
+          <button id="saveColorBtn" class="save-btn">＋ Save</button>
+        </div>
+
+      </section>
+
+      <!-- カラーコード一覧 -->
+      <section class="codes-grid">
+
+        <div class="code-card" data-type="hex">
+          <div class="code-header">
+            <span>HEX</span>
+            <button class="copy-btn">
+              <svg class="copy-icon" viewBox="0 0 24 24">
+                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 
+                1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 
+                16H8V7h11v14z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="code-body">
+            <span data-code>#ffffff</span>
+          </div>
+        </div>
+
+        <div class="code-card" data-type="rgb">
+          <div class="code-header">
+            <span>RGB</span>
+            <button class="copy-btn">
+              <svg class="copy-icon" viewBox="0 0 24 24">
+                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 
+                2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 
+                16H8V7h11v14z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="code-body">
+            <span data-code>rgb(255,255,255)</span>
+          </div>
+        </div>
+
+        <div class="code-card" data-type="hsl">
+          <div class="code-header">
+            <span>HSL</span>
+            <button class="copy-btn">
+              <svg class="copy-icon" viewBox="0 0 24 24">
+                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 
+                2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 
+                16H8V7h11v14z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="code-body">
+            <span data-code>hsl(0,0%,100%)</span>
+          </div>
+        </div>
+
+        <div class="code-card" data-type="rgba">
+          <div class="code-header">
+            <span>RGBA</span>
+            <button class="copy-btn">
+              <svg class="copy-icon" viewBox="0 0 24 24">
+                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 
+                2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 
+                16H8V7h11v14z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="code-body">
+            <span data-code>rgba(255,255,255,1)</span>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

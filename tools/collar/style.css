@@ -1,0 +1,233 @@
+:root {
+  --bg: #f5f5f7;
+  --card-bg: #ffffff;
+  --border: #e5e5ea;
+  --text-main: #111;
+  --text-sub: #6b6b6f;
+  --shadow-soft: 0 2px 8px rgba(0,0,0,0.05);
+  --radius-card: 16px;
+  --font-ui: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Noto Sans JP", sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: var(--font-ui);
+}
+
+.page {
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.app {
+  width: 100%;
+  max-width: 840px;
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 28px 24px 32px;
+  box-shadow: var(--shadow-soft);
+}
+
+.picker-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* SLパネル（HSV） */
+.sl-panel {
+  width: 300px;
+  height: 300px;
+  border-radius: 16px;
+  position: relative;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+
+  background:
+    linear-gradient(to top, #000, transparent),
+    linear-gradient(to right, #fff, hsl(var(--hue), 100%, 50%));
+}
+
+.sl-thumb {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.35);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Hueバー（横） */
+.hue-slider {
+  width: 300px;
+  height: 24px;
+  border-radius: 12px;
+  background: linear-gradient(
+    to right,
+    #ff0000,
+    #ffff00,
+    #00ff00,
+    #00ffff,
+    #0000ff,
+    #ff00ff,
+    #ff0000
+  );
+  position: relative;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+}
+
+.hue-handle {
+  position: absolute;
+  top: -4px;
+  width: 6px;
+  height: 32px;
+  background: #fff;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  transform: translateX(-3px);
+}
+
+/* プレビュー */
+.preview {
+  width: 300px;
+  height: 110px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-inner {
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-mono);
+}
+
+/* 保存色 */
+.saved-colors {
+  width: 300px;
+}
+
+.saved-title {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-bottom: 8px;
+}
+
+.saved-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.saved-item {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+}
+
+.save-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  background: #f3f3f5;
+}
+
+/* コード一覧 */
+.codes-grid {
+  margin-top: 24px;
+  display: grid;
+  gap: 16px;
+}
+
+.code-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border);
+  padding: 14px;
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-sub);
+}
+
+.code-body {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+}
+
+.copy-btn {
+  border: none;
+  background: #f3f3f5;
+  border-radius: 999px;
+  padding: 4px 8px;
+}
+
+.copy-icon {
+  width: 14px;
+  height: 14px;
+  fill: #6b6b6f;
+}
+
+.copy-btn.copied {
+  background: #d1ffd1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111;
+    --card-bg: #1c1c1e;
+    --border: #2c2c2e;
+    --text-main: #fff;
+    --text-sub: #8e8e93;
+    --shadow-soft: 0 2px 8px rgba(0,0,0,0.4);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text-main);
+  }
+
+  .app {
+    background: var(--card-bg);
+  }
+
+  .code-card {
+    background: var(--card-bg);
+    border-color: var(--border);
+  }
+
+  .preview-inner {
+    background: rgba(0,0,0,0.4);
+    color: var(--text-main);
+  }
+
+  .save-btn {
+    background: #2c2c2e;
+    color: var(--text-main);
+  }
+
+  .copy-btn {
+    background: #2c2c2e;
+  }
+}
