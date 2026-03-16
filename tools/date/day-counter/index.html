@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>何日経った？｜日数カウンター｜経過日数・残り日数を自動計算</title>
+  <meta name="description" content="開始日から今日まで何日経ったか、または今日から終了日まであと何日かを自動で計算できる日数カウンター。記念日・締切・イベント管理に便利。">
+
+  <meta property="og:title" content="何日経った？｜日数カウンター">
+  <meta property="og:description" content="開始日から今日までの経過日数、今日から終了日までの残り日数を自動計算。記念日・締切・イベント管理に便利。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jun-ju-waaaaa.github.io/toolsite/day-counter/">
+  <meta property="og:image" content="favicon.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "日数カウンター",
+    "url": "https://jun-ju-waaaaa.github.io/toolsite/day-counter/",
+    "applicationCategory": "Utility",
+    "operatingSystem": "All",
+    "description": "開始日から今日までの経過日数、または今日から終了日までの残り日数を自動で計算できる日数カウンター。"
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #fafafa;
+      --text: #111;
+      --card: #e5e5e5;
+      --input-bg: #f0f0f0;
+      --border: #ccc;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --text: #f5f5f5;
+        --card: #1e1e1e;
+        --input-bg: #1a1a1a;
+        --border: #333;
+      }
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    h2 {
+      text-align: center;
+      opacity: 0.8;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+    }
+
+    .input-block {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      opacity: 0.8;
+    }
+
+    input[type="date"] {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--input-bg);
+      color: var(--text);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #0066ff;
+      color: white;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .card {
+      margin-top: 20px;
+      padding: 22px;
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+      font-size: 1.3rem;
+    }
+
+    .label {
+      font-size: 1.1rem;
+      opacity: 0.7;
+    }
+
+    .value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>日数カウンター</h1>
+<h2>開始日からの経過日数・終了日までの残り日数を自動で計算できます。</h2>
+
+<div class="input-block">
+  <label>開始日（例：記念日・開始日）</label>
+  <input type="date" id="startDate">
+</div>
+
+<div class="input-block">
+  <label>終了日（任意：締切・イベント日）</label>
+  <input type="date" id="endDate">
+</div>
+
+<button onclick="calculate()">計算する</button>
+
+<div id="resultCard" class="card" style="display:none;"></div>
+
+<script>
+function calculate() {
+  const start = document.getElementById("startDate").value;
+  const end = document.getElementById("endDate").value;
+  const card = document.getElementById("resultCard");
+
+  if (!start) {
+    card.style.display = "block";
+    card.innerHTML = `<div class="label">エラー</div><div class="value">開始日を入力してください</div>`;
+    return;
+  }
+
+  const startDate = new Date(start);
+  const today = new Date();
+
+  const diffStart = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+
+  let html = `
+    <div class="label">開始日からの経過日数</div>
+    <div class="value">${diffStart} 日</div>
+  `;
+
+  if (end) {
+    const endDate = new Date(end);
+    const diffEnd = Math.floor((endDate - today) / (1000 * 60 * 60 * 24));
+    html += `
+      <br>
+      <div class="label">終了日までの残り日数</div>
+      <div class="value">${diffEnd} 日</div>
+    `;
+  }
+
+  card.style.display = "block";
+  card.innerHTML = html;
+}
+</script>
+
+</body>
+</html>
