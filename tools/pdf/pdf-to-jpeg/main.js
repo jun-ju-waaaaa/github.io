@@ -1,251 +1,241 @@
-const fileInput   = document.getElementById("fileInput");
-const folderInput = document.getElementById("folderInput");
-const progressBar = document.getElementById("progressBar");
-const download    = document.getElementById("download");
-const thumbs      = document.getElementById("thumbs");
-const cancelBtn   = document.getElementById("cancelBtn");
-const resetBtn    = document.getElementById("resetBtn");
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 let cancelRequested = false;
 
-function resetScreen() {
-  cancelRequested = false;
+function getSettings() {
+  const format  = document.querySelector("input[name='outputFormat']:checked").value;
+  const quality = document.querySelector("input[name='outputQuality']:checked").value;
 
-  cancelBtn.style.display = "none";
-  resetBtn.style.display  = "none";
+  let scale, compressionQuality;
+  switch (quality) {
+    case "low":   scale = 1.0; compressionQuality = 0.65; break;
+    case "medium": scale = 1.5; compressionQuality = 0.85; break;
+    case "high":   scale = 2.0; compressionQuality = 0.92; break;
+    case "ultra":  scale = 3.0; compressionQuality = 0.97; break;
+    default:       scale = 1.5; compressionQuality = 0.85;
+  }
 
-  const msg = document.getElementById("completeMsg");
-  msg.style.display = "none";
-  msg.classList.remove("show");
+  let mimeType, ext;
+  switch (format) {
+    case "jpeg": mimeType = "image/jpeg"; ext = "jpg"; break;
+    case "png":  mimeType = "image/png";  ext = "png"; break;
+    case "webp": mimeType = "image/webp"; ext = "webp"; break;
+    default:     mimeType = "image/jpeg"; ext = "jpg";
+  }
 
-  download.style.display = "none";
-  download.classList.remove("show");
-
-  document.getElementById("downloadNote").style.display = "none";
-
-  thumbs.innerHTML = "";
-  progressBar.style.width = "0%";
+  return { scale, compressionQuality, mimeType, ext };
 }
 
-/* ▼ ドラッグ＆ドロップ対応 */
+function showEl(id) { document.getElementById(id).classList.remove("hidden"); }
+function hideEl(id) { document.getElementById(id).classList.add("hidden"); }
 
-// デフォルト動作を無効化
-document.addEventListener("dragover", (e) => {
-  e.preventDefault();
-});
+function updateProgress(current, total) {
+  const pct = Math.round((current / total) * 100);
+  document.getElementById("progressBar").style.width = pct + "%";
+  document.getElementById("progressPct").textContent = pct + "%";
+}
 
-document.addEventListener("dragenter", () => {
-  document.body.classList.add("dragover");
-});
+function resetUI() {
+  cancelRequested = false;
+  hideEl("processingSection");
+  hideEl("resultSection");
+  hideEl("cancelMsg");
+  hideEl("thumbsCard");
 
-document.addEventListener("dragleave", () => {
-  document.body.classList.remove("dragover");
-});
+  document.getElementById("progressBar").style.width = "0%";
+  document.getElementById("progressPct").textContent = "0%";
+  document.getElementById("thumbs").innerHTML = "";
+  document.getElementById("download").style.display = "none";
+  document.getElementById("downloadNote").style.display = "none";
+}
 
-// ▼ ここ重要：document の drop は削除し、dropArea のみ使用
-const dropArea = document.getElementById("dropArea");
+function addThumb(blobUrl, filename, caption) {
+  showEl("thumbsCard");
 
-dropArea.addEventListener("click", () => {
-  fileInput.click();
-});
+  const div = document.createElement("div");
+  div.className = "thumb";
 
-dropArea.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  dropArea.classList.add("dragover");
-});
+  const a = document.createElement("a");
+  a.href = blobUrl;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  a.download = filename;
 
-dropArea.addEventListener("dragleave", () => {
-  dropArea.classList.remove("dragover");
-});
+  const img = document.createElement("img");
+  img.src = blobUrl;
+  img.alt = caption;
+  img.loading = "lazy";
 
-dropArea.addEventListener("drop", (e) => {
-  e.preventDefault();
-  dropArea.classList.remove("dragover");
+  const cap = document.createElement("div");
+  cap.className = "thumb-caption";
+  cap.textContent = caption;
 
-  const droppedFiles = Array.from(e.dataTransfer.files);
-  const pdfFiles = droppedFiles.filter(f =>
-    f.name.toLowerCase().endsWith(".pdf")
-  );
-
-  if (pdfFiles.length === 0) {
-    alert("PDFファイルをドロップしてください。");
-    return;
-  }
-
-  resetScreen();
-  processFiles(pdfFiles);
-});
-
-fileInput.addEventListener("change", () => {
-  resetScreen();
-  const files = Array.from(fileInput.files);
-  processFiles(files);
-});
-
-folderInput.addEventListener("change", () => {
-  resetScreen();
-  const allFiles = Array.from(folderInput.files);
-  const pdfFiles = allFiles.filter(f => f.name.toLowerCase().endsWith(".pdf"));
-
-  if (pdfFiles.length !== allFiles.length) {
-    alert("PDF以外のデータは無視して変換を開始します。");
-  }
-
-  processFiles(pdfFiles);
-});
-
-/* ▼ onclick → addEventListener（CSP対応） */
-
-cancelBtn.addEventListener("click", () => {
-  cancelRequested = true;
-
-  cancelBtn.style.display = "none";
-  resetBtn.style.display  = "inline-block";
-
-  fileInput.disabled   = false;
-  folderInput.disabled = false;
-
-  alert("変換をキャンセルしました");
-});
-
-resetBtn.addEventListener("click", () => {
-  location.reload();
-});
+  a.appendChild(img);
+  div.appendChild(a);
+  div.appendChild(cap);
+  document.getElementById("thumbs").appendChild(div);
+}
 
 async function processFiles(files) {
+  const fileInput = document.getElementById("fileInput");
+  fileInput.disabled = true;
+  cancelRequested = false;
 
-  fileInput.disabled   = true;
-  folderInput.disabled = true;
-  cancelBtn.style.display = "inline-block";
+  showEl("processingSection");
+  document.getElementById("thumbs").innerHTML = "";
+  hideEl("thumbsCard");
 
-  if (files.length === 0) {
-    alert("PDF が見つかりません");
-    return;
-  }
+  const settings = getSettings();
 
-  thumbs.innerHTML = "";
-  progressBar.style.width = "0%";
-
-  const zip = new JSZip();
-  let processedPages = 0;
-  let totalPages     = 0;
-
-  // ▼ 全ページ数を先にカウント
+  // 全ページ数カウント & PDF読み込み
+  let totalPages = 0;
+  const pdfDocs = [];
   for (const file of files) {
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
     totalPages += pdf.numPages;
+    pdfDocs.push({ file, pdf });
   }
 
-  const singlePDF = (files.length === 1 && totalPages === 1);
+  const singlePage = totalPages === 1;
+  const zip = singlePage ? null : new JSZip();
+  let singleBlobUrl = null;
+  let singleFilename = null;
+  let processedPages = 0;
 
-  let jpegFiles = [];
-
-  for (const file of files) {
-
-    if (cancelRequested) return;
-
-    const arrayBuffer = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  for (const { file, pdf } of pdfDocs) {
+    if (cancelRequested) break;
 
     const baseName = file.name.replace(/\.pdf$/i, "");
 
     for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-
-      if (cancelRequested) return;
+      if (cancelRequested) break;
 
       const page = await pdf.getPage(pageNum);
-      const viewport = page.getViewport({ scale: 1.5 });
+      const viewport = page.getViewport({ scale: settings.scale });
 
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
-
       canvas.width  = viewport.width;
       canvas.height = viewport.height;
 
+      // JPEG は透明→黒化を防ぐため白背景で塗りつぶす
+      if (settings.mimeType === "image/jpeg") {
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
       await page.render({ canvasContext: ctx, viewport }).promise;
 
-      const jpegData = canvas.toDataURL("image/jpeg");
+      const dataUrl = canvas.toDataURL(settings.mimeType, settings.compressionQuality);
+      canvas.width = 0;
+      canvas.height = 0;
 
-      // ▼ ダウンロード用データ
-      if (singlePDF) {
-        jpegFiles.push({
-          name: `${baseName}_${String(pageNum).padStart(3, "0")}.jpg`,
-          data: jpegData
-        });
+      const pageStr   = String(pageNum).padStart(3, "0");
+      const filename  = `${baseName}_${pageStr}.${settings.ext}`;
+      const base64    = dataUrl.split(",")[1];
+      const byteArr   = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+      const blob      = new Blob([byteArr], { type: settings.mimeType });
+      const blobUrl   = URL.createObjectURL(blob);
+
+      if (singlePage) {
+        singleBlobUrl  = blobUrl;
+        singleFilename = filename;
       } else {
-        const base64  = jpegData.split(",")[1];
-        const pageStr = String(pageNum).padStart(3, "0");
-        zip.file(`${baseName}_${pageStr}.jpg`, base64, { base64: true });
+        zip.file(filename, base64, { base64: true });
       }
 
-      // ▼ サムネイル用 Blob URL（Chrome の about:blank#blocked 回避）
-      const byteString = atob(jpegData.split(",")[1]);
-      const array = new Uint8Array(byteString.length);
-      for (let i = 0; i < byteString.length; i++) {
-        array[i] = byteString.charCodeAt(i);
-      }
-      const blob    = new Blob([array], { type: "image/jpeg" });
-      const blobUrl = URL.createObjectURL(blob);
-
-      // ▼ サムネイル生成
-      const thumbDiv = document.createElement("div");
-      thumbDiv.className = "thumb";
-
-      const link = document.createElement("a");
-      link.href   = blobUrl;
-      link.target = "_blank";
-      link.rel    = "noopener noreferrer";
-
-      const img = document.createElement("img");
-      img.src = jpegData;
-
-      const caption = document.createElement("div");
-      caption.textContent = `${file.name} - p.${pageNum}`;
-
-      link.appendChild(img);
-      thumbDiv.appendChild(link);
-      thumbDiv.appendChild(caption);
-      thumbs.appendChild(thumbDiv);
+      const thumbCaption = pdfDocs.length > 1
+        ? `${baseName} p.${pageNum}`
+        : `p.${pageNum}`;
+      addThumb(blobUrl, filename, thumbCaption);
 
       processedPages++;
-      const percent = Math.floor((processedPages / totalPages) * 100);
-      progressBar.style.width = percent + "%";
+      updateProgress(processedPages, totalPages);
+
+      await new Promise(r => setTimeout(r, 30));
     }
   }
 
-  fileInput.disabled   = false;
-  folderInput.disabled = false;
-  cancelBtn.style.display = "none";
+  fileInput.disabled = false;
+  hideEl("processingSection");
 
-  if (singlePDF) {
-    const first = jpegFiles[0];
-    download.href     = first.data;
-    download.download = first.name;
-  } else {
-    const zipBlob = await zip.generateAsync({ type: "blob" });
-    const url = URL.createObjectURL(zipBlob);
-    download.href     = url;
-    download.download = "converted.zip";
+  if (cancelRequested) {
+    showEl("cancelMsg");
+    setTimeout(() => hideEl("cancelMsg"), 2500);
+    return;
   }
 
-  download.style.display = "block";
-  setTimeout(() => download.classList.add("show"), 10);
+  const downloadEl = document.getElementById("download");
 
+  if (singlePage) {
+    downloadEl.href     = singleBlobUrl;
+    downloadEl.download = singleFilename;
+    downloadEl.textContent = `画像をダウンロード (.${settings.ext})`;
+  } else {
+    document.getElementById("completeMsgText").textContent = "ZIPを生成中...";
+    showEl("resultSection");
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    downloadEl.href     = URL.createObjectURL(zipBlob);
+    downloadEl.download = `converted_${settings.ext}.zip`;
+    downloadEl.textContent = `ZIPでダウンロード（${totalPages}枚）`;
+  }
+
+  downloadEl.style.display = "flex";
   document.getElementById("downloadNote").style.display = "block";
-  resetBtn.style.display = "inline-block";
+  document.getElementById("completeMsgText").textContent =
+    `変換が完了しました（${totalPages}枚）`;
 
-  const msg = document.getElementById("completeMsg");
-  msg.style.display = "block";
-  setTimeout(() => msg.classList.add("show"), 10);
+  showEl("resultSection");
 }
 
-/* ▼ ボタンイベント（CSP対応済み） */
-
-document.getElementById("fileButton").addEventListener("click", () => {
-  fileInput.click();
+// ファイルボタン
+document.getElementById("fileButton").addEventListener("click", (e) => {
+  e.stopPropagation();
+  document.getElementById("fileInput").click();
 });
 
-document.getElementById("folderButton").addEventListener("click", () => {
-  folderInput.click();
+// アップロードゾーン全体のタップ
+const dropArea = document.getElementById("dropArea");
+dropArea.addEventListener("click", () => {
+  document.getElementById("fileInput").click();
 });
+
+document.getElementById("fileInput").addEventListener("change", (e) => {
+  const files = Array.from(e.target.files).filter(f =>
+    f.name.toLowerCase().endsWith(".pdf")
+  );
+  e.target.value = "";
+  if (files.length === 0) return;
+  resetUI();
+  processFiles(files);
+});
+
+// ドラッグ＆ドロップ
+dropArea.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  dropArea.classList.add("dragover");
+});
+dropArea.addEventListener("dragleave", () => dropArea.classList.remove("dragover"));
+dropArea.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropArea.classList.remove("dragover");
+  const files = Array.from(e.dataTransfer.files).filter(f =>
+    f.name.toLowerCase().endsWith(".pdf")
+  );
+  if (files.length === 0) {
+    alert("PDFファイルをドロップしてください");
+    return;
+  }
+  resetUI();
+  processFiles(files);
+});
+
+// キャンセル
+document.getElementById("cancelBtn").addEventListener("click", () => {
+  cancelRequested = true;
+});
+
+// リセット
+document.getElementById("resetBtn").addEventListener("click", resetUI);

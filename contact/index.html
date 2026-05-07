@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>お問い合わせ | ToolJapan</title>
+  <link rel="canonical" href="https://0-tools.com/contact/">
+  <meta name="description" content="ToolJapanへのお問い合わせページです。ツールの不具合報告・機能リクエスト・その他のご連絡はこちらからどうぞ。">
+  <link rel="stylesheet" href="/page.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="/" class="site-brand">ToolJapan</a>
+    <a href="/" class="header-home">← ホームへ</a>
+  </header>
+
+  <main class="page-main">
+    <div class="page-container">
+
+      <nav class="breadcrumb">
+        <a href="/">ホーム</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>お問い合わせ</span>
+      </nav>
+
+      <div class="page-header">
+        <h1 class="page-title">お問い合わせ</h1>
+        <p class="page-lead">ツールの不具合・機能リクエスト・その他のご連絡はこちらからお気軽にどうぞ。</p>
+      </div>
+
+      <div class="article">
+        <p class="note">
+          通常2〜5営業日以内にご返信いたします。内容によってはお時間をいただく場合があります。
+        </p>
+      </div>
+
+      <!-- ========================================
+           SETUP REQUIRED（初回設定が必要）
+           1. https://formspree.io/ でアカウントを作成
+           2. 「New Form」でフォームを作成（メールアドレスを入力）
+           3. 発行されたフォームID（xxxxxxxのような文字列）を
+              下の action="https://formspree.io/f/YOUR_FORM_ID" の
+              YOUR_FORM_ID 部分に貼り付けて保存
+           ======================================== -->
+      <div class="article">
+        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+          <div class="form-group">
+            <label class="form-label" for="name">お名前</label>
+            <input
+              class="form-control"
+              type="text"
+              id="name"
+              name="name"
+              placeholder="例：田中 太郎"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">メールアドレス</label>
+            <input
+              class="form-control"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="例：example@email.com"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="category">お問い合わせ種別</label>
+            <select class="form-control" id="category" name="category">
+              <option value="bug">不具合の報告</option>
+              <option value="request">機能リクエスト</option>
+              <option value="privacy">プライバシーポリシーについて</option>
+              <option value="other">その他</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="message">お問い合わせ内容</label>
+            <textarea
+              class="form-control"
+              id="message"
+              name="message"
+              placeholder="お問い合わせ内容をご記入ください"
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">送信する</button>
+
+          <p class="form-note">
+            入力いただいた情報は、お問い合わせへの対応のみに使用します。<br>
+            詳しくは<a href="/privacy/">プライバシーポリシー</a>をご確認ください。
+          </p>
+
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 ToolJapan</p>
+    <nav class="footer-nav">
+      <a href="/">ホーム</a>
+      <a href="/guide/">使い方</a>
+      <a href="/faq/">FAQ</a>
+      <a href="/about/">運営者情報</a>
+      <a href="/contact/">お問い合わせ</a>
+      <a href="/privacy/">プライバシーポリシー</a>
+    </nav>
+  </footer>
+
+</body>
+</html>

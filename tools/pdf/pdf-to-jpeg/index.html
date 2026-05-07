@@ -6,11 +6,11 @@
   <link rel="apple-touch-icon" href="favicon.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="google-site-verification" content="cblGyKe8u_P_jGL-Jqw0_tqURcwRZ_4dW379GVVuG0c" />
+  <meta name="google-site-verification" content="cblGyKe8u_P_jGL-Jqw0_tqURcwRZ_4dW379GVVuG0c">
   <meta name="google-adsense-account" content="ca-pub-6769343629657319">
-  <title>スマホでPDFをJPEGに変換｜無料・安全・高速のオンライン変換ツール</title>
+  <title>PDFを画像に変換｜JPEG・PNG・WebP対応・無料オンラインツール</title>
 
-  <meta name="description" content="PDFを無料でJPEG画像に変換できるオンラインツール。アップロード不要で安全、すべての処理がブラウザ内で完結します。スマホ・PC対応で高速変換できます。">
+  <meta name="description" content="PDFを無料でJPEG・PNG・WebP画像に変換できるオンラインツール。アップロード不要で安全、すべての処理がブラウザ内で完結します。スマホ・PC対応で高速変換できます。">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
         integrity="sha512-q+4liFwdPC/bNdhUpZx6aXDx/h77yEQtn4I1slHydcbZK34nLaR3cAeYSJshoxIOq3mjEf7xJE8YWIUHMn+oCQ=="
@@ -24,7 +24,7 @@
         default-src 'self' blob:;
         script-src 'self' https://cdnjs.cloudflare.com 'unsafe-eval' blob:;
         style-src 'self' 'unsafe-inline';
-        img-src 'self' data:;
+        img-src 'self' data: blob:;
         font-src 'self';
         connect-src 'self' blob:;
         worker-src 'self' blob:;
@@ -35,71 +35,178 @@
         form-action 'self';
       ">
 
- <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <div id="container">
 
-    <!-- ▼ SEOの柱となるh1 -->
-    <h1 class="main-title">スマホでPDFをJPEGに変換</h1>
+    <!-- ヘッダー -->
+    <header class="app-header">
+      <h1 class="app-title">PDF → 画像変換</h1>
+      <p class="app-sub">ブラウザ完結型 · 無料 · 安全</p>
+    </header>
 
-    <!-- ▼ 元のh2はサブ見出しとして活かす -->
-    <h2>ブラウザ完結型<br>
-      PDF → JPEG変換ツール<br></h2>
+    <!-- プライバシー注記 -->
+    <div class="privacy-badge">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      ファイルは端末外に送信されません
+    </div>
 
-    <p class="note">
-      選択されたPDFは外部に送信されません。<br>
-      すべてお使いの端末内で処理されます。<br>
-      日本製のため不可解な日本語はありません。
+    <!-- 出力形式選択 -->
+    <div class="card">
+      <p class="section-label">出力形式</p>
+      <div class="quality-grid">
+        <label class="quality-pill">
+          <input type="radio" name="outputFormat" value="jpeg" checked>
+          <span class="pill-inner">
+            <span class="pill-name">JPEG</span>
+            <span class="pill-desc">小サイズ</span>
+          </span>
+        </label>
+        <label class="quality-pill">
+          <input type="radio" name="outputFormat" value="png">
+          <span class="pill-inner">
+            <span class="pill-name">PNG</span>
+            <span class="pill-desc">高品質</span>
+          </span>
+        </label>
+        <label class="quality-pill">
+          <input type="radio" name="outputFormat" value="webp">
+          <span class="pill-inner">
+            <span class="pill-name">WebP</span>
+            <span class="pill-desc">次世代</span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <!-- 画質選択 -->
+    <div class="card">
+      <p class="section-label">画質・解像度</p>
+      <div class="quality-grid">
+        <label class="quality-pill">
+          <input type="radio" name="outputQuality" value="low">
+          <span class="pill-inner">
+            <span class="pill-name">低</span>
+            <span class="pill-desc">1.0x</span>
+          </span>
+        </label>
+        <label class="quality-pill">
+          <input type="radio" name="outputQuality" value="medium" checked>
+          <span class="pill-inner">
+            <span class="pill-name">標準</span>
+            <span class="pill-desc">1.5x</span>
+          </span>
+        </label>
+        <label class="quality-pill">
+          <input type="radio" name="outputQuality" value="high">
+          <span class="pill-inner">
+            <span class="pill-name">高</span>
+            <span class="pill-desc">2.0x</span>
+          </span>
+        </label>
+        <label class="quality-pill">
+          <input type="radio" name="outputQuality" value="ultra">
+          <span class="pill-inner">
+            <span class="pill-name">最高</span>
+            <span class="pill-desc">3.0x</span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <!-- アップロードエリア -->
+    <div class="card" style="padding:0;">
+      <div id="dropArea" class="upload-zone">
+        <div class="upload-icon-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="17" x2="12" y2="11"/>
+            <polyline points="9 14 12 11 15 14"/>
+          </svg>
+        </div>
+        <p class="upload-title">PDFをタップして選択</p>
+        <p class="upload-hint">または ここにドロップ（複数可）</p>
+        <button id="fileButton" type="button" class="btn btn-primary">
+          ファイルを選択
+        </button>
+      </div>
+      <input type="file" id="fileInput" accept="application/pdf" multiple style="display:none">
+    </div>
+
+    <!-- 処理中セクション -->
+    <div id="processingSection" class="card hidden">
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span id="progressText">変換中...</span>
+          <span id="progressPct">0%</span>
+        </div>
+        <div id="progressContainer">
+          <div id="progressBar"></div>
+        </div>
+      </div>
+      <button id="cancelBtn" type="button" class="btn btn-danger">キャンセル</button>
+    </div>
+
+    <!-- キャンセルメッセージ -->
+    <div id="cancelMsg" class="cancel-msg hidden">キャンセルされました</div>
+
+    <!-- 完了セクション -->
+    <div id="resultSection" class="card hidden">
+      <div class="complete-banner">
+        <span class="complete-icon">✓</span>
+        <span id="completeMsgText">変換が完了しました！</span>
+      </div>
+
+      <a id="download" class="btn btn-success btn-block" style="display:none; margin-bottom:14px;">
+        画像をダウンロード
+      </a>
+
+      <p id="downloadNote" class="note-small" style="display:none;">
+        ※ページを閉じると変換データは自動的に消去されます
+      </p>
+
+      <div class="result-actions">
+        <button id="resetBtn" type="button" class="btn btn-ghost">
+          別のPDFを変換する
+        </button>
+      </div>
+    </div>
+
+    <!-- サムネイルグリッド -->
+    <div id="thumbsCard" class="card hidden">
+      <p class="section-label">変換結果プレビュー（タップして開く）</p>
+      <div id="thumbs"></div>
+    </div>
+
+    <!-- 情報セクション（折りたたみ） -->
+    <details class="info-section">
+      <summary class="info-toggle">このツールについて ▾</summary>
+      <div class="info-body">
+        <h3>対応形式</h3>
+        <p>JPEG（ファイルサイズ小）・PNG（透明背景・高品質）・WebP（次世代の高圧縮）に対応しています。</p>
+        <h3>なぜ無料？</h3>
+        <p>すべての処理が端末内で完結するため、サーバー費用が発生しません。</p>
+        <h3>アップロード不要</h3>
+        <p>PDFはインターネットに送信されず、あなたのブラウザのメモリ上だけで処理されます。</p>
+        <p class="info-links">
+          <a href="guide/">詳しい使い方</a>
+          <a href="faq/">FAQ</a>
+        </p>
+      </div>
+    </details>
+
+    <!-- 注意書き -->
+    <p class="caution">
+      ※データが大きいと変換に時間がかかる場合があります<br>
+      ※メモリ不足により処理が途中で止まることがあります
     </p>
-
-<button id="fileButton">PDFファイルを選択</button>
-<button id="folderButton">フォルダを選択</button>
-
-    <input type="file" id="fileInput" accept="application/pdf" multiple style="display:none">
-    <input type="file" id="folderInput" webkitdirectory multiple style="display:none">
-
-    <div id="dropArea">ここに PDF をドラッグ＆ドロップ</div>
-
-    <div id="progressContainer"><div id="progressBar"></div></div>
-
-    <p id="completeMsg">変換が完了しました！</p>
-
-    <a id="download">保存</a>
-    <p id="downloadNote" style="display:none; color:gray; font-size:0.85em;">
-      ※保存されなかった変換データは、ページを閉じると自動的に消去されます。
-    </p>
-
-    <button id="cancelBtn">キャンセル</button>
-    <button id="resetBtn">リセット</button>
-
-    <p class="note2">
-      ※データが大きいと、時間がかかる場合があります。<br>
-      ※ご利用の端末によっては、メモリ不足により変換が途中で止まる場合があります。<br>
-    </p>
-
-    <div id="thumbs"></div>
-
-    <div class="info-section">
-<h3>■ なぜ無料でつかえるのか？</h3>
-  <p>
-    このツールはサーバーを一切使わず、すべての処理をあなたの端末の中だけで実行しています。
-    そのため、サーバーの維持コストがかからず、無料で提供できています。
-  </p>
-
-  <h3>■ アップロード不要</h3>
-  <p>
-  このツールはサーバーを使用していないため、アップロード不要です。
-  PDF はあなたの端末から外に出ない<br>
-  インターネットを経由しない<br>
-  変換処理はすべてあなたのブラウザのメモリ上で完結します。<br>
-  </p>
-
-  <!-- 内部リンク（SEO強化） -->
-  <p>詳しい使い方は <a href="guide/">こちら</a> をご覧ください。</p>
-  <p>よくある質問は <a href="faq/">FAQページ</a> にまとめています。</p>
-</div>
 
     <footer>
       <p>&copy; 2026 jun3</p>
@@ -109,7 +216,7 @@
         <a href="/tools/img-converter">画像変換</a>
         <a href="/tools/collar/collar-converter">カラーコンバーター</a>
       </nav>
-      <nav style="margin-top: 10px;">
+      <nav>
         <a href="/guide/">使い方</a>
         <a href="/faq/">FAQ</a>
         <a href="/about/">運営者情報</a>

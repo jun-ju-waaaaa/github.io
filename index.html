@@ -107,6 +107,27 @@ body{
   border-top:1px solid rgba(0,0,0,0.05);
   background:#F5F9FF;
 }
+
+.site-footer p{
+  margin-bottom:10px;
+}
+
+.footer-links{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:4px 14px;
+}
+
+.footer-links a{
+  color:#3AA8E8;
+  text-decoration:none;
+  font-size:13px;
+}
+
+.footer-links a:hover{
+  text-decoration:underline;
+}
 </style>
 </head>
 
@@ -159,7 +180,14 @@ body{
 </div>
 
 <footer class="site-footer">
-  © 2026 ToolJapan
+  <p>© 2026 ToolJapan</p>
+  <nav class="footer-links">
+    <a href="/guide/">使い方</a>
+    <a href="/faq/">FAQ</a>
+    <a href="/about/">運営者情報</a>
+    <a href="/contact/">お問い合わせ</a>
+    <a href="/privacy/">プライバシーポリシー</a>
+  </nav>
 </footer>
 
 </body>

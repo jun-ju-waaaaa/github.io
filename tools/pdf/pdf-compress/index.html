@@ -3,7 +3,7 @@
 <head>
   <link rel="canonical" href="https://0-tools.com/tools/pdf/pdf-compress/">
   <meta charset="UTF-8">
-  <title>スマホでPDF圧縮｜無料・安全・高速のオンラインPDF圧縮ツール</title>
+  <title>PDF圧縮｜無料・安全・高速のオンラインPDF圧縮ツール</title>
 
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -14,16 +14,10 @@
 
   <meta name="description" content="PDFファイルを無料で圧縮できるオンラインツール。アップロード不要で安全、すべての処理がブラウザ内で完結します。スマホ・PC対応で高速にPDFを軽量化できます。">
 
-  <!-- pdf.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous"></script>
-
-  <!-- pdf-lib -->
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
-
-  <!-- JSZip（今は使わないが残してOK） -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"></script>
 
-  <!-- CSP -->
   <meta http-equiv="Content-Security-Policy"
         content="
         default-src 'self' blob:;
@@ -40,84 +34,153 @@
         form-action 'self';
       ">
 
-  <!-- 外部CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <div id="container">
 
-    <h1 class="main-title">スマホでPDF圧縮</h1>
-    <h2>ブラウザ完結型<br>PDF圧縮ツール</h2>
+    <!-- ヘッダー -->
+    <header class="app-header">
+      <h1 class="app-title">PDF圧縮</h1>
+      <p class="app-sub">ブラウザ完結型 · 無料 · 安全</p>
+    </header>
 
-    <p class="note">
-      選択されたPDFは外部に送信されません。<br>
-      すべてお使いの端末内で処理されます。<br>
-      日本製のため不可解な日本語はありません。
-    </p>
-
-    <!-- 画質プリセット -->
-    <div id="qualityBox">
-      <p style="margin-bottom:10px; font-weight:600;">圧縮後の画質を選択</p>
-
-      <label><input type="radio" name="qualityPreset" value="min">72dpi（最小）</label><br>
-      <label><input type="radio" name="qualityPreset" value="mobile">96dpi（スマホ画面）</label><br>
-      <label><input type="radio" name="qualityPreset" value="pc" checked>144dpi（パソコン画面）</label><br>
-      <label><input type="radio" name="qualityPreset" value="print">200dpi（印刷用）</label><br>
-      <label class="pc-only"><input type="radio" name="qualityPreset" value="pc-hi">300dpi（最大画質）</label>
+    <!-- プライバシー注記 -->
+    <div class="privacy-badge">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      ファイルは端末外に送信されません
     </div>
 
-    <!-- ファイル選択 -->
-    <button id="fileButton">PDFファイルを選択</button>
-    <input type="file" id="fileInput" accept="application/pdf" multiple style="display:none">
-
-    <!-- ドラッグ＆ドロップ -->
-    <div id="dropArea" class="pc-only">ここに PDF をドラッグ＆ドロップ（複数可）</div>
-
-    <!-- 進捗バー -->
-    <div id="progressContainer"><div id="progressBar"></div></div>
-
-    <!-- 完了メッセージ -->
-    <p id="completeMsg" style="display:none;">圧縮が完了しました！</p>
-
-    <!-- ★ キャンセルメッセージ（追加） -->
-    <p id="cancelMsg" style="display:none; color:#e53935; font-weight:bold; margin-top:15px;">
-      キャンセルされました
-    </p>
-
-    <!-- 複数PDFの保存ボタンリスト -->
-    <ul id="completeList" style="margin-top:15px; text-align:left; font-size:14px; list-style:none; padding:0;"></ul>
-
-    <!-- 単体PDFダウンロード -->
-    <a id="download" style="display:none;">圧縮後のPDFを開く</a>
-
-    <p id="downloadNote" style="display:none; color:gray; font-size:0.85em;">
-      ※保存されなかった変換データは、ページを閉じると自動的に消去されます。
-    </p>
-
-    <!-- 操作ボタン -->
-    <button id="cancelBtn" style="display:none;">キャンセル</button>
-    <button id="resetBtn" style="display:none;">リセット</button>
-
-    <p class="note2">
-      ※ページ数や画像が多いPDFは、圧縮に時間がかかる場合があります。<br>
-      ※ご利用の端末によっては、メモリ不足により処理が途中で止まる場合があります。
-    </p>
-
-    <div class="info-section">
-      <h3>■ このPDF圧縮ツールの特徴</h3>
-      <p>このツールは、PDFの各ページを画像化し、JPEGとして再圧縮してPDFを再生成することでサイズを削減します。
-        <br>そのためデータによっては、文字データの処理が行われない場合があります。</p>
-
-
-      <h3>■ なぜ無料で使えるのか？</h3>
-      <p>すべての処理が端末内で完結するため、サーバー費用が発生せず、無料で提供できています。</p>
-
-
-
-      <p>詳しい使い方は <a href="guide/">こちら</a></p>
-      <p>FAQは <a href="faq/">こちら</a></p>
+    <!-- 品質選択 -->
+    <div class="card">
+      <p class="section-label">圧縮品質</p>
+      <div class="quality-grid">
+        <label class="quality-pill">
+          <input type="radio" name="qualityPreset" value="min">
+          <span class="pill-inner">
+            <span class="pill-name">最小</span>
+            <span class="pill-desc">72dpi</span>
+          </span>
+        </label>
+        <label class="quality-pill">
+          <input type="radio" name="qualityPreset" value="mobile">
+          <span class="pill-inner">
+            <span class="pill-name">スマホ</span>
+            <span class="pill-desc">96dpi</span>
+          </span>
+        </label>
+        <label class="quality-pill">
+          <input type="radio" name="qualityPreset" value="pc" checked>
+          <span class="pill-inner">
+            <span class="pill-name">標準</span>
+            <span class="pill-desc">144dpi</span>
+          </span>
+        </label>
+        <label class="quality-pill">
+          <input type="radio" name="qualityPreset" value="print">
+          <span class="pill-inner">
+            <span class="pill-name">印刷</span>
+            <span class="pill-desc">200dpi</span>
+          </span>
+        </label>
+        <label class="quality-pill">
+          <input type="radio" name="qualityPreset" value="pc-hi">
+          <span class="pill-inner">
+            <span class="pill-name">高画質</span>
+            <span class="pill-desc">300dpi</span>
+          </span>
+        </label>
+      </div>
     </div>
+
+    <!-- アップロードエリア -->
+    <div class="card" style="padding:0;">
+      <div id="dropArea" class="upload-zone">
+        <div class="upload-icon-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="17" x2="12" y2="11"/>
+            <polyline points="9 14 12 11 15 14"/>
+          </svg>
+        </div>
+        <p class="upload-title">PDFをタップして選択</p>
+        <p class="upload-hint">または ここにドロップ（複数可）</p>
+        <button id="fileButton" type="button" class="btn btn-primary">
+          ファイルを選択
+        </button>
+      </div>
+      <input type="file" id="fileInput" accept="application/pdf" multiple style="display:none">
+    </div>
+
+    <!-- 処理中セクション -->
+    <div id="processingSection" class="card hidden">
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span id="progressText">処理中...</span>
+          <span id="progressPct">0%</span>
+        </div>
+        <div id="progressContainer">
+          <div id="progressBar"></div>
+        </div>
+      </div>
+      <button id="cancelBtn" type="button" class="btn btn-danger">キャンセル</button>
+    </div>
+
+    <!-- キャンセルメッセージ -->
+    <div id="cancelMsg" class="cancel-msg hidden">キャンセルされました</div>
+
+    <!-- 完了セクション -->
+    <div id="resultSection" class="card hidden">
+      <div class="complete-banner">
+        <span class="complete-icon">✓</span>
+        <span id="completeMsgText">圧縮が完了しました！</span>
+      </div>
+
+      <!-- 単体ダウンロード -->
+      <a id="download" class="btn btn-success btn-block" style="display:none; margin-bottom:14px;">
+        圧縮後のPDFをダウンロード
+      </a>
+
+      <!-- 複数ファイルリスト -->
+      <ul id="completeList" class="result-list"></ul>
+
+      <p id="downloadNote" class="note-small" style="display:none;">
+        ※ページを閉じると変換データは自動的に消去されます
+      </p>
+
+      <div class="result-actions">
+        <button id="resetBtn" type="button" class="btn btn-ghost">
+          別のPDFを圧縮する
+        </button>
+      </div>
+    </div>
+
+    <!-- 情報セクション（折りたたみ） -->
+    <details class="info-section">
+      <summary class="info-toggle">このツールについて ▾</summary>
+      <div class="info-body">
+        <h3>仕組み</h3>
+        <p>PDFの各ページを画像化し、JPEGとして再圧縮することでファイルサイズを削減します。文字データは画像化されます。</p>
+        <h3>なぜ無料？</h3>
+        <p>すべての処理が端末内で完結するため、サーバー費用が発生しません。</p>
+        <p class="info-links">
+          <a href="guide/">詳しい使い方</a>
+          <a href="faq/">FAQ</a>
+        </p>
+      </div>
+    </details>
+
+    <!-- 注意書き -->
+    <p class="caution">
+      ※ページ数や画像が多いPDFは圧縮に時間がかかる場合があります<br>
+      ※メモリ不足により処理が途中で止まることがあります
+    </p>
 
     <footer>
       <p>&copy; 2026 jun3</p>
@@ -127,7 +190,7 @@
         <a href="/tools/img-converter">画像変換</a>
         <a href="/tools/collar/collar-converter">カラーコンバーター</a>
       </nav>
-      <nav style="margin-top: 10px;">
+      <nav>
         <a href="/guide/">使い方</a>
         <a href="/faq/">FAQ</a>
         <a href="/about/">運営者情報</a>
@@ -138,7 +201,6 @@
 
   </div>
 
-  <!-- 外部JS -->
   <script src="main.js"></script>
 </body>
 </html>
