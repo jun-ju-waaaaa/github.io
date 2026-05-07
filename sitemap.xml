@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- トップページ -->
   <url>
     <loc>https://0-tools.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- ツールページ -->
   <url>
     <loc>https://0-tools.com/tools/pdf/pdf-to-jpeg/</loc>
     <changefreq>monthly</changefreq>
@@ -30,6 +34,8 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- サポートページ -->
   <url>
     <loc>https://0-tools.com/guide/</loc>
     <changefreq>monthly</changefreq>
@@ -55,4 +61,38 @@
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
+
+  <!-- ブログ -->
+  <url>
+    <loc>https://0-tools.com/blog/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ブログ記事 — 記事追加時にここへ追記 -->
+  <url>
+    <loc>https://0-tools.com/blog/birth-day-counter-guide/</loc>
+    <lastmod>2026-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://0-tools.com/blog/webp-convert-guide/</loc>
+    <lastmod>2026-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://0-tools.com/blog/pdf-to-jpeg-guide/</loc>
+    <lastmod>2026-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://0-tools.com/blog/pdf-compress-tips/</loc>
+    <lastmod>2026-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>

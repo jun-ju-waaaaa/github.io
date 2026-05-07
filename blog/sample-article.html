@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<!--
+  =====================================================
+  ToolJapan ブログ 記事テンプレート
+  使い方:
+  1. このファイルを /blog/記事スラッグ/index.html としてコピー
+  2. ★マーク箇所を実際の記事内容に書き換え
+  3. sitemap.xml に URL を追加
+  4. /blog/index.html に記事カードを追加
+  =====================================================
+-->
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ★ title: 「主要KW【補足KW】| ToolJapan」形式 / 30〜55文字 -->
+<title>画像をWebPに変換する方法【無料・ブラウザ完結】| ToolJapan</title>
+
+<!-- ★ canonical: 実際のURL -->
+<link rel="canonical" href="https://0-tools.com/blog/webp-convert-guide/">
+
+<!-- ★ description: 100〜150文字で記事の価値を伝える -->
+<meta name="description" content="WebPはJPEGより約30%軽量な次世代フォーマット。Core Web VitalsのLCP改善にも直結します。ToolJapanの無料画像変換ツールを使ってブラウザだけで完結する変換手順を詳しく解説。">
+
+<!-- OGP -->
+<!-- ★ og:title / og:description / og:image を実際の記事に合わせて書き換え -->
+<meta property="og:title" content="画像をWebPに変換する方法【無料・ブラウザ完結】">
+<meta property="og:description" content="WebPはJPEGより約30%軽量。ブラウザだけで完結する無料変換手順をわかりやすく解説します。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://0-tools.com/blog/webp-convert-guide/">
+<meta property="og:image" content="https://0-tools.com/assets/images/blog/webp-convert-guide-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="ToolJapan">
+<meta property="article:published_time" content="2026-05-07T00:00:00+09:00">
+<meta property="article:modified_time" content="2026-05-07T00:00:00+09:00">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="画像をWebPに変換する方法【無料・ブラウザ完結】">
+<meta name="twitter:description" content="WebPはJPEGより約30%軽量。ブラウザだけで完結する無料変換手順をわかりやすく解説します。">
+<meta name="twitter:image" content="https://0-tools.com/assets/images/blog/webp-convert-guide-og.png">
+
+<link rel="stylesheet" href="../../page.css">
+<link rel="stylesheet" href="../../assets/css/blog.css">
+
+<!-- ★ JSON-LD: 記事ごとに name / url / datePublished / dateModified / headline / description を書き換え -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://0-tools.com/blog/webp-convert-guide/#article",
+      "headline": "画像をWebPに変換する方法【無料・ブラウザ完結】",
+      "description": "WebPはJPEGより約30%軽量な次世代フォーマット。Core Web VitalsのLCP改善にも直結します。無料ブラウザツールで変換する手順を解説。",
+      "datePublished": "2026-05-07T00:00:00+09:00",
+      "dateModified": "2026-05-07T00:00:00+09:00",
+      "author": {
+        "@type": "Organization",
+        "name": "ToolJapan",
+        "url": "https://0-tools.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ToolJapan",
+        "url": "https://0-tools.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://0-tools.com/assets/images/logo.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://0-tools.com/blog/webp-convert-guide/"
+      },
+      "image": "https://0-tools.com/assets/images/blog/webp-convert-guide-og.png"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://0-tools.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "ブログ",
+          "item": "https://0-tools.com/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "画像をWebPに変換する方法",
+          "item": "https://0-tools.com/blog/webp-convert-guide/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="/" class="site-brand">ToolJapan</a>
+  <a href="/" class="header-home">← ツール一覧</a>
+</header>
+
+<main class="page-main">
+  <div style="padding: 28px 16px 64px;">
+    <div class="article-container">
+
+      <!-- パンくずリスト -->
+      <nav class="breadcrumb" aria-label="パンくずリスト">
+        <a href="/">ホーム</a>
+        <span class="breadcrumb-sep">/</span>
+        <a href="/blog/">ブログ</a>
+        <span class="breadcrumb-sep">/</span>
+        <!-- ★ 記事タイトルの短縮形 -->
+        <span aria-current="page">WebP変換の方法</span>
+      </nav>
+
+      <article itemscope itemtype="https://schema.org/Article">
+
+        <!-- 記事ヘッダー -->
+        <header class="article-header">
+          <!-- ★ カテゴリ -->
+          <span class="article-category">画像変換</span>
+
+          <!-- ★ H1: メインキーワードを自然に含む -->
+          <h1 class="article-title" itemprop="headline">
+            画像をWebPに変換する方法<br>【無料・ブラウザ完結】
+          </h1>
+
+          <div class="article-meta">
+            <!-- ★ 公開日 -->
+            <span class="article-meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <time datetime="2026-05-07" itemprop="datePublished">2026年5月7日</time>
+            </span>
+            <!-- ★ 読了時間の目安 -->
+            <span class="article-meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              読了約4分
+            </span>
+            <span class="article-meta-item" itemprop="author" itemscope itemtype="https://schema.org/Organization">
+              <span itemprop="name">ToolJapan</span>
+            </span>
+          </div>
+        </header>
+
+        <!-- ★ アイキャッチ画像（画像がある場合は img タグに差し替え） -->
+        <div class="article-thumb-placeholder" role="img" aria-label="WebP変換イメージ">🖼️</div>
+        <!--
+        <img
+          class="article-thumb"
+          src="../../assets/images/blog/webp-convert-guide.webp"
+          alt="画像をWebPに変換する手順のイメージ"
+          width="740" height="416"
+          loading="eager"
+          itemprop="image"
+        >
+        -->
+
+        <!-- リード文 -->
+        <div class="article-body">
+          <p>「Webサイトの表示が遅い」「Google PageSpeedで画像の最適化を指摘された」—そんな悩みを解決するのがWebPフォーマットへの変換です。</p>
+          <p>WebPはGoogleが開発した次世代画像フォーマットで、<strong>JPEGより約25〜34%軽量</strong>でありながら同等の画質を維持できます。登録不要・ソフト不要で、ブラウザだけで変換できる無料ツールを使った方法を解説します。</p>
+        </div>
+
+        <!-- 目次 -->
+        <nav class="toc" aria-label="目次">
+          <div class="toc-title">目次</div>
+          <ol class="toc-list">
+            <li><a href="#what-is-webp">WebPとは？JPEGとの違い</a></li>
+            <li>
+              <a href="#benefits">WebPに変換する3つのメリット</a>
+              <ul class="toc-sub">
+                <li><a href="#benefit-speed">① ページ表示速度が向上する</a></li>
+                <li><a href="#benefit-seo">② SEOスコアが改善しやすい</a></li>
+                <li><a href="#benefit-cost">③ 通信コストと帯域を節約できる</a></li>
+              </ul>
+            </li>
+            <li><a href="#how-to">ブラウザだけで変換する手順（3ステップ）</a></li>
+            <li><a href="#checklist">変換前に確認しておくこと</a></li>
+            <li><a href="#summary">まとめ</a></li>
+          </ol>
+        </nav>
+
+        <!-- 本文 -->
+        <div class="article-body">
+
+          <!-- H2: セクション1 -->
+          <h2 id="what-is-webp">WebPとは？JPEGとの違い</h2>
+
+          <p>WebP（ウェブピー）はGoogleが2010年に開発した画像ファイル形式です。<strong>ロスレス圧縮・ロッシー圧縮の両方に対応</strong>しており、PNG・JPEG・GIF・アニメーションGIFのすべてを置き換えられる汎用性の高いフォーマットです。</p>
+
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>フォーマット</th>
+                <th>ファイルサイズ</th>
+                <th>透過対応</th>
+                <th>アニメーション</th>
+                <th>ブラウザ対応</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>WebP</strong></td>
+                <td>最小（基準）</td>
+                <td>✅</td>
+                <td>✅</td>
+                <td>全主要ブラウザ</td>
+              </tr>
+              <tr>
+                <td>JPEG</td>
+                <td>+25〜34%大</td>
+                <td>❌</td>
+                <td>❌</td>
+                <td>全ブラウザ</td>
+              </tr>
+              <tr>
+                <td>PNG</td>
+                <td>+26%大（ロスレス比）</td>
+                <td>✅</td>
+                <td>❌</td>
+                <td>全ブラウザ</td>
+              </tr>
+              <tr>
+                <td>GIF</td>
+                <td>+64%大（アニメ比）</td>
+                <td>△（1bit）</td>
+                <td>✅</td>
+                <td>全ブラウザ</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="note-box">
+            <span class="note-label">補足</span>
+            Safari は 2020年9月（iOS 14 / macOS Big Sur）からWebPに対応済みです。現在は全主要ブラウザで安心して使えます。
+          </div>
+
+          <!-- H2: セクション2 -->
+          <h2 id="benefits">WebPに変換する3つのメリット</h2>
+
+          <h3 id="benefit-speed">① ページ表示速度が向上する</h3>
+          <p>画像はWebページの転送量の大半を占めます。WebPへの変換だけで画像の転送量を平均30%削減でき、<strong>Largest Contentful Paint（LCP）</strong>の改善に直結します。LCPはCore Web Vitalsの指標のひとつで、良いスコアは2.5秒以内です。</p>
+
+          <h3 id="benefit-seo">② SEOスコアが改善しやすい</h3>
+          <p>Google PageSpeed Insightsで「<code>次世代フォーマットで画像を配信してください</code>」と指摘された場合、その多くはJPEGやPNGをWebPに変換するだけで解決します。PageSpeedスコアの向上はGoogle検索順位にも影響します。</p>
+
+          <h3 id="benefit-cost">③ 通信コストと帯域を節約できる</h3>
+          <p>スマートフォンユーザーへの配慮としても有効です。4G環境で閲覧するユーザーのデータ消費を抑え、表示速度と快適さを両立できます。アクセス数が多いサービスではサーバーの帯域コスト削減にも繋がります。</p>
+
+          <!-- H2: セクション3 -->
+          <h2 id="how-to">ブラウザだけで変換する手順（3ステップ）</h2>
+
+          <p>以下の手順はToolJapanの<a href="/tools/img-converter/">無料画像変換ツール</a>を使います。登録不要・ファイルのサーバーアップロードなし・完全ブラウザ処理で安全に使えます。</p>
+
+          <ol class="step-list">
+            <li>
+              <span class="step-num">1</span>
+              <div class="step-body">
+                <strong><a href="/tools/img-converter/">画像変換ツール</a>を開く</strong>
+                変換したい画像ファイル（JPEG・PNG・GIFなど）を準備します。
+              </div>
+            </li>
+            <li>
+              <span class="step-num">2</span>
+              <div class="step-body">
+                <strong>画像をドラッグ＆ドロップ（またはクリックして選択）</strong>
+                ファイルはブラウザ内で処理されるため、外部サーバーに送信されません。
+              </div>
+            </li>
+            <li>
+              <span class="step-num">3</span>
+              <div class="step-body">
+                <strong>変換形式に「WebP」を選択して変換・ダウンロード</strong>
+                変換後のファイルは即座にダウンロードできます。品質設定（0〜100）を調整してファイルサイズと画質のバランスを選べます。
+              </div>
+            </li>
+          </ol>
+
+          <div class="note-box">
+            <span class="note-label">ポイント</span>
+            品質設定は <strong>80〜85</strong> がバランスの良い設定です。写真は80、アイコン・イラストは90前後を目安にしてください。
+          </div>
+
+          <!-- CTA -->
+          <div class="cta-box">
+            <div class="cta-box-title">今すぐWebP変換を試す</div>
+            <div class="cta-box-desc">ToolJapanの無料画像変換ツールで<br>JPEG・PNG・GIFをWebPに変換できます</div>
+            <a href="/tools/img-converter/" class="cta-btn">画像変換ツールを使う →</a>
+            <div class="cta-note">登録不要・サーバー送信なし・完全無料</div>
+          </div>
+
+          <!-- H2: セクション4 -->
+          <h2 id="checklist">変換前に確認しておくこと</h2>
+
+          <ul>
+            <li><strong>元のファイルを必ずバックアップする</strong>：WebPはほぼ全ての環境で使えますが、古いメールクライアントや業務ソフトでは表示できない場合があります。</li>
+            <li><strong>WordPressユーザーはプラグインの対応を確認</strong>：一部プラグインはWebPの処理に非対応のことがあります。</li>
+            <li><strong>アニメーションGIFの変換は専用ツールで</strong>：アニメーションをWebPに変換する場合は、アニメーション対応の変換ツールを使ってください。</li>
+            <li><strong>OGP画像はJPEGのまま運用も可</strong>：Twitter・Facebook等のOGP画像はJPEGやPNGの方が互換性が高い場合があります。WebPへの変換は通常コンテンツ内画像を優先しましょう。</li>
+          </ul>
+
+          <hr>
+
+          <!-- H2: まとめ -->
+          <h2 id="summary">まとめ</h2>
+
+          <p>WebP変換のポイントをまとめます。</p>
+          <ul>
+            <li>WebPはJPEGより<strong>約25〜34%軽量</strong>で画質を維持できる次世代フォーマット</li>
+            <li>全主要ブラウザが対応済みで、実運用に十分な互換性がある</li>
+            <li>Core Web Vitals（LCP）やPageSpeedスコアの改善に直結する</li>
+            <li>ToolJapanの無料ツールでブラウザだけで変換でき、登録不要・安全</li>
+          </ul>
+
+          <p>画像の最適化は、SEOや表示速度改善の中でもすぐに取り組める施策のひとつです。まずは手元のJPEG・PNG画像をWebPに変換してみてください。</p>
+
+        </div><!-- /.article-body -->
+
+        <!-- シェアボタン -->
+        <div class="share-row">
+          <span class="share-label">シェア:</span>
+          <a href="https://twitter.com/intent/tweet?text=画像をWebPに変換する方法【無料・ブラウザ完結】&url=https://0-tools.com/blog/webp-convert-guide/" class="share-btn share-btn-x" target="_blank" rel="noopener noreferrer">𝕏 でシェア</a>
+        </div>
+
+        <!-- 関連記事 -->
+        <aside class="related-section" aria-label="関連記事">
+          <h2 class="related-heading">関連記事・ツール</h2>
+          <div class="related-grid">
+
+            <a class="related-card" href="/tools/img-converter/">
+              <span class="related-card-icon">🖼️</span>
+              <div class="related-card-text">
+                <div class="related-card-label">ツール</div>
+                <div class="related-card-title">画像変換ツール（PNG/JPEG/WebP）</div>
+              </div>
+            </a>
+
+            <a class="related-card" href="/tools/pdf/pdf-to-jpeg/">
+              <span class="related-card-icon">📄</span>
+              <div class="related-card-text">
+                <div class="related-card-label">ツール</div>
+                <div class="related-card-title">PDF → JPEG 変換ツール</div>
+              </div>
+            </a>
+
+            <a class="related-card" href="/blog/pdf-to-jpeg-guide/">
+              <span class="related-card-icon">📝</span>
+              <div class="related-card-text">
+                <div class="related-card-label">記事</div>
+                <div class="related-card-title">PDFをJPEGに変換する方法【無料・登録不要】</div>
+              </div>
+            </a>
+
+            <a class="related-card" href="/blog/pdf-compress-tips/">
+              <span class="related-card-icon">📦</span>
+              <div class="related-card-text">
+                <div class="related-card-label">記事</div>
+                <div class="related-card-title">PDFを無料で圧縮する方法とコツ</div>
+              </div>
+            </a>
+
+          </div>
+        </aside>
+
+      </article>
+
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 ToolJapan</p>
+  <nav class="footer-nav">
+    <a href="/guide/">使い方</a>
+    <a href="/faq/">FAQ</a>
+    <a href="/about/">運営者情報</a>
+    <a href="/contact/">お問い合わせ</a>
+    <a href="/privacy/">プライバシーポリシー</a>
+  </nav>
+</footer>
+
+</body>
+</html>
