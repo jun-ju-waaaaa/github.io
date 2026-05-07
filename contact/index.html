@@ -5,8 +5,96 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>お問い合わせ | ToolJapan</title>
   <link rel="canonical" href="https://0-tools.com/contact/">
-  <meta name="description" content="ToolJapanへのお問い合わせページです。ツールの不具合報告・機能リクエスト・その他のご連絡はこちらからどうぞ。">
+  <meta name="description" content="ToolJapanへのお問い合わせページです。送信前にFAQをご確認ください。">
   <link rel="stylesheet" href="/page.css">
+  <style>
+    .notice-box {
+      background: #fff8e1;
+      border-left: 4px solid #f59e0b;
+      border-radius: 6px;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      font-size: 0.9rem;
+      color: #78350f;
+      line-height: 1.6;
+    }
+    .faq-gate {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+    .faq-gate h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0 0 14px;
+      color: #1e293b;
+    }
+    .faq-gate details {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 10px 0;
+    }
+    .faq-gate details:last-of-type {
+      border-bottom: none;
+    }
+    .faq-gate summary {
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #334155;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .faq-gate summary::before {
+      content: "Q";
+      background: #3b82f6;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 1px 6px;
+      flex-shrink: 0;
+    }
+    .faq-gate details[open] summary {
+      color: #1d4ed8;
+    }
+    .faq-gate .ans {
+      padding: 8px 0 4px 26px;
+      font-size: 0.875rem;
+      color: #475569;
+      line-height: 1.65;
+    }
+    .faq-gate .ans ul {
+      margin: 6px 0 0;
+      padding-left: 18px;
+    }
+    .faq-gate .ans a {
+      color: #2563eb;
+    }
+    .gate-confirm {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: #475569;
+    }
+    .gate-confirm label {
+      cursor: pointer;
+      user-select: none;
+    }
+    #contactForm {
+      display: none;
+    }
+    #contactForm.visible {
+      display: block;
+    }
+  </style>
 </head>
 <body>
 
@@ -26,15 +114,73 @@
 
       <div class="page-header">
         <h1 class="page-title">お問い合わせ</h1>
-        <p class="page-lead">ツールの不具合・機能リクエスト・その他のご連絡はこちらからお気軽にどうぞ。</p>
+        <p class="page-lead">送信前に下記のよくある質問をご確認ください。多くの場合、すぐに解決できます。</p>
       </div>
 
-      <div class="article">
-        <p class="note">
-          通常2〜5営業日以内にご返信いたします。内容によってはお時間をいただく場合があります。
-        </p>
+      <div class="notice-box">
+        当サイトは個人が運営しています。返信できない場合や、大幅に遅れる場合があります。<br>
+        機能リクエストへの対応はお約束できません。あらかじめご了承ください。
       </div>
 
+      <!-- FAQ先読みゲート -->
+      <div class="faq-gate">
+        <h2>まずこちらをご確認ください</h2>
+
+        <details>
+          <summary>処理が途中で止まる・フリーズする</summary>
+          <div class="ans">
+            ページ数が多いPDFや大容量ファイルで端末のメモリが不足すると発生します。
+            <ul>
+              <li>品質設定を「低」または「標準」に下げる</li>
+              <li>ブラウザの不要なタブをすべて閉じる</li>
+              <li>ページ数の多いPDFは分割してから処理する</li>
+              <li>メモリの多い端末（PC等）で試す</li>
+            </ul>
+          </div>
+        </details>
+
+        <details>
+          <summary>ファイルが保存されない・ダウンロードできない</summary>
+          <div class="ans">
+            スマホではダウンロード先が分かりにくい場合があります。ダウンロードボタンをタップ後、端末の「ファイル」アプリや通知バーから保存先を確認してください。iOSではSafariの「ダウンロード」アイコンから確認できます。
+          </div>
+        </details>
+
+        <details>
+          <summary>変換後の画質が悪い・文字がぼやける</summary>
+          <div class="ans">
+            画質・解像度設定を「高」または「最高」に変更してください。元のPDFが低解像度の場合は改善に限界があります。
+          </div>
+        </details>
+
+        <details>
+          <summary>圧縮してもサイズが変わらない・大きくなった</summary>
+          <div class="ans">
+            すでに高度に圧縮されたPDFは、再変換によりサイズが増えることがあります。品質設定を「最小」に下げるか、別のPDFでお試しください。
+          </div>
+        </details>
+
+        <details>
+          <summary>パスワード付きPDFが処理できない</summary>
+          <div class="ans">
+            閲覧制限（パスワード）が設定されたPDFは処理できません。あらかじめパスワードを解除してからご利用ください。
+          </div>
+        </details>
+
+        <details>
+          <summary>ファイルが外部に送信されるか心配</summary>
+          <div class="ans">
+            すべての処理はブラウザ内だけで完結します。ファイルデータが外部サーバーに送信されることは一切ありません。<a href="/privacy/">プライバシーポリシー</a>もご参照ください。
+          </div>
+        </details>
+
+        <div class="gate-confirm">
+          <input type="checkbox" id="faqChecked">
+          <label for="faqChecked">上記を確認しましたが、解決しませんでした。フォームを表示する</label>
+        </div>
+      </div>
+
+      <!-- お問い合わせフォーム（FAQ確認後に表示） -->
       <!-- ========================================
            SETUP REQUIRED（初回設定が必要）
            1. https://formspree.io/ でアカウントを作成
@@ -43,7 +189,7 @@
               下の action="https://formspree.io/f/YOUR_FORM_ID" の
               YOUR_FORM_ID 部分に貼り付けて保存
            ======================================== -->
-      <div class="article">
+      <div class="article" id="contactForm">
         <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
 
           <div class="form-group">
@@ -86,7 +232,7 @@
               class="form-control"
               id="message"
               name="message"
-              placeholder="お問い合わせ内容をご記入ください"
+              placeholder="不具合の場合はブラウザ名・バージョン・端末の種類もあわせてご記入ください"
               required
             ></textarea>
           </div>
@@ -115,6 +261,18 @@
       <a href="/privacy/">プライバシーポリシー</a>
     </nav>
   </footer>
+
+  <script>
+    document.getElementById('faqChecked').addEventListener('change', function () {
+      const form = document.getElementById('contactForm');
+      if (this.checked) {
+        form.classList.add('visible');
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        form.classList.remove('visible');
+      }
+    });
+  </script>
 
 </body>
 </html>
