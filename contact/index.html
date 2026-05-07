@@ -241,6 +241,10 @@
             ></textarea>
           </div>
 
+          <div class="form-group">
+            <div class="h-captcha" data-sitekey="97ea180a-8418-4272-9788-d5d6b34edb06"></div>
+          </div>
+
           <button type="submit" class="btn-submit">送信する</button>
 
           <p class="form-note">
@@ -266,6 +270,7 @@
     </nav>
   </footer>
 
+  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
   <script>
     document.getElementById('faqChecked').addEventListener('change', function () {
       const form = document.getElementById('contactForm');
@@ -274,6 +279,13 @@
         form.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
         form.classList.remove('visible');
+      }
+    });
+
+    document.querySelector('#contactForm form').addEventListener('submit', function (e) {
+      if (!hcaptcha.getResponse()) {
+        e.preventDefault();
+        alert('チェックボックスをクリックして確認を完了してください。');
       }
     });
   </script>
