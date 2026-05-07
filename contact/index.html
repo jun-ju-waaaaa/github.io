@@ -193,6 +193,8 @@
         <form action="https://api.web3forms.com/submit" method="POST">
           <input type="hidden" name="access_key" value="f3b52704-c06e-42ba-8d7f-0822076f093a">
           <input type="hidden" name="redirect" value="https://0-tools.com/contact/thanks/">
+          <!-- ハニーポット：ボットが自動入力するが人間には見えない -->
+          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
 
           <div class="form-group">
             <label class="form-label" for="name">お名前</label>
