@@ -309,7 +309,7 @@ function triggerDownload(url, filename) {
 
 // --- Show download section ---
 function showDownload() {
-  dlSection.style.display = '';
+  dlSection.style.display = 'block';
 
   // 個別ダウンロードリンクを生成
   const indivDl = document.getElementById('individual-dl');
