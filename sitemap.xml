@@ -59,6 +59,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://0-tools.com/tools/bmi-calc/</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://0-tools.com/tools/base64/</loc>
     <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
@@ -256,6 +262,12 @@
   <url>
     <loc>https://0-tools.com/blog/pdf-merge-guide/</loc>
     <lastmod>2026-05-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://0-tools.com/blog/bmi-calc-guide/</loc>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
