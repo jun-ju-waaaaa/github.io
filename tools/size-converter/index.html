@@ -25,18 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: ['"Noto Sans JP"', 'sans-serif'],
-      }
-    }
-  }
-}
-</script>
+<link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -91,210 +80,152 @@ tailwind.config = {
   ]
 }
 </script>
-<style>
-  body { font-family: 'Noto Sans JP', sans-serif; }
-
-  .selected-row {
-    background-color: #EBEBEB !important;
-    border-left: 3px solid #111111;
-  }
-  .even-row { background-color: #F7F7F7; }
-
-  .tab-btn {
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    transition: background-color 0.15s, color 0.15s;
-    white-space: nowrap;
-  }
-
-  table tbody tr {
-    cursor: pointer;
-    touch-action: manipulation;
-    transition: background-color 0.1s, transform 0.08s;
-    position: relative;
-  }
-  table tbody tr:hover { background-color: #F0F0F0; }
-  table tbody tr:active {
-    transform: scale(0.99);
-    background-color: #E5E5E5 !important;
-  }
-  table tbody tr::after {
-    content: '›';
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #111;
-    opacity: 0.15;
-    font-size: 20px;
-    line-height: 1;
-    pointer-events: none;
-  }
-  table tbody tr.selected-row::after { opacity: 0.5; }
-
-  .sticky-header th {
-    position: sticky;
-    top: 3.25rem;
-    z-index: 10;
-  }
-
-  details summary { cursor: pointer; list-style: none; }
-  details summary::-webkit-details-marker { display: none; }
-</style>
 </head>
-<body class="bg-[#F4F4F4] text-[#111111]">
+<body>
 
 <!-- ヘッダー -->
-<header class="bg-[#111111] text-white px-4 py-4">
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-S6LH1TXVP8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-S6LH1TXVP8');
-</script>
-  <div class="max-w-2xl mx-auto flex items-center justify-between">
-    <a href="/" class="text-white text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">← 0-TOOLs</a>
-    <span class="text-[10px] opacity-40 tracking-[0.2em] uppercase">Free Tool</span>
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="back-link">← 0-TOOLs</a>
+    <span class="header-badge">Free Tool</span>
   </div>
 </header>
 
 <!-- ヒーローエリア -->
-<section class="bg-white border-b border-gray-200 px-4 pt-5 pb-4">
-  <div class="max-w-2xl mx-auto">
-    <div class="text-[10px] tracking-[0.2em] uppercase text-gray-400 mb-2">Size Converter</div>
-    <h1 class="text-xl font-bold text-gray-900 tracking-tight mb-1">海外サイズ → 日本サイズ変換</h1>
-    <p class="text-xs text-gray-400">服・靴・指輪のUS / EU / UKサイズを即変換。行をタップして確認。</p>
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Size Converter</div>
+    <h1>海外サイズ → 日本サイズ変換</h1>
+    <p>服・靴・指輪のUS / EU / UKサイズを即変換。行をタップして確認。</p>
   </div>
 </section>
 
 <!-- メインコンテンツ -->
-<main class="max-w-2xl mx-auto px-3 pb-8">
+<main>
 
   <!-- プライバシーバッジ -->
-  <div class="flex items-center justify-center gap-1.5 text-[11px] text-gray-400 my-3">
-    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+  <div class="privacy-badge">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
     ブラウザ内で完結・登録不要・完全無料
   </div>
 
   <!-- タブ + テーブルカード -->
-  <div class="bg-white border border-gray-200 rounded-xl mb-4">
+  <div class="main-card">
 
     <!-- タブナビゲーション -->
-    <div class="flex overflow-x-auto gap-1 px-2 py-2 border-b border-gray-200" id="tabNav">
-      <button class="tab-btn flex-shrink-0 px-3.5 py-1.5 text-xs font-semibold bg-[#111111] text-white rounded-full" data-tab="ladies-top" onclick="switchTab(this)">レディース服</button>
-      <button class="tab-btn flex-shrink-0 px-3.5 py-1.5 text-xs font-semibold text-gray-400 rounded-full hover:text-gray-700" data-tab="mens-top" onclick="switchTab(this)">メンズ服</button>
-      <button class="tab-btn flex-shrink-0 px-3.5 py-1.5 text-xs font-semibold text-gray-400 rounded-full hover:text-gray-700" data-tab="ladies-shoes" onclick="switchTab(this)">レディース靴</button>
-      <button class="tab-btn flex-shrink-0 px-3.5 py-1.5 text-xs font-semibold text-gray-400 rounded-full hover:text-gray-700" data-tab="mens-shoes" onclick="switchTab(this)">メンズ靴</button>
-      <button class="tab-btn flex-shrink-0 px-3.5 py-1.5 text-xs font-semibold text-gray-400 rounded-full hover:text-gray-700" data-tab="ring" onclick="switchTab(this)">指輪</button>
-      <button class="tab-btn flex-shrink-0 px-3.5 py-1.5 text-xs font-semibold text-gray-400 rounded-full hover:text-gray-700" data-tab="bra" onclick="switchTab(this)">ブラ</button>
+    <div class="tab-nav" id="tabNav">
+      <button class="tab-btn tab-active" data-tab="ladies-top" onclick="switchTab(this)">レディース服</button>
+      <button class="tab-btn" data-tab="mens-top" onclick="switchTab(this)">メンズ服</button>
+      <button class="tab-btn" data-tab="ladies-shoes" onclick="switchTab(this)">レディース靴</button>
+      <button class="tab-btn" data-tab="mens-shoes" onclick="switchTab(this)">メンズ靴</button>
+      <button class="tab-btn" data-tab="ring" onclick="switchTab(this)">指輪</button>
+      <button class="tab-btn" data-tab="bra" onclick="switchTab(this)">ブラ</button>
     </div>
 
     <!-- 選択結果バナー -->
-    <div id="resultBanner" class="hidden px-4 py-3 bg-[#111111] border-b border-gray-200">
-      <div class="text-[10px] text-gray-500 font-medium tracking-[0.15em] uppercase mb-1">Selected</div>
-      <div id="resultText" class="text-base font-bold text-white leading-snug"></div>
+    <div id="resultBanner" class="result-banner hidden">
+      <div class="result-label">Selected</div>
+      <div id="resultText" class="result-text"></div>
     </div>
 
     <!-- 検索ボックス（sticky） -->
-    <div class="sticky top-0 z-20 bg-white px-3 py-2 border-b border-gray-200">
-      <input id="searchBox" type="text" inputmode="text" placeholder="絞り込み（例：25 / US8 / XL）" class="w-full text-sm px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:border-gray-400 focus:bg-white transition-colors" oninput="searchTable(this.value)">
+    <div class="search-wrap">
+      <input id="searchBox" type="text" inputmode="text" placeholder="絞り込み（例：25 / US8 / XL）" class="search-input" oninput="searchTable(this.value)">
     </div>
 
     <!-- テーブルエリア -->
-    <div class="overflow-x-auto" id="tableArea">
+    <div class="table-wrap" id="tableArea">
 
       <!-- 服 レディース -->
-      <table id="tab-ladies-top" class="w-full text-sm sticky-header table-fixed">
+      <table id="tab-ladies-top" class="size-table">
         <thead>
-          <tr class="bg-[#111111] text-white text-xs">
-            <th class="w-1/6 px-2 py-2.5 text-center font-semibold tracking-wider">JP</th>
-            <th class="w-1/6 px-2 py-2.5 text-center font-semibold tracking-wider">US</th>
-            <th class="w-1/6 px-2 py-2.5 text-center font-semibold tracking-wider">UK</th>
-            <th class="w-1/6 px-2 py-2.5 text-center font-semibold tracking-wider">EU</th>
-            <th class="w-1/6 px-2 py-2.5 text-center font-semibold tracking-wider">FR</th>
-            <th class="w-1/6 px-2 py-2.5 text-center font-semibold tracking-wider">IT</th>
+          <tr>
+            <th style="width:16.66%">JP</th>
+            <th style="width:16.66%">US</th>
+            <th style="width:16.66%">UK</th>
+            <th style="width:16.66%">EU</th>
+            <th style="width:16.66%">FR</th>
+            <th style="width:16.66%">IT</th>
           </tr>
         </thead>
         <tbody id="tbody-ladies-top"></tbody>
       </table>
 
       <!-- 服 メンズ -->
-      <table id="tab-mens-top" class="w-full text-sm sticky-header hidden table-fixed">
+      <table id="tab-mens-top" class="size-table hidden">
         <thead>
-          <tr class="bg-[#111111] text-white text-xs">
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">JP(cm)</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">US/UK</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">EU</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">S/M/L</th>
+          <tr>
+            <th style="width:25%">JP(cm)</th>
+            <th style="width:25%">US/UK</th>
+            <th style="width:25%">EU</th>
+            <th style="width:25%">S/M/L</th>
           </tr>
         </thead>
         <tbody id="tbody-mens-top"></tbody>
       </table>
 
       <!-- 靴 レディース -->
-      <table id="tab-ladies-shoes" class="w-full text-sm sticky-header hidden table-fixed">
+      <table id="tab-ladies-shoes" class="size-table hidden">
         <thead>
-          <tr class="bg-[#111111] text-white text-xs">
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">JP(cm)</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">US</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">UK</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">EU</th>
+          <tr>
+            <th style="width:25%">JP(cm)</th>
+            <th style="width:25%">US</th>
+            <th style="width:25%">UK</th>
+            <th style="width:25%">EU</th>
           </tr>
         </thead>
         <tbody id="tbody-ladies-shoes"></tbody>
       </table>
 
       <!-- 靴 メンズ -->
-      <table id="tab-mens-shoes" class="w-full text-sm sticky-header hidden table-fixed">
+      <table id="tab-mens-shoes" class="size-table hidden">
         <thead>
-          <tr class="bg-[#111111] text-white text-xs">
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">JP(cm)</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">US</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">UK</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">EU</th>
+          <tr>
+            <th style="width:25%">JP(cm)</th>
+            <th style="width:25%">US</th>
+            <th style="width:25%">UK</th>
+            <th style="width:25%">EU</th>
           </tr>
         </thead>
         <tbody id="tbody-mens-shoes"></tbody>
       </table>
 
       <!-- 指輪 -->
-      <table id="tab-ring" class="w-full text-sm sticky-header hidden table-fixed">
+      <table id="tab-ring" class="size-table hidden">
         <thead>
-          <tr class="bg-[#111111] text-white text-xs">
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">JP(号)</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">US</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">UK</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">内径(mm)</th>
+          <tr>
+            <th style="width:25%">JP(号)</th>
+            <th style="width:25%">US</th>
+            <th style="width:25%">UK</th>
+            <th style="width:25%">内径(mm)</th>
           </tr>
         </thead>
         <tbody id="tbody-ring"></tbody>
       </table>
 
       <!-- ブラ カップサイズ選択 -->
-      <div id="braCupSection" class="hidden border-b border-gray-200 px-3 py-3">
-        <div class="text-[11px] font-semibold text-gray-400 mb-2 tracking-[0.15em] uppercase">Cup Size</div>
-        <div class="grid grid-cols-4 gap-2">
-          <button class="cup-btn py-2 text-sm font-semibold rounded-lg border border-gray-200 text-gray-600 bg-white transition-colors" style="touch-action:manipulation" onclick="selectCup(this,'A')">A</button>
-          <button class="cup-btn py-2 text-sm font-semibold rounded-lg border border-gray-200 text-gray-600 bg-white transition-colors" style="touch-action:manipulation" onclick="selectCup(this,'B')">B</button>
-          <button class="cup-btn py-2 text-sm font-semibold rounded-lg border border-gray-200 text-gray-600 bg-white transition-colors" style="touch-action:manipulation" onclick="selectCup(this,'C')">C</button>
-          <button class="cup-btn py-2 text-sm font-semibold rounded-lg border border-gray-200 text-gray-600 bg-white transition-colors" style="touch-action:manipulation" onclick="selectCup(this,'D')">D</button>
-          <button class="cup-btn py-2 text-sm font-semibold rounded-lg border border-gray-200 text-gray-600 bg-white transition-colors" style="touch-action:manipulation" onclick="selectCup(this,'E')">E</button>
-          <button class="cup-btn py-2 text-sm font-semibold rounded-lg border border-gray-200 text-gray-600 bg-white transition-colors" style="touch-action:manipulation" onclick="selectCup(this,'F')">F</button>
-          <button class="cup-btn py-2 text-sm font-semibold rounded-lg border border-gray-200 text-gray-600 bg-white transition-colors" style="touch-action:manipulation" onclick="selectCup(this,'G')">G</button>
-          <button class="cup-btn py-2 text-sm font-semibold rounded-lg border border-gray-200 text-gray-600 bg-white transition-colors" style="touch-action:manipulation" onclick="selectCup(this,'AA')">AA</button>
+      <div id="braCupSection" class="bra-cup-section hidden">
+        <div class="bra-cup-label">Cup Size</div>
+        <div class="cup-grid">
+          <button class="cup-btn" onclick="selectCup(this,'A')">A</button>
+          <button class="cup-btn" onclick="selectCup(this,'B')">B</button>
+          <button class="cup-btn" onclick="selectCup(this,'C')">C</button>
+          <button class="cup-btn" onclick="selectCup(this,'D')">D</button>
+          <button class="cup-btn" onclick="selectCup(this,'E')">E</button>
+          <button class="cup-btn" onclick="selectCup(this,'F')">F</button>
+          <button class="cup-btn" onclick="selectCup(this,'G')">G</button>
+          <button class="cup-btn" onclick="selectCup(this,'AA')">AA</button>
         </div>
       </div>
 
       <!-- ブラ -->
-      <table id="tab-bra" class="w-full text-sm sticky-header hidden table-fixed">
+      <table id="tab-bra" class="size-table hidden">
         <thead>
-          <tr class="bg-[#111111] text-white text-xs">
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">JP(cm)</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">US/UK</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">EU</th>
-            <th class="w-1/4 px-2 py-2.5 text-center font-semibold tracking-wider">FR/BE</th>
+          <tr>
+            <th style="width:25%">JP(cm)</th>
+            <th style="width:25%">US/UK</th>
+            <th style="width:25%">EU</th>
+            <th style="width:25%">FR/BE</th>
           </tr>
         </thead>
         <tbody id="tbody-bra"></tbody>
@@ -304,107 +235,89 @@ tailwind.config = {
   </div>
 
   <!-- ブラカップサイズ注記 -->
-  <div id="braNote" class="hidden text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 mb-4">
-    <strong class="text-gray-700">カップサイズについて:</strong> AA/A/B〜G はどの国も同じアルファベット表記です。ただしUSの「AA」はJP・EUの「AAA」相当となる場合があります。購入前に各ブランドの公式サイズガイドをご確認ください。
+  <div id="braNote" class="bra-note hidden">
+    <strong>カップサイズについて:</strong> AA/A/B〜G はどの国も同じアルファベット表記です。ただしUSの「AA」はJP・EUの「AAA」相当となる場合があります。購入前に各ブランドの公式サイズガイドをご確認ください。
   </div>
 
   <!-- サイズの選び方ガイド -->
-  <section class="bg-white border border-gray-200 rounded-xl p-5 mb-4">
-    <h2 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4 border-l-2 border-gray-900 pl-3">How to Measure</h2>
-    <div class="space-y-4 text-sm text-gray-600 leading-relaxed">
-      <div>
-        <h3 class="font-semibold text-gray-800 mb-1 text-[13px]">服（レディース・メンズ）</h3>
+  <section class="section-card">
+    <h2 class="section-heading">How to Measure</h2>
+    <div class="measure-list">
+      <div class="measure-item">
+        <h3>服（レディース・メンズ）</h3>
         <p>バスト・ウエスト・ヒップをメジャーで水平に測ります。レディース服は日本号数（5〜21）が基準で、海外ではUS・UK・EUサイズが混在します。メンズは身長（cm）をベースに変換するのが最も確実です。ブランドによって着丈・肩幅が異なるため、必ずサイズガイドの実寸も確認しましょう。</p>
       </div>
-      <div>
-        <h3 class="font-semibold text-gray-800 mb-1 text-[13px]">靴</h3>
+      <div class="measure-item">
+        <h3>靴</h3>
         <p>かかとからつま先までの長さを紙の上で測ります（足長）。日本のcm表記が最も正確で、この表を使いUSサイズに変換できます。同じサイズでも幅（ワイズ）が異なるため、幅広の方はワイズ対応モデルを選ぶと失敗しにくいです。</p>
       </div>
-      <div>
-        <h3 class="font-semibold text-gray-800 mb-1 text-[13px]">指輪</h3>
+      <div class="measure-item">
+        <h3>指輪</h3>
         <p>細い紙を指に巻いて重なり部分に印を付け、長さを測ります。その長さ÷3.14で内径（mm）が分かります。指は朝と夜でむくみ具合が変わるため、測定は夕方がおすすめです。</p>
       </div>
-      <div>
-        <h3 class="font-semibold text-gray-800 mb-1 text-[13px]">ブラジャー</h3>
+      <div class="measure-item">
+        <h3>ブラジャー</h3>
         <p>アンダーバスト（胸の下を一周した長さ）でバンドサイズが決まります。トップバストとの差でカップサイズが決まります（差5cm=A、10cm=B、15cm=C…）。海外ブランドではバンドサイズの表記が異なるため、この表で変換してから購入してください。</p>
       </div>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section class="bg-white border border-gray-200 rounded-xl p-5 mb-4">
-    <h2 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4 border-l-2 border-gray-900 pl-3">FAQ</h2>
-    <div class="space-y-2">
-      <details class="border border-gray-100 rounded-lg overflow-hidden">
-        <summary class="px-4 py-3 font-semibold text-sm text-gray-700 bg-gray-50 flex justify-between items-center">
-          海外通販で買う場合、どのサイズを選べばいいですか？
-          <span class="text-gray-300 text-base leading-none ml-3 flex-shrink-0">+</span>
-        </summary>
-        <div class="px-4 py-3 text-sm text-gray-500 leading-relaxed">一般的に、US・EUサイズで迷ったら「普段の日本サイズをこの表で変換したサイズ」を基準に、レビューで「大きめ・小さめ」の口コミを確認して最終決定することをおすすめします。</div>
+  <section class="section-card">
+    <h2 class="section-heading">FAQ</h2>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>海外通販で買う場合、どのサイズを選べばいいですか？<span class="faq-toggle">+</span></summary>
+        <div class="faq-answer">一般的に、US・EUサイズで迷ったら「普段の日本サイズをこの表で変換したサイズ」を基準に、レビューで「大きめ・小さめ」の口コミを確認して最終決定することをおすすめします。</div>
       </details>
-      <details class="border border-gray-100 rounded-lg overflow-hidden">
-        <summary class="px-4 py-3 font-semibold text-sm text-gray-700 bg-gray-50 flex justify-between items-center">
-          ブランドによってサイズが違うのはなぜですか？
-          <span class="text-gray-300 text-base leading-none ml-3 flex-shrink-0">+</span>
-        </summary>
-        <div class="px-4 py-3 text-sm text-gray-500 leading-relaxed">サイズ表記は国際標準がありますが、ブランドごとに独自の「ゆとり」設計があるため、同じ号数でも実寸が異なる場合があります。必ず各ブランドの公式サイズガイドも確認してください。</div>
+      <details class="faq-item">
+        <summary>ブランドによってサイズが違うのはなぜですか？<span class="faq-toggle">+</span></summary>
+        <div class="faq-answer">サイズ表記は国際標準がありますが、ブランドごとに独自の「ゆとり」設計があるため、同じ号数でも実寸が異なる場合があります。必ず各ブランドの公式サイズガイドも確認してください。</div>
       </details>
-      <details class="border border-gray-100 rounded-lg overflow-hidden">
-        <summary class="px-4 py-3 font-semibold text-sm text-gray-700 bg-gray-50 flex justify-between items-center">
-          靴のサイズはcmとUSサイズどちらで選ぶべきですか？
-          <span class="text-gray-300 text-base leading-none ml-3 flex-shrink-0">+</span>
-        </summary>
-        <div class="px-4 py-3 text-sm text-gray-500 leading-relaxed">日本人にはcm（実寸）での管理が最も正確です。海外ブランドを買う際はcmを基準にこのツールでUSサイズに変換し、ブランドの実寸表（インソール長）と照合するのが確実です。</div>
+      <details class="faq-item">
+        <summary>靴のサイズはcmとUSサイズどちらで選ぶべきですか？<span class="faq-toggle">+</span></summary>
+        <div class="faq-answer">日本人にはcm（実寸）での管理が最も正確です。海外ブランドを買う際はcmを基準にこのツールでUSサイズに変換し、ブランドの実寸表（インソール長）と照合するのが確実です。</div>
       </details>
-      <details class="border border-gray-100 rounded-lg overflow-hidden">
-        <summary class="px-4 py-3 font-semibold text-sm text-gray-700 bg-gray-50 flex justify-between items-center">
-          指輪のサイズが分からない場合はどうすればいいですか？
-          <span class="text-gray-300 text-base leading-none ml-3 flex-shrink-0">+</span>
-        </summary>
-        <div class="px-4 py-3 text-sm text-gray-500 leading-relaxed">細い紙を指に巻いて長さを測り、÷3.14で内径(mm)を計算できます。この表の「内径(mm)」列と照合してください。</div>
+      <details class="faq-item">
+        <summary>指輪のサイズが分からない場合はどうすればいいですか？<span class="faq-toggle">+</span></summary>
+        <div class="faq-answer">細い紙を指に巻いて長さを測り、÷3.14で内径(mm)を計算できます。この表の「内径(mm)」列と照合してください。</div>
       </details>
-      <details class="border border-gray-100 rounded-lg overflow-hidden">
-        <summary class="px-4 py-3 font-semibold text-sm text-gray-700 bg-gray-50 flex justify-between items-center">
-          このツールは無料で使えますか？
-          <span class="text-gray-300 text-base leading-none ml-3 flex-shrink-0">+</span>
-        </summary>
-        <div class="px-4 py-3 text-sm text-gray-500 leading-relaxed">はい、完全無料・登録不要でご利用いただけます。</div>
+      <details class="faq-item">
+        <summary>このツールは無料で使えますか？<span class="faq-toggle">+</span></summary>
+        <div class="faq-answer">はい、完全無料・登録不要でご利用いただけます。</div>
       </details>
     </div>
   </section>
 
   <!-- このツールについて -->
-  <details class="bg-white border border-gray-200 rounded-xl overflow-hidden mb-4">
-    <summary class="px-5 py-4 font-semibold text-sm text-gray-600 flex justify-between items-center cursor-pointer">
-      このツールについて
-      <span class="text-gray-300 text-sm leading-none">▼</span>
-    </summary>
-    <div class="px-5 pb-5 text-sm text-gray-500 leading-relaxed space-y-2">
-      <p><strong class="text-gray-700">仕組み:</strong> JavaScript製の純粋なフロントエンドツールです。サーバーへの通信は一切行いません。</p>
-      <p><strong class="text-gray-700">なぜ無料か:</strong> Google AdSenseによる広告収益で運営しています。ユーザー登録・課金は一切不要です。</p>
-      <p><strong class="text-gray-700">安全性:</strong> 入力情報・選択情報はすべてブラウザ内で処理されます。外部に送信されることはありません。</p>
+  <details class="about-card">
+    <summary>このツールについて<span class="about-toggle">▼</span></summary>
+    <div class="about-body">
+      <p><strong>仕組み:</strong> JavaScript製の純粋なフロントエンドツールです。サーバーへの通信は一切行いません。</p>
+      <p><strong>なぜ無料か:</strong> Google AdSenseによる広告収益で運営しています。ユーザー登録・課金は一切不要です。</p>
+      <p><strong>安全性:</strong> 入力情報・選択情報はすべてブラウザ内で処理されます。外部に送信されることはありません。</p>
     </div>
   </details>
 
   <!-- 関連ツール -->
-  <section class="mb-4">
-    <h2 class="text-[11px] font-semibold text-gray-400 mb-3 px-1 tracking-[0.2em] uppercase">Related Tools</h2>
-    <div class="grid grid-cols-2 gap-2">
-      <a href="/tools/tsubo-calc/" class="bg-white border border-gray-200 rounded-xl p-3.5 text-center hover:border-gray-400 transition-colors">
-        <div class="text-2xl mb-1">📐</div>
-        <div class="text-xs font-semibold text-gray-600">平米・坪変換</div>
+  <section class="related-section">
+    <h2 class="related-heading">Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/tsubo-calc/" class="related-link">
+        <div class="related-icon">📐</div>
+        <div class="related-label">平米・坪変換</div>
       </a>
-      <a href="/tools/percent-calc/" class="bg-white border border-gray-200 rounded-xl p-3.5 text-center hover:border-gray-400 transition-colors">
-        <div class="text-2xl mb-1">%</div>
-        <div class="text-xs font-semibold text-gray-600">パーセント計算</div>
+      <a href="/tools/percent-calc/" class="related-link">
+        <div class="related-icon">%</div>
+        <div class="related-label">パーセント計算</div>
       </a>
-      <a href="/tools/tax-calc/" class="bg-white border border-gray-200 rounded-xl p-3.5 text-center hover:border-gray-400 transition-colors">
-        <div class="text-2xl mb-1">🧾</div>
-        <div class="text-xs font-semibold text-gray-600">消費税計算</div>
+      <a href="/tools/tax-calc/" class="related-link">
+        <div class="related-icon">🧾</div>
+        <div class="related-label">消費税計算</div>
       </a>
-      <a href="/" class="bg-white border border-gray-200 rounded-xl p-3.5 text-center hover:border-gray-400 transition-colors">
-        <div class="text-2xl mb-1">🛠️</div>
-        <div class="text-xs font-semibold text-gray-600">ツール一覧</div>
+      <a href="/" class="related-link">
+        <div class="related-icon">🛠️</div>
+        <div class="related-label">ツール一覧</div>
       </a>
     </div>
   </section>
@@ -412,24 +325,22 @@ tailwind.config = {
 </main>
 
 <!-- フッター -->
-<footer class="text-center px-4 py-6 text-xs text-gray-400 border-t border-gray-200 bg-white">
-  <p class="mb-3 tracking-[0.15em]">© 2026 0-TOOLs</p>
-  <nav class="flex flex-wrap justify-center gap-x-4 gap-y-1">
-    <a href="/" class="hover:text-gray-700 transition-colors">ホーム</a>
-    <a href="/tools/size-converter/" class="hover:text-gray-700 transition-colors font-semibold text-gray-600">サイズ変換</a>
-    <a href="/tools/tsubo-calc/" class="hover:text-gray-700 transition-colors">平米・坪変換</a>
-    <a href="/blog/" class="hover:text-gray-700 transition-colors">ブログ</a>
-    <a href="/faq/" class="hover:text-gray-700 transition-colors">FAQ</a>
-    <a href="/privacy/" class="hover:text-gray-700 transition-colors">プライバシーポリシー</a>
+<footer class="site-footer">
+  <p>© 2026 0-TOOLs</p>
+  <nav class="footer-nav">
+    <a href="/">ホーム</a>
+    <a href="/tools/size-converter/" class="current">サイズ変換</a>
+    <a href="/tools/tsubo-calc/">平米・坪変換</a>
+    <a href="/blog/">ブログ</a>
+    <a href="/faq/">FAQ</a>
+    <a href="/privacy/">プライバシーポリシー</a>
   </nav>
 </footer>
 
 <script>
-// ---- データ定義 ----
 const DATA = {
   'ladies-top': {
     headers: ['JP', 'US', 'UK', 'EU', 'FR', 'IT'],
-    popular: [2, 3, 4],
     rows: [
       ['5', 'XS', '6', '32', '34', '36'],
       ['7', 'XS', '8', '34', '36', '38'],
@@ -444,7 +355,6 @@ const DATA = {
   },
   'mens-top': {
     headers: ['JP(cm)', 'US/UK', 'EU', 'S/M/L'],
-    popular: [2, 3, 4],
     rows: [
       ['165', 'XS(34)', '44', 'XS'],
       ['168', 'S(36)', '46', 'S'],
@@ -458,7 +368,6 @@ const DATA = {
   },
   'ladies-shoes': {
     headers: ['JP(cm)', 'US', 'UK', 'EU'],
-    popular: [2, 3, 4, 5],
     rows: [
       ['22.0', '5', '3', '35'],
       ['22.5', '5.5', '3.5', '35.5'],
@@ -475,7 +384,6 @@ const DATA = {
   },
   'mens-shoes': {
     headers: ['JP(cm)', 'US', 'UK', 'EU'],
-    popular: [2, 3, 4, 5],
     rows: [
       ['24.0', '6', '5.5', '38.5'],
       ['24.5', '6.5', '6', '39'],
@@ -493,7 +401,6 @@ const DATA = {
   },
   'ring': {
     headers: ['JP(号)', 'US', 'UK', '内径(mm)'],
-    popular: [5, 6, 7],
     rows: [
       ['1', '1', 'A', '13.0'],
       ['3', '1.5', 'B', '13.5'],
@@ -513,7 +420,6 @@ const DATA = {
   },
   'bra': {
     headers: ['JP(cm)', 'US/UK', 'EU', 'FR/BE'],
-    popular: [1, 2, 3],
     rows: [
       ['65', '30', '80', '85'],
       ['70', '32', '85', '90'],
@@ -530,7 +436,6 @@ let selectedRow = null;
 let selectedData = null;
 let selectedCup = null;
 
-// ---- テーブル初期化 ----
 function buildTable(tabId) {
   const d = DATA[tabId];
   const tbody = document.getElementById('tbody-' + tabId);
@@ -541,9 +446,8 @@ function buildTable(tabId) {
     tr.dataset.values = row.join('|');
     if (i % 2 === 0) tr.classList.add('even-row');
     tr.addEventListener('click', () => selectRow(tr, tabId, i));
-    row.forEach((cell) => {
+    row.forEach(cell => {
       const td = document.createElement('td');
-      td.className = 'px-2 py-3.5 text-sm text-center';
       td.textContent = cell;
       tr.appendChild(td);
     });
@@ -553,19 +457,13 @@ function buildTable(tabId) {
 
 Object.keys(DATA).forEach(id => buildTable(id));
 
-// ---- カップサイズ選択 ----
 function selectCup(btn, cup) {
-  document.querySelectorAll('.cup-btn').forEach(b => {
-    b.classList.remove('bg-[#111111]', 'text-white', 'border-[#111111]');
-    b.classList.add('text-gray-600', 'bg-white', 'border-gray-200');
-  });
-  btn.classList.add('bg-[#111111]', 'text-white', 'border-[#111111]');
-  btn.classList.remove('text-gray-600', 'bg-white', 'border-gray-200');
+  document.querySelectorAll('.cup-btn').forEach(b => b.classList.remove('cup-active'));
+  btn.classList.add('cup-active');
   selectedCup = cup;
   if (selectedData && currentTab === 'bra') refreshDisplay();
 }
 
-// ---- 表示テキスト生成 ----
 function buildDisplayText() {
   if (!selectedData) return '';
   const { headers, values } = selectedData;
@@ -579,31 +477,22 @@ function refreshDisplay() {
   document.getElementById('resultText').textContent = buildDisplayText();
 }
 
-// ---- タブ切り替え ----
 function switchTab(btn) {
   const tabId = btn.dataset.tab;
-  document.querySelectorAll('#tabNav .tab-btn').forEach(b => {
-    b.classList.remove('bg-[#111111]', 'text-white');
-    b.classList.add('text-gray-400');
-  });
-  btn.classList.add('bg-[#111111]', 'text-white');
-  btn.classList.remove('text-gray-400');
+  document.querySelectorAll('#tabNav .tab-btn').forEach(b => b.classList.remove('tab-active'));
+  btn.classList.add('tab-active');
   document.querySelectorAll('#tableArea table').forEach(t => t.classList.add('hidden'));
   document.getElementById('tab-' + tabId).classList.remove('hidden');
   document.getElementById('braNote').classList.toggle('hidden', tabId !== 'bra');
   document.getElementById('braCupSection').classList.toggle('hidden', tabId !== 'bra');
   selectedCup = null;
-  document.querySelectorAll('.cup-btn').forEach(b => {
-    b.classList.remove('bg-[#111111]', 'text-white', 'border-[#111111]');
-    b.classList.add('text-gray-600', 'bg-white', 'border-gray-200');
-  });
+  document.querySelectorAll('.cup-btn').forEach(b => b.classList.remove('cup-active'));
   clearSelection();
   currentTab = tabId;
   document.getElementById('searchBox').value = '';
   localStorage.setItem('sizeConverterTab', tabId);
 }
 
-// ---- 行選択 ----
 function selectRow(tr, tabId, rowIndex) {
   if (selectedRow) selectedRow.classList.remove('selected-row');
   tr.classList.add('selected-row');
@@ -624,7 +513,6 @@ function clearSelection() {
   document.getElementById('resultBanner').classList.add('hidden');
 }
 
-// ---- 検索・絞り込み（全列対象・逆引き対応）----
 function searchTable(val) {
   const tbody = document.getElementById('tbody-' + currentTab);
   const q = val.trim().toLowerCase();
@@ -637,7 +525,6 @@ function searchTable(val) {
   if (firstMatch && q) firstMatch.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-// ---- 前回タブ復元 ----
 const saved = localStorage.getItem('sizeConverterTab');
 if (saved && DATA[saved]) {
   const btn = document.querySelector(`[data-tab="${saved}"]`);
