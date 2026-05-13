@@ -100,3 +100,26 @@
 5. blog/index.html に記事カード追加（先頭）
 6. sitemap.xml 更新（ツール + ブログ記事）
 7. sitemap/index.html 更新（ツール + ブログ記事）
+
+---
+
+## サイト固有の設定値
+
+| 項目 | 値 |
+|------|-----|
+| AdSense パブリッシャーID | `ca-pub-6769343629657319` |
+| GA4 測定ID | `G-S6LH1TXVP8` |
+| サイト認証 | `<meta name="google-site-verification" content="wjbUCUovh1Qbnv4qczntyVJstAfRlQh7R6nQk2jWIU8">` |
+
+### GA4 スニペット（新ページ作成時に `<head>` 直後に必ず挿入すること）
+
+```html
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S6LH1TXVP8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-S6LH1TXVP8');
+</script>
+```
