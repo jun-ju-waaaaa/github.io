@@ -319,7 +319,10 @@
     const a = document.createElement('a');
     a.href = dataUrl;
     a.download = 'qrcode.png';
+    a.style.display = 'none';
+    document.body.appendChild(a);
     a.click();
+    setTimeout(() => document.body.removeChild(a), 100);
   });
 
   input.addEventListener('input', () => {
