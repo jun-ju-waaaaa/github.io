@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S6LH1TXVP8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-S6LH1TXVP8');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Codeで無料Webツールを量産した話 — 1日1ツールの開発ワークフローを全公開 | 0-TOOLs</title>
+<link rel="canonical" href="https://0-tools.com/blog/claude-code-dev-guide/">
+<meta name="description" content="AIコーディングツール「Claude Code」を使って無料Webツールサイトを構築した実録。CLAUDE.mdによる指示書の書き方・GitHub管理・リリースまでのワークフローを詳しく解説します。">
+<meta name="google-adsense-account" content="ca-pub-6769343629657319">
+<meta name="google-site-verification" content="wjbUCUovh1Qbnv4qczntyVJstAfRlQh7R6nQk2jWIU8">
+<meta property="og:title" content="Claude Codeで無料Webツールを量産した話 — 1日1ツールの開発ワークフローを全公開">
+<meta property="og:description" content="AIコーディングツール「Claude Code」で無料Webツールサイトを構築した実録。CLAUDE.mdの書き方・GitHub管理・リリースワークフローを公開します。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://0-tools.com/blog/claude-code-dev-guide/">
+<meta property="og:image" content="https://0-tools.com/assets/images/og-blog.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="0-TOOLs">
+<meta property="article:published_time" content="2026-05-13T00:00:00+09:00">
+<meta property="article:modified_time" content="2026-05-13T00:00:00+09:00">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claude Codeで無料Webツールを量産した話 — 1日1ツールの開発ワークフローを全公開">
+<meta name="twitter:description" content="AIコーディングツールで無料Webツールサイトを構築した実録。CLAUDE.mdの書き方・GitHub管理・リリースワークフローを公開。">
+<meta name="twitter:image" content="https://0-tools.com/assets/images/og-blog.png">
+<link rel="stylesheet" href="../../page.css">
+<link rel="stylesheet" href="../../assets/css/blog.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://0-tools.com/blog/claude-code-dev-guide/#article",
+      "headline": "Claude Codeで無料Webツールを量産した話 — 1日1ツールの開発ワークフローを全公開",
+      "description": "AIコーディングツール「Claude Code」を使って無料Webツールサイトを構築した実録。CLAUDE.mdによる指示書の書き方・GitHub管理・リリースまでのワークフローを詳しく解説します。",
+      "datePublished": "2026-05-13T00:00:00+09:00",
+      "dateModified": "2026-05-13T00:00:00+09:00",
+      "author": {"@type": "Organization", "name": "0-TOOLs", "url": "https://0-tools.com"},
+      "publisher": {"@type": "Organization", "name": "0-TOOLs", "url": "https://0-tools.com"},
+      "mainEntityOfPage": {"@type": "WebPage", "@id": "https://0-tools.com/blog/claude-code-dev-guide/"},
+      "image": "https://0-tools.com/assets/images/og-blog.png"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://0-tools.com/"},
+        {"@type": "ListItem", "position": 2, "name": "ブログ", "item": "https://0-tools.com/blog/"},
+        {"@type": "ListItem", "position": 3, "name": "Claude Codeで無料Webツールを量産した話", "item": "https://0-tools.com/blog/claude-code-dev-guide/"}
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Claude Codeはプログラミング未経験者でも使えますか？",
+          "acceptedAnswer": {"@type": "Answer", "text": "基本的な操作はできますが、生成されたコードを確認・修正するための最低限のHTML/CSS/JS知識があると作業効率が大きく上がります。「コードが読める」レベルから実践的に使い始められます。"}
+        },
+        {
+          "@type": "Question",
+          "name": "Claude Codeは有料ですか？",
+          "acceptedAnswer": {"@type": "Answer", "text": "Claude.aiのProプラン（月$20）またはMaxプランのサブスクリプションがあれば、APIキーなしで使用量上限の範囲内で利用できます。上限を超えたい場合や外部連携したい場合はAnthropicのAPIキー（従量課金）を別途取得する方法もあります。"}
+        },
+        {
+          "@type": "Question",
+          "name": "CLAUDE.mdとは何ですか？",
+          "acceptedAnswer": {"@type": "Answer", "text": "CLAUDE.mdはプロジェクトのルートに置くAI向けの指示書ファイルです。サイトの設計方針・コーディング規約・SEO要件などを記述しておくと、Claude Codeが毎回自動的に読み込んで作業に反映してくれます。"}
+        },
+        {
+          "@type": "Question",
+          "name": "静的HTMLサイトでAdSense収益は得られますか？",
+          "acceptedAnswer": {"@type": "Answer", "text": "得られます。静的HTMLはサーバーコストがほぼゼロのためAdSense収益がそのまま利益になりやすいです。審査通過にはコンテンツの充実・プライバシーポリシー・ナビゲーション整備が必要です。"}
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="/" class="site-brand">0-TOOLs</a>
+  <a href="/" class="header-home">← ツール一覧</a>
+</header>
+
+<main class="page-main">
+  <div style="padding: 28px 16px 64px;">
+    <div class="article-container">
+
+      <nav class="breadcrumb" aria-label="パンくずリスト">
+        <a href="/">ホーム</a>
+        <span class="breadcrumb-sep">/</span>
+        <a href="/blog/">ブログ</a>
+        <span class="breadcrumb-sep">/</span>
+        <span aria-current="page">Claude Codeで無料Webツールを量産した話</span>
+      </nav>
+
+      <article itemscope itemtype="https://schema.org/Article">
+
+        <header class="article-header">
+          <span class="article-category">Web制作</span>
+          <h1 class="article-title" itemprop="headline">
+            Claude Codeで無料Webツールを量産した話<br>— 1日1ツールの開発ワークフローを全公開
+          </h1>
+          <div class="article-meta">
+            <span class="article-meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <time datetime="2026-05-13" itemprop="datePublished">2026年5月13日</time>
+            </span>
+            <span class="article-meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              読了約7分
+            </span>
+            <span class="article-meta-item" itemprop="author" itemscope itemtype="https://schema.org/Organization">
+              <span itemprop="name">0-TOOLs</span>
+            </span>
+          </div>
+        </header>
+
+        <div class="article-body">
+          <p>「プログラミングができなくてもWebサービスが作れる時代が来た」——そんな言葉を聞いたことがあるかもしれません。この記事では、実際にAIコーディングツール <strong>Claude Code</strong> を使って無料ブラウザツール群「0-TOOLs」を作り続けている経験から、具体的な開発ワークフローと工夫点を全公開します。</p>
+          <p>コードを書く量を最小化しながら、<strong>SEO・AdSense・スマホ対応</strong>まで一気通貫でAIに任せる方法です。</p>
+        </div>
+
+        <nav class="toc" aria-label="目次">
+          <div class="toc-title">目次</div>
+          <ol class="toc-list">
+            <li><a href="#what-is-claude-code">Claude Codeとは何か</a></li>
+            <li><a href="#why-static">なぜ静的HTMLサイトなのか</a></li>
+            <li><a href="#claude-md">CLAUDE.md — AIへの指示書が鍵</a></li>
+            <li><a href="#workflow">1日1ツールのリリースワークフロー</a></li>
+            <li><a href="#github">GitHubで管理する理由</a></li>
+            <li><a href="#results">実際どれくらい作れるか・かかるコストは</a></li>
+            <li><a href="#limits">AIコーディングの限界と向き合い方</a></li>
+            <li><a href="#faq">よくある質問</a></li>
+            <li><a href="#summary">まとめ</a></li>
+          </ol>
+        </nav>
+
+        <div class="article-body">
+
+          <h2 id="what-is-claude-code">Claude Codeとは何か</h2>
+
+          <p>Claude Code は、Anthropic社が提供する AI コーディングアシスタントです。ターミナル（コマンドライン）上で動作し、自然言語で指示を与えるとファイルの読み書き・コード生成・修正を自律的に行ってくれます。</p>
+
+          <p>GitHub Copilot や Cursor が「補完・提案」中心であるのに対し、Claude Code は<strong>「丸ごとやってもらう」</strong>スタイルに向いています。</p>
+
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>ツール</th>
+                <th>主な使い方</th>
+                <th>向いているシーン</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>GitHub Copilot</td>
+                <td>コード補完・提案</td>
+                <td>既存コードベースへの追記</td>
+              </tr>
+              <tr>
+                <td>Cursor</td>
+                <td>エディタ統合型AI</td>
+                <td>既存プロジェクトの改修</td>
+              </tr>
+              <tr>
+                <td><strong>Claude Code</strong></td>
+                <td>自律的なファイル操作・生成</td>
+                <td>ゼロからのページ・機能作成</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>0-TOOLs の場合、「〇〇ツールを作って」と一言指示するだけで、HTML・CSS・JS・ブログ記事・sitemap 更新まで自動でやってもらっています。</p>
+
+          <h2 id="why-static">なぜ静的HTMLサイトなのか</h2>
+
+          <p>サーバーレス・インストール不要の「<strong>ブラウザ完結型ツール</strong>」を選んだ理由は明快です。</p>
+
+          <ul>
+            <li><strong>ランニングコストがほぼゼロ</strong>：GitHub Pages や Cloudflare Pages で無料ホスティングできる</li>
+            <li><strong>セキュリティリスクが低い</strong>：データベースやサーバーが不要なのでサーバーサイド攻撃を受けない</li>
+            <li><strong>AIが得意な構造</strong>：HTML/CSS/JS は LLM（大規模言語モデル）の学習データが豊富で生成精度が高い</li>
+            <li><strong>AdSense との相性が良い</strong>：ページ表示速度が速く Core Web Vitals で高評価を得やすい</li>
+          </ul>
+
+          <div class="note-box">
+            <span class="note-label">ポイント</span>
+            静的サイトはサーバーコストがほぼゼロのため、AdSense収益がそのまま利益になりやすい構造です。スケールしても追加コストがかかりません。
+          </div>
+
+          <h2 id="claude-md">CLAUDE.md — AIへの指示書が鍵</h2>
+
+          <p>Claude Code を使いこなす最大のコツは、<strong>CLAUDE.md</strong> というファイルをプロジェクトのルートに置くことです。これはAIが自動的に読み込む「プロジェクト憲法」のようなもので、毎回の会話で指示を繰り返す手間がなくなります。</p>
+
+          <p>0-TOOLs の CLAUDE.md には以下を記述しています：</p>
+
+          <ul>
+            <li>サイトの概要・URL・収益モデル</li>
+            <li>ツール公開の標準ワークフロー（A〜Eの手順）</li>
+            <li>SEO 要件（JSON-LD・OGタグ・canonical など）</li>
+            <li>AdSense 申請対応要件</li>
+            <li>スマホ特化のコーディング規約（タップターゲット・フォントサイズ等）</li>
+            <li>GA4 測定IDなどサイト固有の設定値</li>
+          </ul>
+
+          <p>この指示書を一度書いておけば、「BMIツールを作りたい」と一言入力するだけで：</p>
+
+          <ol class="step-list">
+            <li><span class="step-num">1</span><div class="step-body">ツール本体（index.html / style.css / main.js）を生成</div></li>
+            <li><span class="step-num">2</span><div class="step-body">トップページにツールカードを追加</div></li>
+            <li><span class="step-num">3</span><div class="step-body">関連ツールのフッターに相互リンクを追加</div></li>
+            <li><span class="step-num">4</span><div class="step-body">ブログ記事を自動生成</div></li>
+            <li><span class="step-num">5</span><div class="step-body">sitemap.xml を更新</div></li>
+          </ol>
+
+          <p>これらすべてをAIが自律的に実行してくれます。</p>
+
+          <div class="note-box">
+            <span class="note-label">実践メモ</span>
+            CLAUDE.md は最初から完璧にしようとしなくてOKです。ツールを作るたびに「このルールも追加して」と指示してアップデートしていくのが現実的な運用です。
+          </div>
+
+          <h2 id="workflow">1日1ツールのリリースワークフロー</h2>
+
+          <p>実際の一連の流れはこうです。所要時間は慣れれば <strong>30〜60分</strong> 程度です。</p>
+
+          <ol class="step-list">
+            <li>
+              <span class="step-num">1</span>
+              <div class="step-body">
+                <strong>アイデア出し（5分）</strong>
+                「次に作るツール」を決める。検索ボリュームがあって競合が弱いニッチなツールを狙う。Google サジェストや「関連する検索キーワード」が参考になる。
+              </div>
+            </li>
+            <li>
+              <span class="step-num">2</span>
+              <div class="step-body">
+                <strong>Claude Codeに指示（1分）</strong>
+                「〇〇ツールを作りたい」と入力するだけ。CLAUDE.md を読み込んだAIが自律的に全ファイルを生成・更新していく。
+              </div>
+            </li>
+            <li>
+              <span class="step-num">3</span>
+              <div class="step-body">
+                <strong>動作確認・修正（15〜30分）</strong>
+                ブラウザで実際に触って不具合を確認。「ボタンが小さい」「計算結果が出ない」など自然言語で修正を依頼する。
+              </div>
+            </li>
+            <li>
+              <span class="step-num">4</span>
+              <div class="step-body">
+                <strong>GitHubにプッシュ（5分）</strong>
+                git add → commit → push で完了。GitHub Pages や Cloudflare Pages を使っていれば自動デプロイされる。
+              </div>
+            </li>
+          </ol>
+
+          <h2 id="github">GitHubで管理する理由</h2>
+
+          <p>静的サイトの管理に GitHub を使う理由は3つあります。</p>
+
+          <ul>
+            <li><strong>無料ホスティング</strong>：GitHub Pages を使えばカスタムドメインでも月額0円で公開できる</li>
+            <li><strong>バージョン管理</strong>：AIが生成したコードで問題が起きても git reset で即座に戻せる</li>
+            <li><strong>作業履歴が残る</strong>：「何日にどのツールを作ったか」がコミット履歴として自動的に記録される</li>
+          </ul>
+
+          <p>AIがコードを大量生成するからこそ、変更履歴の管理はより重要になります。「AIが何かを壊した」ときに慌てないためにも、こまめなコミットが習慣になります。</p>
+
+          <h2 id="results">実際どれくらい作れるか・かかるコストは</h2>
+
+          <p>0-TOOLs では以下のペースでツールを公開しています（2026年5月時点）：</p>
+
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>項目</th>
+                <th>実績・目安</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>公開ツール数</td><td>18ツール以上</td></tr>
+              <tr><td>ブログ記事数</td><td>18記事以上</td></tr>
+              <tr><td>1ツールの作業時間</td><td>30〜60分</td></tr>
+              <tr><td>Claude API コスト（目安）</td><td>1ツールあたり数十円〜数百円</td></tr>
+            </tbody>
+          </table>
+
+          <div class="note-box">
+            <span class="note-label">コスト感</span>
+            Claude.aiのProプラン（月$20）があればAPIキーなしで利用開始できます。ヘビーに使う場合はMaxプランや従量課金のAPIキーへの切り替えも選択肢です。まずProプランから試してみるのがおすすめです。
+          </div>
+
+          <h2 id="limits">AIコーディングの限界と向き合い方</h2>
+
+          <p>AIで何でもできるわけではありません。実際にぶつかった壁と対策を共有します。</p>
+
+          <ul>
+            <li>
+              <strong>動作確認は必ず自分でやる</strong><br>
+              AIはコードが「正しそう」なものを生成しますが、実際にブラウザで動かすと想定外の挙動になることがあります。特にスマホでのタッチ操作・ファイル入力まわりは要チェックです。
+            </li>
+            <li>
+              <strong>指示が曖昧だと出力も曖昧になる</strong><br>
+              「良い感じにして」より「ボタンの高さを最低48pxにして、フォントサイズを16pxにして」のほうが期待通りの結果になります。
+            </li>
+            <li>
+              <strong>長い会話になるほど精度が落ちることがある</strong><br>
+              1ツールごとに会話をリセット（新しいセッション）したほうがコンテキスト汚染を防げます。
+            </li>
+            <li>
+              <strong>著作権・ライセンスの確認</strong><br>
+              外部ライブラリを使う場合はライセンスを必ず確認。AIが提案したライブラリが商用利用に制限があるケースもあります。
+            </li>
+          </ul>
+
+          <h2 id="faq">よくある質問</h2>
+
+          <div class="faq-block">
+            <div class="faq-q-item">
+              <strong>Q. プログラミング未経験でもClaude Codeは使えますか？</strong>
+              <p>基本的な操作はできますが、生成されたコードを確認・修正するための最低限のHTML/CSS/JS知識があると作業効率が大きく上がります。「コードが読める」レベルから実践的に使い始められます。</p>
+            </div>
+            <div class="faq-q-item">
+              <strong>Q. Claude Codeは有料ですか？</strong>
+              <p>Claude.aiのProプラン（月$20）またはMaxプランのサブスクリプションがあれば、APIキーなしで使用量上限の範囲内で利用できます。上限を超えたい場合や外部連携したい場合は、Anthropic APIキー（従量課金）を別途取得する方法もあります。</p>
+            </div>
+            <div class="faq-q-item">
+              <strong>Q. GitHub Pagesは商用サイトに使えますか？</strong>
+              <p>GitHub Pagesの利用規約では商用利用は禁止されていませんが、「主な目的が商用サービスの提供」であることは想定されていません。トラフィックが増えてきたらCloudflare PagesやNetlifyへの移行を検討するのが現実的です。</p>
+            </div>
+            <div class="faq-q-item">
+              <strong>Q. AdSense収益はいつ頃から発生しますか？</strong>
+              <p>AdSense審査通過後、検索流入が安定し始める3〜6ヶ月後から少額の収益が発生し始めるケースが多いです。ツール数・記事数・SEO対策の積み上げが鍵になります。</p>
+            </div>
+          </div>
+
+          <h2 id="summary">まとめ</h2>
+
+          <ul>
+            <li>Claude Code は「丸ごとやってもらう」AIコーディングツール。静的サイトとの相性が特に良い</li>
+            <li>CLAUDE.md（AI向け指示書）を整備すれば、毎回の指示を最小化してツールをサクサク量産できる</li>
+            <li>ワークフローはシンプル：指示 → 生成 → 動作確認 → GitHub プッシュ の4ステップ</li>
+            <li>1ツールあたりの作業時間は30〜60分、APIコストは数十〜数百円が目安</li>
+            <li>AIが生成したコードは必ず自分で動作確認する。バージョン管理（Git）は必須</li>
+          </ul>
+
+          <p>このサイト自体が「Claude Codeで作り続けているサイト」です。実際にツールを使ってみて、どんな仕組みで動いているか想像しながら使ってもらえたら嬉しいです。</p>
+
+        </div>
+
+        <div class="share-row">
+          <span class="share-label">シェア:</span>
+          <a href="https://twitter.com/intent/tweet?text=Claude+Codeで無料Webツールを量産した話&url=https://0-tools.com/blog/claude-code-dev-guide/" class="share-btn share-btn-x" target="_blank" rel="noopener noreferrer">𝕏 でシェア</a>
+        </div>
+
+        <aside class="related-section" aria-label="関連記事・ツール">
+          <h2 class="related-heading">関連ツール・記事</h2>
+          <div class="related-grid">
+            <a class="related-card" href="/tools/qr-gen/">
+              <span class="related-card-icon">📱</span>
+              <div class="related-card-text">
+                <div class="related-card-label">ツール</div>
+                <div class="related-card-title">QRコード生成ツール</div>
+              </div>
+            </a>
+            <a class="related-card" href="/tools/json-format/">
+              <span class="related-card-icon">📋</span>
+              <div class="related-card-text">
+                <div class="related-card-label">ツール</div>
+                <div class="related-card-title">JSON整形ツール</div>
+              </div>
+            </a>
+            <a class="related-card" href="/blog/webp-convert-guide/">
+              <span class="related-card-icon">🖼️</span>
+              <div class="related-card-text">
+                <div class="related-card-label">記事</div>
+                <div class="related-card-title">画像をWebPに変換する方法【Core Web Vitals改善】</div>
+              </div>
+            </a>
+            <a class="related-card" href="/blog/json-format-guide/">
+              <span class="related-card-icon">📋</span>
+              <div class="related-card-text">
+                <div class="related-card-label">記事</div>
+                <div class="related-card-title">JSONを整形・圧縮・バリデーションする方法</div>
+              </div>
+            </a>
+          </div>
+        </aside>
+
+      </article>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 0-TOOLs</p>
+  <nav class="footer-nav">
+    <a href="/">ツール一覧</a>
+    <a href="/blog/">ブログ</a>
+    <a href="/tools/qr-gen/">QRコード生成</a>
+    <a href="/faq/">FAQ</a>
+    <a href="/privacy/">プライバシーポリシー</a>
+  </nav>
+</footer>
+
+</body>
+</html>
