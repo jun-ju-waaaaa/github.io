@@ -45,6 +45,58 @@
           {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://0-tools.com/"},
           {"@type": "ListItem", "position": 2, "name": "画像フォーマット変換ツール", "item": "https://0-tools.com/tools/img-converter/"}
         ]
+      },
+      {
+        "@type": "HowTo",
+        "name": "画像フォーマットを変換する方法（JPEG・PNG・WebP・ICO）",
+        "description": "ブラウザだけで画像を別の形式に変換する手順",
+        "totalTime": "PT1M",
+        "tool": {"@type": "HowToTool", "name": "0-TOOLs 画像フォーマット変換ツール"},
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "画像ファイルを選択",
+            "text": "「画像を選択」ボタンをタップするか、画像ファイルをドラッグ＆ドロップします。JPEG・PNG・WebP・GIF・BMP・ICOなどに対応しています。"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "出力形式と品質を設定",
+            "text": "変換先のフォーマット（JPEG・PNG・WEBP・ICOなど）を選択し、必要に応じて画質を調整します。"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "変換してダウンロード",
+            "text": "「変換」ボタンをクリックすると変換が完了します。ダウンロードボタンから変換済み画像を保存してください。"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "アップロードした画像はどこに保存されますか？",
+            "acceptedAnswer": {"@type": "Answer", "text": "画像ファイルはサーバーに送信されることは一切ありません。すべての処理はお使いのブラウザ（端末）の中だけで行われます。"}
+          },
+          {
+            "@type": "Question",
+            "name": "変換できるファイルサイズに制限はありますか？",
+            "acceptedAnswer": {"@type": "Answer", "text": "サーバー側での制限はありませんが、ブラウザのメモリや端末のスペックによって、非常に大きなファイル（目安: 50MB以上）の処理が遅くなる場合があります。"}
+          },
+          {
+            "@type": "Question",
+            "name": "PNGとWebPはどちらを選べばよいですか？",
+            "acceptedAnswer": {"@type": "Answer", "text": "ウェブサイトで使用する場合はWebPがおすすめです。PNGと同等の品質でファイルサイズを大幅に削減できます。透過が必要な画像や幅広い互換性が必要な場合はPNGを選択してください。"}
+          },
+          {
+            "@type": "Question",
+            "name": "ICO形式への変換はどのような用途に使いますか？",
+            "acceptedAnswer": {"@type": "Answer", "text": "ICO形式は主にウェブサイトのファビコン（ブラウザのタブに表示される小さなアイコン）として使用されます。本ツールでは最大256×256pxのICOファイルを生成できます。"}
+          }
+        ]
       }
     ]
   }

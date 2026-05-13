@@ -46,6 +46,53 @@
           {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://0-tools.com/"},
           {"@type": "ListItem", "position": 2, "name": "カラーコンバーター", "item": "https://0-tools.com/tools/collar/collar-converter/"}
         ]
+      },
+      {
+        "@type": "HowTo",
+        "name": "カラーコードを変換する方法（HEX・RGB・HSL・RGBA）",
+        "description": "HSVカラーピッカーを使ってHEX・RGB・HSL・RGBAコードを取得する手順",
+        "totalTime": "PT1M",
+        "tool": {"@type": "HowToTool", "name": "0-TOOLs HSVカラーピッカー"},
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "カラーパレットで色を選択",
+            "text": "HSVカラーパネルをタップ・ドラッグして色を選びます。Photoshop・Figmaと同じHSV方式で直感的に操作できます。"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "色相スライダーで色相を調整",
+            "text": "下部の色相バーをドラッグして赤・青・緑などの色相を選択します。"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "カラーコードをコピー",
+            "text": "HEX・RGB・HSL・RGBAの各コードが自動表示されます。コピーボタンをタップして使いたいフォーマットのコードをクリップボードにコピーしてください。"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "HEX・RGB・HSLの違いは何ですか？",
+            "acceptedAnswer": {"@type": "Answer", "text": "HEXは#FFFFFFのような16進数表記、RGBはrgb(255,255,255)のような赤・緑・青の数値表記、HSLはhsl(0,100%,50%)のような色相・彩度・輝度の表記です。ウェブ制作ではHEXとRGBが最もよく使われます。"}
+          },
+          {
+            "@type": "Question",
+            "name": "HSVとHSLの違いは何ですか？",
+            "acceptedAnswer": {"@type": "Answer", "text": "HSVはPhotoshopやFigmaで使われる色相・彩度・明度の表現方式です。HSLは色相・彩度・輝度の表現方式でCSSで使われます。本ツールはHSV方式で直感的に色を選択し、HSL・HEX・RGBに変換します。"}
+          },
+          {
+            "@type": "Question",
+            "name": "カラーコードをコピーできますか？",
+            "acceptedAnswer": {"@type": "Answer", "text": "はい、HEX・RGB・HSL・RGBAそれぞれのコピーボタンからワンタップでクリップボードにコピーできます。"}
+          }
+        ]
       }
     ]
   }
