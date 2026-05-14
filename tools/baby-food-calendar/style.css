@@ -217,6 +217,16 @@ body{font-family:'M PLUS Rounded 1c',sans-serif;background:var(--cream);color:va
 .save-btn.import-btn{background:var(--mint);color:var(--mint3);}
 .save-btn.import-btn:hover,.save-btn.import-btn:active{background:var(--mint2);color:var(--white);}
 
+/* iOS EXPORT GUIDE */
+.ios-guide-overlay{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.48);display:flex;align-items:flex-end;justify-content:center;}
+.ios-guide-sheet{background:var(--white);border-radius:20px 20px 0 0;padding:24px 20px 36px;width:100%;max-width:480px;}
+.ios-guide-title{font-size:15px;font-weight:700;color:var(--text);text-align:center;margin-bottom:20px;}
+.ios-guide-steps{display:flex;flex-direction:column;gap:14px;margin-bottom:24px;}
+.ios-guide-step{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:var(--text);line-height:1.6;}
+.ios-guide-num{background:var(--mint2);color:var(--white);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;font-size:12px;margin-top:1px;}
+.ios-guide-btn-go{width:100%;padding:14px;border-radius:var(--rs);border:none;background:var(--lav2);color:var(--white);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;touch-action:manipulation;min-height:44px;margin-bottom:10px;}
+.ios-guide-btn-cancel{width:100%;padding:12px;border-radius:var(--rs);border:none;background:var(--cream);color:var(--text2);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;touch-action:manipulation;min-height:44px;}
+
 /* TOAST */
 .bfc-toast{
   position:fixed;bottom:80px;left:50%;

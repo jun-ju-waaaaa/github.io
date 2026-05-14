@@ -1084,18 +1084,68 @@ function renderStatsDetail(key,sets,range){
 }
 
 // ── EXPORT / IMPORT ──────────────────────────────────────────────
+function isIOS(){
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
 function exportData(){
-  const date = new Date().toISOString().slice(0,10);
-  const blob = new Blob([JSON.stringify(S, null, 2)], {type:'application/json'});
+  const date     = new Date().toISOString().slice(0,10);
+  const jsonStr  = JSON.stringify(S, null, 2);
+  const fileName = `離乳食カレンダー_${date}.json`;
+
+  if(isIOS() && navigator.share){
+    const file = new File([jsonStr], fileName, {type:'application/json'});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      showIOSExportGuide(file);
+      return;
+    }
+  }
+
+  const blob = new Blob([jsonStr], {type:'application/json'});
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href     = url;
-  a.download = `離乳食カレンダー_${date}.json`;
+  a.download = fileName;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
   showToast('💾 エクスポートしました');
+}
+
+function showIOSExportGuide(file){
+  const overlay = document.createElement('div');
+  overlay.className = 'ios-guide-overlay';
+  overlay.innerHTML = `
+    <div class="ios-guide-sheet">
+      <div class="ios-guide-title">📱 iPhoneでの保存手順</div>
+      <div class="ios-guide-steps">
+        <div class="ios-guide-step">
+          <span class="ios-guide-num">1</span>
+          <span>「エクスポートする」をタップすると<br>共有シートが開きます</span>
+        </div>
+        <div class="ios-guide-step">
+          <span class="ios-guide-num">2</span>
+          <span>シートを下にスクロールして<br><strong>「ファイルに保存」</strong>をタップ</span>
+        </div>
+        <div class="ios-guide-step">
+          <span class="ios-guide-num">3</span>
+          <span>iCloud Drive などを選んで<br>「保存」をタップ</span>
+        </div>
+      </div>
+      <button class="ios-guide-btn-go" id="ios-guide-go">📤 エクスポートする</button>
+      <button class="ios-guide-btn-cancel" id="ios-guide-cancel">キャンセル</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  document.getElementById('ios-guide-go').addEventListener('click', () => {
+    overlay.remove();
+    navigator.share({files:[file], title:'離乳食バックアップ'})
+      .then(()  => showToast('💾 エクスポートしました'))
+      .catch(err => { if(err.name !== 'AbortError') showToast('エクスポートに失敗しました', true); });
+  });
+  document.getElementById('ios-guide-cancel').addEventListener('click', () => overlay.remove());
 }
 
 function triggerImport(){
