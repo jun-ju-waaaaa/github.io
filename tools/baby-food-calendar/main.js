@@ -1,48 +1,95 @@
 // ── FOOD MASTER DATA ──────────────────────────────────────────────
-const FOODS = {
-  "穀物・炭水化物": ["10倍粥","7倍粥","軟飯","パン","うどん","ロールパン","そら豆","じゃがいも","パスタ","さつまいも","だいこん","オートミール"],
-  "野菜": ["にんじん","ほうれん草","小松菜","大根","キャベツ","ブロッコリー","かぼちゃ","なす","白菜","玉ねぎ","ズッキーニ","豆腐","チンゲン菜","オクラ","ビーツ","セロリ","コーン","アスパラ","れんこん","ごぼう","レタス"],
-  "果物": ["バナナ","りんご","みかん","もも","メロン","なし","いちご","ぶどう","キウイ"],
-  "魚介": ["白身魚（鮭）","白身魚（カレイ）","まぐろ","鱈","しらす（水煮）","たこ","いか","えび","まだこ","しじみ","あさり"],
-  "肉類": ["鶏ひき肉","鶏むね肉","鶏もも肉","豚ひれ肉","牛ひれ肉","豚挽き肉","牛挽き肉"],
-  "大豆・卵・乳製品": ["豆腐（絹）","豆腐（木綿）","納豆","卵黄","全卵","ヨーグルト","カッテージチーズ","クリームチーズ","牛乳","高野豆腐","油揚げ"],
-  "アレルギー注意": ["小麦（パン）","そば","ピーナッツ","くるみ","ごま","牛乳","卵","カニ・タコ・イカ（1歳以降）"]
+const STAGE_CONFIG = [
+  { key:'gokkon',   label:'ゴックン期', icon:'🌸', months:5,  range:'生後5〜6ヶ月',  bg:'var(--peach)', color:'#8B4B4B' },
+  { key:'mogumogu', label:'モグモグ期', icon:'🌿', months:7,  range:'生後7〜8ヶ月',  bg:'var(--mint)',  color:'var(--mint3)' },
+  { key:'kamikami', label:'カミカミ期', icon:'🍎', months:9,  range:'生後9〜11ヶ月', bg:'#FFE0D0',      color:'#C05030' },
+  { key:'pakupaku', label:'パクパク期', icon:'🍚', months:12, range:'生後12ヶ月〜',  bg:'var(--lav)',   color:'#6A50C0' },
+];
+const STAGE_FOODS = {
+  gokkon: {
+    '穀物・炭水化物': ['10倍粥','じゃがいも','さつまいも'],
+    '野菜':           ['にんじん','かぼちゃ','大根','ほうれん草','キャベツ','コーン'],
+    '果物':           ['バナナ','りんご','みかん'],
+    '魚介':           ['白身魚（カレイ）','しらす（水煮）'],
+    '大豆・卵・乳製品':['豆腐（絹）','ヨーグルト'],
+  },
+  mogumogu: {
+    '穀物・炭水化物': ['7倍粥','パン','うどん'],
+    '野菜':           ['小松菜','ブロッコリー','玉ねぎ','なす','白菜','チンゲン菜','ズッキーニ','レタス'],
+    '果物':           ['もも','なし','ぶどう','メロン'],
+    '魚介':           ['白身魚（鮭）','まぐろ','鱈'],
+    '肉類':           ['鶏ひき肉'],
+    '大豆・卵・乳製品':['豆腐（木綿）','納豆','卵黄'],
+  },
+  kamikami: {
+    '穀物・炭水化物': ['軟飯','オートミール','パスタ','そら豆'],
+    '野菜':           ['オクラ','アスパラ','れんこん','セロリ','ビーツ'],
+    '果物':           ['いちご','キウイ'],
+    '魚介':           ['しじみ','あさり'],
+    '肉類':           ['鶏むね肉','鶏もも肉','豚ひれ肉'],
+    '大豆・卵・乳製品':['全卵','カッテージチーズ','高野豆腐','油揚げ'],
+  },
+  pakupaku: {
+    '穀物・炭水化物': ['ロールパン'],
+    '野菜':           ['ごぼう'],
+    '魚介':           ['たこ','いか','えび','まだこ'],
+    '肉類':           ['牛ひれ肉','豚挽き肉','牛挽き肉'],
+    '大豆・卵・乳製品':['クリームチーズ','牛乳'],
+    'アレルギー注意': ['小麦（パン）','そば','ピーナッツ','くるみ','ごま','カニ・タコ・イカ（1歳以降）'],
+  },
 };
-const ALL_FOODS = Object.values(FOODS).flat();
+const FOOD_CAT={}, FOOD_STAGE={};
+STAGE_CONFIG.forEach(({key})=>{
+  Object.entries(STAGE_FOODS[key]).forEach(([cat,arr])=>{
+    arr.forEach(f=>{ FOOD_CAT[f]=cat; FOOD_STAGE[f]=key; });
+  });
+});
+let ALL_FOODS=STAGE_CONFIG.flatMap(({key})=>Object.values(STAGE_FOODS[key]).flat());
 
 // ── STATE ──────────────────────────────────────────────────────────
 let S = {
   babyName:'', babyBirth:'',
-  records:{},   // records[dateKey] = [{food, status:'done'|'ng'|'skipped', note}]
-  plans:{},     // plans[dateKey]   = [{food, note}]
-  foodStatus:{} // foodStatus[food] = {firstDate, lastStatus, count}
+  records:{},     // records[dateKey] = [{food, status:'done'|'ng'|'skipped', note}]
+  plans:{},       // plans[dateKey]   = [{food, note}]
+  foodStatus:{},  // foodStatus[food] = {firstDate, lastStatus, count}
+  customFoods:[], // user-added food names
 };
 let curYear  = new Date().getFullYear();
 let curMonth = new Date().getMonth();
 let selDate  = null;
 let activeTab = 'plan';
 let curView   = 'cal';
+let foodSelectMode = false;
+let selectedFoods  = new Set();
 
 function load(){
   try{ const s=localStorage.getItem('bfc-v1'); if(s) S={...S,...JSON.parse(s)}; }catch(e){}
 }
 function save(){ localStorage.setItem('bfc-v1', JSON.stringify(S)); }
+function rebuildAllFoods(){
+  ALL_FOODS=[...STAGE_CONFIG.flatMap(({key})=>Object.values(STAGE_FOODS[key]).flat()),...(S.customFoods||[])];
+}
 
 function dk(y,m,d){ return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
 function today(){ const n=new Date(); return dk(n.getFullYear(),n.getMonth(),n.getDate()); }
 
 // ── BABY ──────────────────────────────────────────────────────────
+function getBabyMonths(){
+  if(!S.babyBirth) return null;
+  const birth=new Date(S.babyBirth), now=new Date();
+  return (now.getFullYear()-birth.getFullYear())*12+(now.getMonth()-birth.getMonth());
+}
 function saveBaby(){
   S.babyName  = document.getElementById('babyName').value;
   S.babyBirth = document.getElementById('babyBirth').value;
   save(); updateAgeBadge();
+  if(curView==='foods') renderFoodMaster();
 }
 function updateAgeBadge(){
-  const b = document.getElementById('ageBadge');
-  if(!S.babyBirth){ b.style.display='none'; return; }
-  const birth=new Date(S.babyBirth), now=new Date();
-  const months=(now.getFullYear()-birth.getFullYear())*12+(now.getMonth()-birth.getMonth());
-  const stage = months<7?'🌸ゴックン期':months<9?'🌿モグモグ期':months<12?'🍎カミカミ期':'🍚パクパク期';
+  const b=document.getElementById('ageBadge');
+  const months=getBabyMonths();
+  if(months===null){ b.style.display='none'; return; }
+  const stage=months<7?'🌸ゴックン期':months<9?'🌿モグモグ期':months<12?'🍎カミカミ期':'🍚パクパク期';
   b.style.display='block';
   b.textContent=`生後${months}ヶ月 ${stage}`;
 }
@@ -62,25 +109,6 @@ function renderCalendar(){
   const lastDate  = new Date(curYear,curMonth+1,0).getDate();
   const prevLast  = new Date(curYear,curMonth,0).getDate();
   const todayStr  = today();
-
-  // month summary
-  let mDone=new Set(), mPlan=new Set(), mNG=new Set(), mSkipped=new Set();
-  for(let d=1;d<=lastDate;d++){
-    const key=dk(curYear,curMonth,d);
-    (S.records[key]||[]).forEach(r=>{
-      if(r.status==='done')    mDone.add(r.food);
-      else if(r.status==='ng') mNG.add(r.food);
-      else if(r.status==='skipped') mSkipped.add(r.food);
-    });
-    (S.plans[key]||[]).forEach(p=>mPlan.add(p.food));
-  }
-  document.getElementById('monthSummary').innerHTML=`
-    <div class="ms-card"><div class="ms-num" style="color:var(--mint2)">${mDone.size}</div><div class="ms-label">✅ 食べた</div></div>
-    <div class="ms-card"><div class="ms-num" style="color:var(--honey2)">${mPlan.size}</div><div class="ms-label">📅 予定食材</div></div>
-    <div class="ms-card"><div class="ms-num" style="color:#A08060">${mSkipped.size}</div><div class="ms-label">⏭ 食べなかった</div></div>
-    <div class="ms-card"><div class="ms-num" style="color:var(--rose)">${mNG.size}</div><div class="ms-label">❌ NG</div></div>
-    <div class="ms-card"><div class="ms-num" style="color:var(--text2)">${countActiveDays()}</div><div class="ms-label">📆 記録日数</div></div>
-  `;
 
   const grid=document.getElementById('calGrid');
   grid.innerHTML='';
@@ -132,19 +160,10 @@ function renderCalendar(){
   });
 }
 
-function countActiveDays(){
-  let cnt=0;
-  for(let d=1;d<=new Date(curYear,curMonth+1,0).getDate();d++){
-    const key=dk(curYear,curMonth,d);
-    if((S.records[key]||[]).length>0||(S.plans[key]||[]).length>0) cnt++;
-  }
-  return cnt;
-}
 
 // ── DAY DETAIL ────────────────────────────────────────────────────
 function selectDay(key){
   selDate=key;
-  activeTab='plan';
   renderCalendar();
   renderDetail();
   document.getElementById('detailPanel').scrollIntoView({behavior:'smooth',block:'nearest'});
@@ -152,8 +171,8 @@ function selectDay(key){
 
 function switchTab(tab){
   activeTab=tab;
-  document.getElementById('tabRecord').className='dtab record'+(tab==='record'?' active':'');
   document.getElementById('tabPlan').className='dtab plan'+(tab==='plan'?' active':'');
+  document.getElementById('tabRecord').className='dtab record'+(tab==='record'?' active':'');
   renderDetail();
 }
 
@@ -178,17 +197,17 @@ function renderDetail(){
       </div>
       <div class="suggest-list" id="suggestRec"></div>
       <div class="status-toggle">
-        <button class="stgl" id="stgl-done" onclick="setNewStatus('done')">✅ 食べた</button>
-        <button class="stgl" id="stgl-ng"   onclick="setNewStatus('ng')">⚠️ NG</button>
+        <button class="stgl stgl-c-done" id="stgl-done" onclick="setNewStatus('done')">食べた</button>
+        <button class="stgl stgl-c-skip" id="stgl-skip" onclick="setNewStatus('skipped')">食べなかった</button>
+        <button class="stgl stgl-c-ng"   id="stgl-ng"   onclick="setNewStatus('ng')">アレルギー</button>
       </div>
-      <input class="note-input" id="recNote" placeholder="メモ（量・反応など）">
     `;
     if(recs.length===0){
       html+='<p class="empty-msg">まだ記録がありません。<br>上から食材を追加してね🥕</p>';
     } else {
       html+='<div class="entry-list">';
       recs.forEach((r,i)=>{
-        const icon = r.status==='done'?'✅':r.status==='skipped'?'⏭':'⚠️';
+        const icon = r.status==='done'?'✅':r.status==='skipped'?'<span style="font-size:14px;font-weight:700;color:#333;">✕</span>':'⚠️';
         const hasNote=!!r.note;
         const noteSafe=(r.note||'').replace(/"/g,'&quot;');
         html+=`<div class="swipe-wrap" id="swrap-rec-${i}">
@@ -197,6 +216,12 @@ function renderDetail(){
             <span class="entry-status">${icon}</span>
             <div style="flex:1;min-width:0;">
               <div class="entry-name">${r.food}</div>
+              ${r.status==='done'?`<div class="amt-ctrl">
+                <input type="number" class="amt-input" min="0" step="5" data-idx="${i}"
+                  value="${r.amount||''}" placeholder="0"
+                  onchange="setAmount(${i},this.value)">
+                <span class="amt-unit">g</span>
+              </div>`:''}
               ${hasNote?`<div class="entry-note" id="note-text-rec-${i}">📝 ${r.note}</div>`:''}
               <div id="memo-rec-${i}" style="display:none;margin-top:6px;">
                 <input type="text" id="memo-input-rec-${i}" placeholder="メモを追記…"
@@ -238,7 +263,6 @@ function renderDetail(){
         <button class="add-btn plan" onclick="addEntry('plan')">＋予定</button>
       </div>
       <div class="suggest-list" id="suggestPlan"></div>
-      <input class="note-input" id="planNote" placeholder="メモ（例：初めて試す・昼に予定）">
     `;
     if(plans.length===0){
       html+='<p class="empty-msg">この日の予定はまだありません。<br>試したい食材を登録してね📅</p>';
@@ -258,8 +282,9 @@ function renderDetail(){
             </div>
             <div class="plan-actions">
               <button class="pa-btn pa-done" onclick="markDone('plan',${i})">✅ 食べた</button>
-              <button class="pa-btn pa-skip" onclick="markSkipped(${i})">食べなかった</button>
-              <button class="pa-btn pa-ng" onclick="markNG(${i})">⚠️ NG</button>
+              <button class="pa-btn pa-skip" onclick="markSkipped(${i})"><span style="font-weight:700;margin-right:3px;">✕</span>食べなかった</button>
+              <button class="pa-btn pa-ng" onclick="markNG(${i})">⚠️ アレルギー</button>
+              <button class="pa-btn pa-cancel" onclick="cancelPlan(${i})">🚫 あげなかった</button>
               <button class="pa-btn pa-reschedule" onclick="toggleReschedule(${i})">📆 日付変更</button>
               <button class="pa-btn pa-memo" onclick="toggleMemo('plan',${i})">📝 メモ</button>
             </div>
@@ -402,10 +427,12 @@ let newStatus='done';
 function setNewStatus(s){
   newStatus=s;
   const bd=document.getElementById('stgl-done');
+  const bs=document.getElementById('stgl-skip');
   const bn=document.getElementById('stgl-ng');
-  if(!bd||!bn) return;
-  bd.className='stgl'+(s==='done'?' active-done':'');
-  bn.className='stgl'+(s==='ng'?' active-ng':'');
+  if(!bd||!bs||!bn) return;
+  bd.className='stgl stgl-c-done'+(s==='done'?' active-done':'');
+  bs.className='stgl stgl-c-skip'+(s==='skipped'?' active-skip':'');
+  bn.className='stgl stgl-c-ng'+(s==='ng'?' active-ng':'');
 }
 
 function showSuggest(type){
@@ -418,7 +445,7 @@ function showSuggest(type){
   const matches=ALL_FOODS.filter(f=>f.includes(val)).slice(0,8);
   if(!matches.length){list.classList.remove('open');return;}
   list.innerHTML=matches.map(f=>{
-    const cat=Object.entries(FOODS).find(([,arr])=>arr.includes(f))?.[0]||'';
+    const cat=FOOD_CAT[f]||'';
     return `<div class="suggest-item" onclick="selectSuggest('${type}','${f.replace(/'/g,"\\'")}')">
       ${f}<span class="suggest-cat">${cat}</span></div>`;
   }).join('');
@@ -431,23 +458,42 @@ function selectSuggest(type,food){
   document.getElementById(listId).classList.remove('open');
 }
 
+function getLastAmount(food){
+  const dates=Object.keys(S.records).sort().reverse();
+  for(const d of dates){
+    const entries=S.records[d]||[];
+    const match=entries.find(r=>r.food===food&&r.status==='done'&&r.amount>0);
+    if(match) return match.amount;
+  }
+  return 0;
+}
+
 function addEntry(type){
   if(!selDate) return;
   if(type==='record'){
     const food=(document.getElementById('recInput')||{}).value||'';
-    const note=(document.getElementById('recNote')||{}).value||'';
     if(!food.trim()) return;
     if(!S.records[selDate]) S.records[selDate]=[];
-    S.records[selDate].push({food:food.trim(),status:newStatus,note});
+    const amount=newStatus==='done'?getLastAmount(food.trim()):0;
+    S.records[selDate].push({food:food.trim(),status:newStatus,note:'',amount});
     updateFoodStatus(food.trim(),newStatus,selDate);
   } else {
     const food=(document.getElementById('planInput')||{}).value||'';
-    const note=(document.getElementById('planNote')||{}).value||'';
     if(!food.trim()) return;
     if(!S.plans[selDate]) S.plans[selDate]=[];
-    S.plans[selDate].push({food:food.trim(),note});
+    S.plans[selDate].push({food:food.trim(),note:''});
   }
   save(); renderCalendar(); renderDetail();
+}
+
+function setAmount(idx,val){
+  const recs=S.records[selDate];
+  if(!recs||!recs[idx]) return;
+  const n=parseInt(val)||0;
+  recs[idx].amount=Math.max(0,Math.round(n/5)*5);
+  save();
+  const inp=document.querySelector(`.amt-input[data-idx="${idx}"]`);
+  if(inp) inp.value=recs[idx].amount||'';
 }
 
 function removeEntry(type,idx){
@@ -461,7 +507,8 @@ function markDone(type,idx){
   if(!selDate) return;
   const plan=S.plans[selDate][idx];
   if(!S.records[selDate]) S.records[selDate]=[];
-  S.records[selDate].push({food:plan.food,status:'done',note:plan.note});
+  const amount=getLastAmount(plan.food);
+  S.records[selDate].push({food:plan.food,status:'done',note:plan.note,amount});
   S.plans[selDate].splice(idx,1);
   updateFoodStatus(plan.food,'done',selDate);
   save(); renderCalendar(); renderDetail();
@@ -484,6 +531,11 @@ function markNG(idx){
   updateFoodStatus(plan.food,'ng',selDate);
   save(); renderCalendar(); renderDetail();
 }
+function cancelPlan(idx){
+  if(!selDate) return;
+  S.plans[selDate].splice(idx,1);
+  save(); renderCalendar(); renderDetail();
+}
 
 function updateFoodStatus(food,status,date){
   if(!S.foodStatus[food]) S.foodStatus[food]={count:0,firstDate:date,lastStatus:status};
@@ -498,30 +550,188 @@ function renderFoodMaster(){
   const q=(document.getElementById('foodSearch')||{}).value||'';
   const list=document.getElementById('foodMasterList');
   list.innerHTML='';
-  Object.entries(FOODS).forEach(([cat,foods])=>{
-    const filtered=foods.filter(f=>!q||f.includes(q));
-    if(!filtered.length) return;
+
+  // カスタム食材セクション
+  const customAll=S.customFoods||[];
+  const customFiltered=customAll.filter(f=>!q||f.includes(q));
+  if(customFiltered.length>0){
     const sec=document.createElement('div');
     sec.style.marginBottom='14px';
-    sec.innerHTML=`<div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:6px;padding:4px 10px;background:var(--peach);border-radius:var(--rs);">${cat}</div>`;
+    sec.innerHTML=`<div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:6px;padding:4px 10px;background:var(--honey);border-radius:var(--rs);">✨ 追加した食材</div>`;
     const chips=document.createElement('div');
     chips.style.cssText='display:flex;flex-wrap:wrap;gap:4px;';
-    filtered.forEach(f=>{
+    customFiltered.forEach(f=>{
       const fs=S.foodStatus[f];
       const st=fs?fs.lastStatus:'none';
-      const cls={done:'chip-done',ng:'chip-ng',none:'chip-none'}[st]||'chip-none';
-      const icon={done:'✅',ng:'⚠️',none:'○'}[st]||'○';
+      const isSel=selectedFoods.has(f);
+      const cls=isSel?'chip-selected':({done:'chip-done',ng:'chip-ng',none:'chip-none'}[st]||'chip-none');
+      const icon=isSel?'☑':({done:'✅',ng:'⚠️',none:'○'}[st]||'○');
+      const wrap=document.createElement('span');
+      wrap.style.cssText='display:inline-flex;align-items:center;gap:2px;';
       const btn=document.createElement('button');
       btn.className=`food-chip ${cls}`;
       btn.innerHTML=`${icon} ${f}${fs&&fs.count>1?` <span style="font-size:9px;opacity:.7">×${fs.count}</span>`:''}`;
-      btn.onclick=()=>openFoodModal(f);
-      chips.appendChild(btn);
+      btn.onclick=foodSelectMode?()=>toggleFoodSelect(f):()=>openFoodModal(f);
+      const delBtn=document.createElement('button');
+      delBtn.style.cssText='width:20px;height:20px;border-radius:50%;border:1.5px solid #EDD8CC;background:var(--white);color:#B07070;font-size:11px;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;justify-content:center;padding:0;flex-shrink:0;';
+      delBtn.textContent='×';
+      delBtn.onclick=(e)=>{e.stopPropagation();removeCustomFood(f);};
+      wrap.appendChild(btn);
+      wrap.appendChild(delBtn);
+      chips.appendChild(wrap);
     });
     sec.appendChild(chips);
+    list.appendChild(sec);
+  }
+
+  // ステージ別食材セクション
+  const babyMonths=getBabyMonths();
+  STAGE_CONFIG.forEach((stage,si)=>{
+    const isLocked=babyMonths!==null&&babyMonths<stage.months;
+    const nextMonths=STAGE_CONFIG[si+1]?.months;
+    const isCurrent=!isLocked&&babyMonths!==null&&(nextMonths===undefined||babyMonths<nextMonths);
+    const remaining=isLocked?stage.months-babyMonths:0;
+
+    // 検索フィルター：このステージに一致する食材がなければスキップ
+    const stageFoodsAll=Object.values(STAGE_FOODS[stage.key]).flat();
+    if(q&&!stageFoodsAll.some(f=>f.includes(q))) return;
+
+    const sec=document.createElement('div');
+    sec.style.marginBottom='16px';
+
+    // ステージヘッダー
+    const hBg=isLocked?'#F0ECEB':stage.bg;
+    const hColor=isLocked?'#B09898':stage.color;
+    let badge='';
+    if(babyMonths!==null){
+      if(isCurrent) badge=`<span style="background:var(--rose);color:var(--white);font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;margin-left:8px;">今の時期</span>`;
+      else if(isLocked) badge=`<span style="background:#E0E0E0;color:#888;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;margin-left:8px;">🔒 あと${remaining}ヶ月</span>`;
+    }
+    const hdr=document.createElement('div');
+    hdr.style.cssText=`font-size:13px;font-weight:700;color:${hColor};margin-bottom:8px;padding:7px 12px;background:${hBg};border-radius:var(--rs);display:flex;align-items:center;`;
+    hdr.innerHTML=`${stage.icon} ${stage.label}<span style="font-size:10px;font-weight:400;margin-left:6px;opacity:.8;">${stage.range}</span>${badge}`;
+    sec.appendChild(hdr);
+
+    // カテゴリ別チップ
+    const catsWrap=document.createElement('div');
+    catsWrap.style.cssText=`opacity:${isLocked?'0.5':'1'};`;
+    Object.entries(STAGE_FOODS[stage.key]).forEach(([cat,foods])=>{
+      const filtered=foods.filter(f=>!q||f.includes(q));
+      if(!filtered.length) return;
+      const catEl=document.createElement('div');
+      catEl.style.marginBottom='8px';
+      if(!q){
+        const catLabel=document.createElement('div');
+        catLabel.style.cssText='font-size:10px;font-weight:700;color:var(--text3);margin-bottom:4px;margin-left:2px;';
+        catLabel.textContent=cat;
+        catEl.appendChild(catLabel);
+      }
+      const chips=document.createElement('div');
+      chips.style.cssText='display:flex;flex-wrap:wrap;gap:4px;';
+      filtered.forEach(f=>{
+        const fs=S.foodStatus[f];
+        const st=fs?fs.lastStatus:'none';
+        const isSel=selectedFoods.has(f);
+        const cls=isSel?'chip-selected':({done:'chip-done',ng:'chip-ng',none:'chip-none'}[st]||'chip-none');
+        const icon=isSel?'☑':({done:'✅',ng:'⚠️',none:'○'}[st]||'○');
+        const btn=document.createElement('button');
+        btn.className=`food-chip ${cls}`;
+        btn.innerHTML=`${icon} ${f}${fs&&fs.count>1?` <span style="font-size:9px;opacity:.7">×${fs.count}</span>`:''}`;
+        btn.onclick=foodSelectMode?()=>toggleFoodSelect(f):()=>openFoodModal(f);
+        chips.appendChild(btn);
+      });
+      catEl.appendChild(chips);
+      catsWrap.appendChild(catEl);
+    });
+    sec.appendChild(catsWrap);
     list.appendChild(sec);
   });
 }
 function filterFoods(){ renderFoodMaster(); }
+
+function addCustomFood(){
+  const inp=document.getElementById('customFoodInput');
+  if(!inp) return;
+  const name=inp.value.trim();
+  if(!name){ showToast('⚠️ 食材名を入力してください',true); return; }
+  if(ALL_FOODS.includes(name)){ showToast('⚠️ その食材はすでに登録されています',true); return; }
+  if(!S.customFoods) S.customFoods=[];
+  S.customFoods.push(name);
+  rebuildAllFoods();
+  save();
+  inp.value='';
+  renderFoodMaster();
+  showToast(`✅ 「${name}」を追加しました`);
+}
+function removeCustomFood(name){
+  if(!S.customFoods) return;
+  S.customFoods=S.customFoods.filter(f=>f!==name);
+  rebuildAllFoods();
+  save();
+  renderFoodMaster();
+  showToast(`🗑 「${name}」を削除しました`);
+}
+
+function toggleFoodSelectMode(){
+  foodSelectMode=!foodSelectMode;
+  if(!foodSelectMode) selectedFoods.clear();
+  const btn=document.getElementById('btnFoodSelect');
+  if(btn) btn.classList.toggle('active',foodSelectMode);
+  document.getElementById('foodSelectBar').classList.remove('show');
+  renderFoodMaster();
+}
+function toggleFoodSelect(food){
+  if(selectedFoods.has(food)) selectedFoods.delete(food);
+  else selectedFoods.add(food);
+  const bar=document.getElementById('foodSelectBar');
+  const cnt=document.getElementById('foodSelectCount');
+  bar.classList.toggle('show',selectedFoods.size>0);
+  if(cnt) cnt.textContent=`${selectedFoods.size}品目選択中`;
+  renderFoodMaster();
+}
+function clearFoodSelect(){
+  selectedFoods.clear();
+  foodSelectMode=false;
+  const btn=document.getElementById('btnFoodSelect');
+  if(btn) btn.classList.remove('active');
+  document.getElementById('foodSelectBar').classList.remove('show');
+  renderFoodMaster();
+}
+function openMultiPlanModal(){
+  if(!selectedFoods.size) return;
+  const listEl=document.getElementById('multiPlanFoodList');
+  listEl.innerHTML=[...selectedFoods].map(f=>
+    `<span style="display:inline-flex;align-items:center;padding:4px 10px;background:var(--honey);border-radius:99px;font-size:12px;font-weight:500;color:#7A5800;">${f}</span>`
+  ).join('');
+  mc.year=new Date().getFullYear(); mc.month=new Date().getMonth();
+  mc.rangeStart=today(); mc.rangeEnd=null; mc.dragging=false;
+  mcMode='multiplan';
+  renderMiniCal();
+  document.getElementById('multiPlanModal').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeMultiPlanModal(){
+  document.getElementById('multiPlanModal').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  mcMode='modal';
+}
+function confirmMultiPlanAdd(){
+  const dates=getSelectedDates();
+  if(!dates.length) return;
+  dates.forEach(dateVal=>{
+    if(!S.plans[dateVal]) S.plans[dateVal]=[];
+    selectedFoods.forEach(food=>{
+      if(!S.plans[dateVal].some(p=>p.food===food))
+        S.plans[dateVal].push({food,note:''});
+    });
+  });
+  save();
+  const suffix=dates.length>1?`（${dates.length}日分）`:'';
+  showToast(`📅 ${selectedFoods.size}品目を予定に追加しました${suffix}`);
+  closeMultiPlanModal();
+  clearFoodSelect();
+  renderCalendar();
+}
 
 function openFoodModal(food){
   const recDates=[];
@@ -533,7 +743,7 @@ function openFoodModal(food){
     html+=`<div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:8px;">📋 記録履歴</div>`;
     html+=recDates.map(r=>{
       const bg=r.status==='done'?'#F0FAF5':r.status==='skipped'?'#F5F0E8':'#FFF0F0';
-      const icon=r.status==='done'?'✅':r.status==='skipped'?'⏭':'⚠️';
+      const icon=r.status==='done'?'✅':r.status==='skipped'?'<span style="font-size:14px;font-weight:700;color:#333;">✕</span>':'⚠️';
       return `<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--rs);margin-bottom:5px;background:${bg};">
         <span>${icon}</span>
         <span style="font-size:13px;flex:1;">${r.d.replace(/^(\d+)-(\d+)-(\d+)$/,'$2/$3')}</span>
@@ -548,10 +758,10 @@ function openFoodModal(food){
       <div id="miniCalWrap"></div>
       <div id="rangeLabel" style="text-align:center;font-size:12px;font-weight:700;color:var(--lav2);min-height:20px;margin:6px 0 8px;"></div>
       <div style="display:flex;gap:6px;">
-        <button onclick="jumpToDate('${foodSafe}','record')"
-          style="flex:1;padding:10px;border-radius:var(--rs);border:none;background:var(--mint2);color:var(--white);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;min-height:44px;">✅ 記録に追加</button>
         <button onclick="jumpToDate('${foodSafe}','plan')"
           style="flex:1;padding:10px;border-radius:var(--rs);border:none;background:var(--honey2);color:#4A3000;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;min-height:44px;">📅 予定に追加</button>
+        <button onclick="jumpToDate('${foodSafe}','record')"
+          style="flex:1;padding:10px;border-radius:var(--rs);border:none;background:var(--mint2);color:var(--white);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;min-height:44px;">✅ 記録に追加</button>
       </div>
     </div>`;
   document.getElementById('modalBody').innerHTML=html;
@@ -573,8 +783,8 @@ function initMiniCal(){
 }
 
 function renderMiniCal(){
-  const wrapId=mcMode==='reschedule'?'miniCalWrapR':'miniCalWrap';
-  const labelId=mcMode==='reschedule'?'rangeLabelR':'rangeLabel';
+  const wrapId=mcMode==='reschedule'?'miniCalWrapR':mcMode==='multiplan'?'miniCalWrapMP':'miniCalWrap';
+  const labelId=mcMode==='reschedule'?'rangeLabelR':mcMode==='multiplan'?'rangeLabelMP':'rangeLabel';
   const wrap=document.getElementById(wrapId);
   if(!wrap) return;
 
@@ -745,7 +955,7 @@ function inRange(dateKey,range){ if(!range.lo) return true; return dateKey>=rang
 function renderStats(){
   const el=document.getElementById('statsView');
   const range=getDateRange(statsPeriod);
-  const doneFoods=new Set(), ngFoods=new Set(), planFoods=new Set(), skippedFoods=new Set();
+  const doneFoods=new Set(), ngFoods=new Set(), skippedFoods=new Set();
   const activeDays=new Set();
   Object.entries(S.records).forEach(([d,arr])=>{
     if(!inRange(d,range)) return;
@@ -759,7 +969,6 @@ function renderStats(){
   Object.entries(S.plans).forEach(([d,arr])=>{
     if(!inRange(d,range)) return;
     activeDays.add(d);
-    arr.forEach(p=>planFoods.add(p.food));
   });
 
   const periodLabels={today:'今日',week:'今週',month:'今月',all:'全期間'};
@@ -780,9 +989,8 @@ function renderStats(){
 
   const cards=[
     {key:'done',   foods:doneFoods,    num:doneFoods.size,    label:'食べた食材',   color:'var(--mint2)', hint:'#D4EDE1'},
-    {key:'plan',   foods:planFoods,    num:planFoods.size,    label:'予定食材',     color:'var(--honey2)',hint:'#FAE3A0'},
     {key:'skipped',foods:skippedFoods, num:skippedFoods.size, label:'食べなかった', color:'#A08060',      hint:'#F5F0E8'},
-    {key:'ng',     foods:ngFoods,      num:ngFoods.size,      label:'NG食材',       color:'var(--rose)',  hint:'#FFE5E5'},
+    {key:'ng',     foods:ngFoods,      num:ngFoods.size,      label:'アレルギー',   color:'var(--rose)',  hint:'#FFE5E5'},
   ];
   const cardHtml=cards.map(c=>{
     const isActive=statsActive===c.key;
@@ -803,21 +1011,21 @@ function renderStats(){
     <div style="text-align:center;font-size:11px;color:var(--text3);margin-bottom:14px;">${periodDesc}</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
       ${cardHtml}
-      <div style="background:var(--white);border-radius:var(--r);padding:14px;text-align:center;box-shadow:0 1px 6px var(--shadow);grid-column:1/-1;">
+      <div style="background:var(--white);border-radius:var(--r);padding:14px;text-align:center;box-shadow:0 1px 6px var(--shadow);">
         <div style="font-size:28px;font-weight:700;font-family:'Zen Maru Gothic',sans-serif;color:var(--text2)">${activeDays.size}</div>
         <div style="font-size:11px;color:var(--text3);margin-top:3px;">📆 記録日数</div>
       </div>
     </div>
     <div id="statsDetail"></div>`;
 
-  if(!doneFoods.size&&!ngFoods.size&&!skippedFoods.size&&!planFoods.size){
+  if(!doneFoods.size&&!ngFoods.size&&!skippedFoods.size){
     html+=`<div style="text-align:center;padding:32px 20px;color:var(--text3);">
       <div style="font-size:40px;margin-bottom:10px;">🌸</div>
       <div style="font-size:13px;">この期間の記録はまだありません</div>
     </div>`;
   }
   el.innerHTML=html;
-  if(statsActive) renderStatsDetail(statsActive,{doneFoods,planFoods,skippedFoods,ngFoods},range);
+  if(statsActive) renderStatsDetail(statsActive,{doneFoods,skippedFoods,ngFoods},range);
 }
 
 function toggleStatsCard(key){
@@ -831,11 +1039,10 @@ function renderStatsDetail(key,sets,range){
   if(!det) return;
   const cfg={
     done:    {set:sets.doneFoods,    label:'✅ 食べた食材一覧',    chipBg:'var(--mint)', chipColor:'var(--mint3)', headerColor:'var(--mint3)'},
-    plan:    {set:sets.planFoods,    label:'📅 予定食材一覧',      chipBg:'var(--honey)',chipColor:'#7A5800',      headerColor:'#7A5800'},
     skipped: {set:sets.skippedFoods, label:'⏭ 食べなかった食材',  chipBg:'#F5F0E8',     chipColor:'#7A5C30',      headerColor:'#7A5C30'},
-    ng:      {set:sets.ngFoods,      label:'⚠️ NG・注意食材',      chipBg:'#FFF0F0',     chipColor:'#C03030',      headerColor:'#C03030'},
+    ng:      {set:sets.ngFoods,      label:'⚠️ アレルギー食材',    chipBg:'#FFF0F0',     chipColor:'#C03030',      headerColor:'#C03030'},
   }[key];
-  const icon={done:'✅',plan:'📅',skipped:'⏭',ng:'⚠️'}[key];
+  const icon={done:'✅',skipped:'⏭',ng:'⚠️'}[key];
   let chips='';
   cfg.set.forEach(f=>{
     let extra='';
@@ -890,12 +1097,14 @@ function importData(event){
       const parsed = JSON.parse(e.target.result);
       if(typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('invalid');
       S = {
-        babyName:   typeof parsed.babyName  === 'string' ? parsed.babyName  : S.babyName,
-        babyBirth:  typeof parsed.babyBirth === 'string' ? parsed.babyBirth : S.babyBirth,
-        records:    parsed.records    && typeof parsed.records    === 'object' ? parsed.records    : {},
-        plans:      parsed.plans      && typeof parsed.plans      === 'object' ? parsed.plans      : {},
-        foodStatus: parsed.foodStatus && typeof parsed.foodStatus === 'object' ? parsed.foodStatus : {}
+        babyName:    typeof parsed.babyName  === 'string' ? parsed.babyName  : S.babyName,
+        babyBirth:   typeof parsed.babyBirth === 'string' ? parsed.babyBirth : S.babyBirth,
+        records:     parsed.records    && typeof parsed.records    === 'object' ? parsed.records    : {},
+        plans:       parsed.plans      && typeof parsed.plans      === 'object' ? parsed.plans      : {},
+        foodStatus:  parsed.foodStatus && typeof parsed.foodStatus === 'object' ? parsed.foodStatus : {},
+        customFoods: Array.isArray(parsed.customFoods) ? parsed.customFoods : [],
       };
+      rebuildAllFoods();
       save();
       document.getElementById('babyName').value  = S.babyName  || '';
       document.getElementById('babyBirth').value = S.babyBirth || '';
@@ -940,6 +1149,7 @@ function switchView(v){
 
 // ── INIT ──────────────────────────────────────────────────────────
 load();
+rebuildAllFoods();
 document.getElementById('babyName').value  = S.babyName  || '';
 document.getElementById('babyBirth').value = S.babyBirth || '';
 updateAgeBadge();

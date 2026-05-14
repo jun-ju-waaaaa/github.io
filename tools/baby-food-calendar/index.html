@@ -13,17 +13,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>離乳食カレンダー｜食材の記録・予定管理を無料で【スマホ対応】</title>
 <link rel="canonical" href="https://0-tools.com/tools/baby-food-calendar/">
-<meta name="description" content="赤ちゃんの離乳食をカレンダーで記録・管理できる無料ツール。食べた食材・NG食材・予定を一覧で確認。データはスマホに保存されるので安心です。">
+<meta name="description" content="赤ちゃんの離乳食をカレンダーで記録・管理できる無料ツール。食べた食材・アレルギー食材・予定を一覧で確認。データはスマホに保存されるので安心です。">
 <meta name="google-site-verification" content="wjbUCUovh1Qbnv4qczntyVJstAfRlQh7R6nQk2jWIU8">
 <meta name="google-adsense-account" content="ca-pub-6769343629657319">
 <meta property="og:title" content="離乳食カレンダー｜食材の記録・予定管理を無料で">
-<meta property="og:description" content="赤ちゃんの離乳食記録・予定管理アプリ。食べた食材・NG食材をカレンダーで一覧管理。端末内で動作するので安全です。">
+<meta property="og:description" content="赤ちゃんの離乳食記録・予定管理アプリ。食べた食材・アレルギー食材をカレンダーで一覧管理。端末内で動作するので安全です。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://0-tools.com/tools/baby-food-calendar/">
 <meta property="og:image" content="https://0-tools.com/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="離乳食カレンダー｜食材の記録・予定管理を無料で">
-<meta name="twitter:description" content="赤ちゃんの離乳食記録・予定管理アプリ。食べた食材・NG食材をカレンダーで一覧管理。">
+<meta name="twitter:description" content="赤ちゃんの離乳食記録・予定管理アプリ。食べた食材・アレルギー食材をカレンダーで一覧管理。">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -38,7 +38,7 @@
       "@type": "WebApplication",
       "name": "離乳食カレンダー",
       "url": "https://0-tools.com/tools/baby-food-calendar/",
-      "description": "赤ちゃんの離乳食記録・予定管理ができる無料のブラウザアプリ。食べた食材・NG食材をカレンダーで可視化。",
+      "description": "赤ちゃんの離乳食記録・予定管理ができる無料のブラウザアプリ。食べた食材・アレルギー食材をカレンダーで可視化。",
       "applicationCategory": "HealthApplication",
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript",
@@ -77,8 +77,8 @@
         },
         {
           "@type": "Question",
-          "name": "NG（アレルギー）食材の記録はできますか？",
-          "acceptedAnswer": {"@type": "Answer", "text": "はい。食材ごとにNG（アレルギー・湿疹など）を記録でき、カレンダー上では赤いドットで表示されます。食材マスター画面で過去の全NGを一覧確認できます。"}
+          "name": "アレルギー食材の記録はできますか？",
+          "acceptedAnswer": {"@type": "Answer", "text": "はい。食材ごとにアレルギー反応（湿疹・嘔吐など）を記録でき、カレンダー上では赤いドットで表示されます。食材マスター画面で過去のアレルギー食材を一覧確認できます。"}
         }
       ]
     },
@@ -89,7 +89,7 @@
       "step": [
         {"@type": "HowToStep", "position": 1, "name": "赤ちゃんの情報を入力", "text": "画面上部の「名前」「生年月日」を入力すると、生後月数と離乳食の時期（ゴックン期など）が自動表示されます。"},
         {"@type": "HowToStep", "position": 2, "name": "カレンダーで日付を選択", "text": "記録・予定を入力したい日付をタップします。下部に詳細パネルが表示されます。"},
-        {"@type": "HowToStep", "position": 3, "name": "食材を記録または予定に追加", "text": "食材名を入力（候補から選択も可）し、「記録」タブでは「食べた/NG」を選んで追加、「予定」タブでは試したい食材を追加します。"}
+        {"@type": "HowToStep", "position": 3, "name": "食材を記録または予定に追加", "text": "食材名を入力（候補から選択も可）し、「記録」タブでは「食べた/アレルギー」を選んで追加、「予定」タブでは試したい食材を追加します。"}
       ]
     }
   ]
@@ -99,7 +99,6 @@
 <body>
 
 <div class="hdr">
-  <span class="hdr-icon">🍼</span>
   <h1>離乳食カレンダー</h1>
   <p>食事記録と予定を一画面で管理</p>
 </div>
@@ -126,15 +125,12 @@
     <button onclick="changeMonth(1)">›</button>
   </div>
 
-  <!-- MONTH SUMMARY -->
-  <div class="month-summary" id="monthSummary"></div>
-
   <!-- LEGEND -->
   <div class="legend">
     <div class="leg-item"><div class="leg-dot" style="background:var(--mint2)"></div>食べた</div>
     <div class="leg-item"><div class="leg-dot" style="background:var(--honey2)"></div>予定</div>
     <div class="leg-item"><div class="leg-dot" style="background:#C8B898"></div>食べなかった</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--rose)"></div>NG</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--rose)"></div>アレルギー</div>
   </div>
 
   <!-- CALENDAR -->
@@ -194,10 +190,43 @@
 <!-- VIEW: FOOD LIST -->
 <div id="view-foods" class="view">
   <div style="padding:14px;">
-    <div style="font-size:14px;font-weight:700;margin-bottom:10px;color:var(--text);">🥕 食材マスター</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <div style="font-size:14px;font-weight:700;color:var(--text);">🥕 食材マスター</div>
+      <button id="btnFoodSelect" onclick="toggleFoodSelectMode()" class="food-select-toggle">☑ 複数選択</button>
+    </div>
     <input type="text" id="foodSearch" placeholder="食材を検索…" oninput="filterFoods()"
-      style="width:100%;padding:9px 14px;border:1.5px solid #EDD8CC;border-radius:var(--rs);font-family:inherit;font-size:13px;background:var(--cream);color:var(--text);outline:none;margin-bottom:12px;">
+      style="width:100%;padding:9px 14px;border:1.5px solid #EDD8CC;border-radius:var(--rs);font-family:inherit;font-size:13px;background:var(--cream);color:var(--text);outline:none;margin-bottom:8px;">
+    <div style="display:flex;gap:6px;margin-bottom:12px;">
+      <input type="text" id="customFoodInput" placeholder="オリジナル食材を追加…"
+        style="flex:1;padding:9px 14px;border:1.5px solid #EDD8CC;border-radius:var(--rs);font-family:inherit;font-size:13px;background:var(--cream);color:var(--text);outline:none;"
+        onkeydown="if(event.key==='Enter')addCustomFood()">
+      <button onclick="addCustomFood()"
+        style="padding:9px 14px;border-radius:var(--rs);border:none;background:var(--honey2);color:#4A3000;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;min-height:44px;touch-action:manipulation;white-space:nowrap;">＋追加</button>
+    </div>
     <div id="foodMasterList"></div>
+  </div>
+</div>
+
+<!-- FOOD SELECT BAR -->
+<div id="foodSelectBar" class="food-select-bar">
+  <span id="foodSelectCount" class="fsb-count"></span>
+  <button class="fsb-btn" onclick="openMultiPlanModal()">📅 予定に追加</button>
+  <button class="fsb-cancel" onclick="clearFoodSelect()">✕</button>
+</div>
+
+<!-- MULTI PLAN MODAL -->
+<div class="modal" id="multiPlanModal">
+  <div class="modal-hdr">
+    <h3>📅 予定に追加</h3>
+    <button class="close-btn" onclick="closeMultiPlanModal()">✕</button>
+  </div>
+  <div>
+    <div id="multiPlanFoodList" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;"></div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">追加する日付をタップ・ドラッグして選択</div>
+    <div id="miniCalWrapMP"></div>
+    <div id="rangeLabelMP" style="text-align:center;font-size:12px;font-weight:700;color:var(--lav2);min-height:20px;margin:6px 0 10px;"></div>
+    <button onclick="confirmMultiPlanAdd()"
+      style="width:100%;padding:12px;border-radius:var(--rs);border:none;background:var(--honey2);color:#4A3000;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;min-height:44px;touch-action:manipulation;">この日に追加する</button>
   </div>
 </div>
 
@@ -231,7 +260,7 @@
 </div>
 
 <!-- OVERLAY -->
-<div class="overlay" id="overlay" onclick="closeModal();closeRescheduleModal();"></div>
+<div class="overlay" id="overlay" onclick="closeModal();closeRescheduleModal();closeMultiPlanModal();"></div>
 
 <!-- FOOD DETAIL MODAL -->
 <div class="modal" id="foodModal">
