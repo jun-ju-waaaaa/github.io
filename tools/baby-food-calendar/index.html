@@ -174,6 +174,7 @@
       </button>
     </div>
     <input type="file" id="importInput" accept=".json,application/json" style="display:none" onchange="importData(event)">
+    <p class="data-section-ios">📱 iOSの場合はシートが開くので「ファイルに保存」をタップしてください</p>
     <p class="data-section-note">※ インポートすると現在のデータは上書きされます</p>
   </div>
 
@@ -203,6 +204,30 @@
 <!-- VIEW: STATS -->
 <div id="view-stats" class="view">
   <div style="padding:14px;" id="statsView"></div>
+</div>
+
+<!-- VIEW: SAVE -->
+<div id="view-save" class="view">
+  <div style="padding:14px;">
+    <div style="font-size:14px;font-weight:700;margin-bottom:4px;color:var(--text);">💾 バックアップ・復元</div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:16px;line-height:1.6;">スマホの買い替え・キャッシュクリア・履歴削除でデータが消えることがあります。定期的にバックアップを保存しておきましょう。</p>
+
+    <div class="save-card">
+      <div class="save-card-title">📤 エクスポート（バックアップ保存）</div>
+      <p class="save-card-desc">記録データをJSONファイルとしてダウンロードします。機種変更前・節目ごとに保存するのがおすすめです。</p>
+      <p class="save-ios-note">📱 iOSの場合はシートが開くので「ファイルに保存」をタップしてください</p>
+      <button class="save-btn export-btn" onclick="exportData()">📤 エクスポートする</button>
+    </div>
+
+    <div class="save-card">
+      <div class="save-card-title">📥 インポート（バックアップ読み込み）</div>
+      <p class="save-card-desc">保存済みのJSONバックアップファイルを読み込みます。新しいスマホや別の端末でデータを引き継ぐときに使います。</p>
+      <p class="save-warn-note">⚠️ インポートすると現在のデータは上書きされます</p>
+      <button class="save-btn import-btn" onclick="triggerImport()">📥 インポートする</button>
+    </div>
+
+    <div class="privacy-badge" style="margin-top:4px;">🔒 データは端末内にのみ保存されます</div>
+  </div>
 </div>
 
 <!-- OVERLAY -->
@@ -242,6 +267,9 @@
   </button>
   <button class="bn" id="bn-stats" onclick="switchView('stats')">
     <span class="bn-icon">📊</span><span class="bn-label">まとめ</span>
+  </button>
+  <button class="bn" id="bn-save" onclick="switchView('save')">
+    <span class="bn-icon">💾</span><span class="bn-label">保存</span>
   </button>
 </div>
 

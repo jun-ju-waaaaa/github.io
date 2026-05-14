@@ -703,6 +703,9 @@ function jumpToDate(food,tab){
   curYear=parseInt(lo[0]); curMonth=parseInt(lo[1])-1;
   selDate=dates[0];
   renderCalendar();
+  const label = tab==='record' ? '記録' : '予定';
+  const suffix = dates.length>1 ? `（${dates.length}日分）` : '';
+  showToast(`✅ ${label}に追加しました${suffix}`);
   openFoodModal(food);
 }
 

@@ -168,6 +168,7 @@ body{font-family:'M PLUS Rounded 1c',sans-serif;background:var(--cream);color:va
 .data-section-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;}
 .data-section-desc{font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.6;}
 .data-section-note{font-size:11px;color:var(--text3);margin-top:8px;}
+.data-section-ios{font-size:11px;color:var(--sky2);margin-top:6px;line-height:1.5;}
 .data-btns{display:flex;gap:8px;}
 .data-btn{
   flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
@@ -180,6 +181,18 @@ body{font-family:'M PLUS Rounded 1c',sans-serif;background:var(--cream);color:va
 .data-btn.export:hover,.data-btn.export:active{background:var(--lav2);color:var(--white);}
 .data-btn.import{background:var(--mint);color:var(--mint3);}
 .data-btn.import:hover,.data-btn.import:active{background:var(--mint2);color:var(--white);}
+
+/* SAVE VIEW */
+.save-card{background:var(--white);border-radius:var(--r);box-shadow:0 2px 10px var(--shadow);padding:16px;margin-bottom:12px;}
+.save-card-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.save-card-desc{font-size:12px;color:var(--text2);margin-bottom:8px;line-height:1.6;}
+.save-ios-note{font-size:11px;color:var(--sky2);margin-bottom:12px;line-height:1.5;}
+.save-warn-note{font-size:11px;color:#C03030;margin-bottom:12px;line-height:1.5;}
+.save-btn{width:100%;padding:14px;border-radius:var(--rs);border:none;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s;touch-action:manipulation;min-height:44px;}
+.save-btn.export-btn{background:var(--lav);color:var(--lav2);}
+.save-btn.export-btn:hover,.save-btn.export-btn:active{background:var(--lav2);color:var(--white);}
+.save-btn.import-btn{background:var(--mint);color:var(--mint3);}
+.save-btn.import-btn:hover,.save-btn.import-btn:active{background:var(--mint2);color:var(--white);}
 
 /* TOAST */
 .bfc-toast{
