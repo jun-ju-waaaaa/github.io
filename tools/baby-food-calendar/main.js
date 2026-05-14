@@ -762,6 +762,7 @@ function openFoodModal(food){
 
 // ── MINI CALENDAR (range select) ──────────────────────────────────
 let mc={year:0,month:0,rangeStart:null,rangeEnd:null,dragging:false};
+let mcLastTouch=0;
 let mcMode='modal';
 
 function initMiniCal(){
@@ -831,8 +832,8 @@ function renderMiniCal(){
     if(key===lo) cls+=' mc-lo';
     if(key===hi&&hi!==lo) cls+=' mc-hi';
     html+=`<div class="${cls}" data-key="${key}"
-      onmousedown="mcDragStart('${key}')" onmouseover="mcDragMove('${key}')" onmouseup="mcDragEnd('${key}')"
-      ontouchstart="mcDragStart('${key}')" ontouchmove="mcTouchMove(event)" ontouchend="mcDragEnd()"
+      onmousedown="mcOnMouseDown('${key}')" onmouseover="mcOnMouseOver('${key}')" onmouseup="mcOnMouseUp('${key}')"
+      ontouchstart="mcOnTouchStart('${key}')" ontouchmove="mcTouchMove(event)" ontouchend="mcOnTouchEnd()"
     >${d}</div>`;
   });
   html+='</div>';
@@ -846,8 +847,13 @@ function mcChangeMonth(d){
   if(mc.month>11){mc.month=0;mc.year++;}
   renderMiniCal();
 }
-function mcDragStart(key){ mc.dragging=true; mc.rangeStart=key; mc.rangeEnd=null; renderMiniCal(); }
+function mcDragStart(key){ mc.dragging=true; mc.rangeStart=key; mc.rangeEnd=null; }
 function mcDragMove(key){ if(!mc.dragging) return; mc.rangeEnd=key; renderMiniCal(); }
+function mcOnTouchStart(key){ mcLastTouch=Date.now(); mcDragStart(key); }
+function mcOnTouchEnd(){ mcLastTouch=Date.now(); mcDragEnd(); }
+function mcOnMouseDown(key){ if(Date.now()-mcLastTouch<600) return; mcDragStart(key); renderMiniCal(); }
+function mcOnMouseOver(key){ if(Date.now()-mcLastTouch<600) return; mcDragMove(key); }
+function mcOnMouseUp(key){ if(Date.now()-mcLastTouch<600) return; mcDragEnd(key); }
 function mcDragEnd(key){
   if(key) mc.rangeEnd=key;
   mc.dragging=false;
