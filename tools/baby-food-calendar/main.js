@@ -59,7 +59,7 @@ let curMonth = new Date().getMonth();
 let selDate  = null;
 let activeTab = 'plan';
 let curView   = 'cal';
-let foodSelectMode = false;
+let foodSelectMode = true;
 let selectedFoods  = new Set();
 
 function load(){
@@ -672,14 +672,7 @@ function removeCustomFood(name){
   showToast(`🗑 「${name}」を削除しました`);
 }
 
-function toggleFoodSelectMode(){
-  foodSelectMode=!foodSelectMode;
-  if(!foodSelectMode) selectedFoods.clear();
-  const btn=document.getElementById('btnFoodSelect');
-  if(btn) btn.classList.toggle('active',foodSelectMode);
-  document.getElementById('foodSelectBar').classList.remove('show');
-  renderFoodMaster();
-}
+function toggleFoodSelectMode(){ /* no-op: multi-select is always on */ }
 function toggleFoodSelect(food){
   if(selectedFoods.has(food)) selectedFoods.delete(food);
   else selectedFoods.add(food);
@@ -691,9 +684,6 @@ function toggleFoodSelect(food){
 }
 function clearFoodSelect(){
   selectedFoods.clear();
-  foodSelectMode=false;
-  const btn=document.getElementById('btnFoodSelect');
-  if(btn) btn.classList.remove('active');
   document.getElementById('foodSelectBar').classList.remove('show');
   renderFoodMaster();
 }
