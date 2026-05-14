@@ -245,27 +245,30 @@ function renderDetail(){
     } else {
       html+='<div class="entry-list">';
       plans.forEach((p,i)=>{
+        const memoVal=(p.note||'').replace(/"/g,'&quot;');
         html+=`<div class="swipe-wrap" id="swrap-plan-${i}">
           <div class="swipe-del" id="sdel-plan-${i}" onclick="removeEntry('plan',${i})">🗑 削除</div>
           <div class="entry-item plan" data-swipe-type="plan" data-swipe-idx="${i}">
-            <span class="entry-status">📅</span>
-            <div style="flex:1;min-width:0;">
-              <div class="entry-name">${p.food}</div>
-              ${p.note?`<div class="entry-note">📝 ${p.note}</div>`:''}
-              <div id="memo-plan-${i}" style="display:none;margin-top:6px;">
-                <input type="text" value="${(p.note||'').replace(/"/g,'&quot;')}" placeholder="メモを入力…"
-                  style="width:100%;padding:5px 8px;border:1.5px solid #EDD8CC;border-radius:8px;font-family:inherit;font-size:12px;background:var(--cream);outline:none;"
-                  onkeydown="if(event.key==='Enter')saveNote('plan',${i},this.value,true)">
-                <button onclick="saveNote('plan',${i},this.previousElementSibling.value,true)"
-                  style="margin-top:4px;width:100%;padding:5px;border-radius:8px;border:none;background:var(--honey2);color:#4A3000;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;">保存</button>
+            <div class="plan-top">
+              <span class="entry-status">📅</span>
+              <div class="plan-name-wrap">
+                <div class="entry-name">${p.food}</div>
+                ${p.note?`<div class="entry-note">📝 ${p.note}</div>`:''}
               </div>
             </div>
-            <div class="entry-actions" style="flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;gap:3px;">
-              <button class="e-btn" onclick="markDone('plan',${i})" style="color:#2D7A56;">✅ 食べた</button>
-              <button class="e-btn" onclick="markSkipped(${i})" style="color:#A06030;">食べなかった</button>
-              <button class="e-btn" onclick="markNG(${i})" style="color:#C03030;">⚠️ NG</button>
-              <button class="e-btn" onclick="toggleReschedule(${i})" style="color:#6A50C0;">📆 日付変更</button>
-              <button class="e-btn" onclick="toggleMemo('plan',${i})" style="color:#7A5C30;">📝 メモ</button>
+            <div class="plan-actions">
+              <button class="pa-btn pa-done" onclick="markDone('plan',${i})">✅ 食べた</button>
+              <button class="pa-btn pa-skip" onclick="markSkipped(${i})">食べなかった</button>
+              <button class="pa-btn pa-ng" onclick="markNG(${i})">⚠️ NG</button>
+              <button class="pa-btn pa-reschedule" onclick="toggleReschedule(${i})">📆 日付変更</button>
+              <button class="pa-btn pa-memo" onclick="toggleMemo('plan',${i})">📝 メモ</button>
+            </div>
+            <div id="memo-plan-${i}" style="display:none;margin-top:8px;">
+              <input type="text" id="memo-input-plan-${i}" value="${memoVal}" placeholder="メモを入力…"
+                style="width:100%;padding:5px 8px;border:1.5px solid #EDD8CC;border-radius:8px;font-family:inherit;font-size:12px;background:var(--cream);outline:none;"
+                onkeydown="if(event.key==='Enter')saveNote('plan',${i},this.value,true)">
+              <button onclick="saveNote('plan',${i},document.getElementById('memo-input-plan-${i}').value,true)"
+                style="margin-top:4px;width:100%;padding:7px;border-radius:8px;border:none;background:var(--honey2);color:#4A3000;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;min-height:44px;touch-action:manipulation;">保存</button>
             </div>
           </div>
         </div>`;
