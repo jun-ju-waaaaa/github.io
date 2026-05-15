@@ -44,7 +44,7 @@ const STAGE_FOODS = {
     '果物':           ['いちご','みかん','すいか','ぶどう'],
     '魚介':           ['えび','さば','いわし','さんま','ぶり','かつお'],
     '肉類':           ['牛ひれ肉','豚挽き肉','牛挽き肉','鶏ささみ','合い挽き肉'],
-    '大豆・乳製品':   ['クリームチーズ','牛乳','プロセスチーズ','きな粉','豆乳'],
+    '大豆・乳製品':   ['クリームチーズ','牛乳','プロセスチーズ','豆乳'],
     'アレルギー注意': ['小麦製品（パン・うどん等）','そば','ピーナッツ','くるみ','ごま','カニ'],
   },
 };
@@ -1457,7 +1457,9 @@ function importData(event){
         records:     parsed.records    && typeof parsed.records    === 'object' ? parsed.records    : {},
         plans:       parsed.plans      && typeof parsed.plans      === 'object' ? parsed.plans      : {},
         foodStatus:  parsed.foodStatus && typeof parsed.foodStatus === 'object' ? parsed.foodStatus : {},
-        customFoods: Array.isArray(parsed.customFoods) ? parsed.customFoods : [],
+        customFoods: Array.isArray(parsed.customFoods)
+          ? parsed.customFoods.filter(f => typeof f === 'string' && f.length > 0 && f.length <= 50)
+          : [],
       };
       rebuildAllFoods();
       save();
