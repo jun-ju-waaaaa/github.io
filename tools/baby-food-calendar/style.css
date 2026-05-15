@@ -11,6 +11,7 @@
   --white:#FFFFFF;--shadow:rgba(74,55,40,0.10);
   --r:18px;--rs:10px;
 }
+html{overflow-x:hidden;}
 body{font-family:'M PLUS Rounded 1c',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;padding-bottom:72px;overflow-x:hidden;}
 
 /* HEADER */
@@ -168,7 +169,7 @@ body{font-family:'M PLUS Rounded 1c',sans-serif;background:var(--cream);color:va
 .modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
 .modal-hdr h3{font-size:15px;font-weight:700;}
 .close-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid #EDD8CC;background:var(--cream);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;touch-action:manipulation;}
-.food-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:99px;font-size:12px;font-weight:500;margin:3px;cursor:pointer;transition:all .15s;border:none;font-family:inherit;min-height:44px;touch-action:manipulation;}
+.food-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:99px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;border:none;font-family:inherit;min-height:44px;touch-action:manipulation;}
 .chip-done{background:var(--mint);color:var(--mint3);}
 .chip-plan{background:var(--honey);color:#7A5800;}
 .chip-ng{background:#FFE5E5;color:#C03030;}
