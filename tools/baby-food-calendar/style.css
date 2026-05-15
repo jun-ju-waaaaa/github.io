@@ -11,7 +11,7 @@
   --white:#FFFFFF;--shadow:rgba(74,55,40,0.10);
   --r:18px;--rs:10px;
 }
-body{font-family:'M PLUS Rounded 1c',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;padding-bottom:72px;}
+body{font-family:'M PLUS Rounded 1c',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;padding-bottom:72px;overflow-x:hidden;}
 
 /* HEADER */
 .hdr{background:linear-gradient(135deg,#FDEBD8,#FDD5C8 60%,#F9C8D8);padding:16px 16px 14px;text-align:center;position:relative;overflow:hidden;}
@@ -61,7 +61,7 @@ body{font-family:'M PLUS Rounded 1c',sans-serif;background:var(--cream);color:va
 
 /* DETAIL PANEL */
 .detail{margin:0 14px 12px;background:var(--white);border-radius:var(--r);box-shadow:0 2px 10px var(--shadow);overflow:hidden;}
-.detail-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 8px;}
+.detail-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 10px 8px;}
 .detail-date{font-size:14px;font-weight:700;color:var(--text);}
 .detail-tabs{display:flex;gap:6px;}
 .dtab{padding:5px 12px;border-radius:99px;border:none;font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;touch-action:manipulation;}
@@ -73,7 +73,7 @@ body{font-family:'M PLUS Rounded 1c',sans-serif;background:var(--cream);color:va
 
 /* ADD FOOD ROW */
 .add-row{display:flex;gap:6px;margin-bottom:10px;}
-.food-search{flex:1;padding:8px 12px;border:1.5px solid #EDD8CC;border-radius:var(--rs);font-family:inherit;font-size:16px;background:var(--cream);color:var(--text);outline:none;touch-action:manipulation;}
+.food-search{flex:1;min-width:0;padding:8px 12px;border:1.5px solid #EDD8CC;border-radius:var(--rs);font-family:inherit;font-size:16px;background:var(--cream);color:var(--text);outline:none;touch-action:manipulation;}
 .food-search:focus{border-color:var(--rose);}
 .add-btn{padding:8px 14px;border-radius:var(--rs);border:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;white-space:nowrap;touch-action:manipulation;}
 .add-btn.record{background:var(--mint2);color:var(--white);}
