@@ -673,7 +673,6 @@ function renderFoodMaster(){
       delBtn.textContent='×';
       delBtn.onclick=(e)=>{e.stopPropagation();removeCustomFood(f);};
       wrap.appendChild(btn);
-      wrap.appendChild(infoBtn_c);
       wrap.appendChild(delBtn);
       chips.appendChild(wrap);
     });
