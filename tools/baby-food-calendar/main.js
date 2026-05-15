@@ -668,10 +668,6 @@ function renderFoodMaster(){
         const hasEntry=Object.values(S.records).some(arr=>arr.some(r=>r.food===f))||Object.values(S.plans).some(arr=>arr.some(p=>p.food===f));
         if(!hasEntry) openFirstTimeBriefModal(f); else toggleFoodSelect(f);
       };
-      const infoBtn_c=document.createElement('button');
-      infoBtn_c.style.cssText='width:20px;height:20px;border-radius:50%;border:1.5px solid #B0D0E8;background:var(--white);color:#3AA8E8;font-size:10px;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;justify-content:center;padding:0;flex-shrink:0;';
-      infoBtn_c.textContent='…';
-      infoBtn_c.onclick=(e)=>{e.stopPropagation();openFoodModal(f);};
       const delBtn=document.createElement('button');
       delBtn.style.cssText='width:20px;height:20px;border-radius:50%;border:1.5px solid #EDD8CC;background:var(--white);color:#B07070;font-size:11px;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;justify-content:center;padding:0;flex-shrink:0;';
       delBtn.textContent='×';
@@ -744,14 +740,9 @@ function renderFoodMaster(){
         btn.innerHTML=`${icon} ${f}${fs&&fs.count>1?` <span style="font-size:9px;opacity:.7">×${fs.count}</span>`:''}${warnBadge_s}`;
         btn.onclick=()=>{
           const hasEntry=Object.values(S.records).some(arr=>arr.some(r=>r.food===f))||Object.values(S.plans).some(arr=>arr.some(p=>p.food===f));
-          if(!hasEntry) openFoodModal(f); else toggleFoodSelect(f);
+          if(!hasEntry) openFirstTimeBriefModal(f); else toggleFoodSelect(f);
         };
-        const infoBtn_s=document.createElement('button');
-        infoBtn_s.style.cssText='width:20px;height:20px;border-radius:50%;border:1.5px solid #B0D0E8;background:var(--white);color:#3AA8E8;font-size:10px;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;justify-content:center;padding:0;flex-shrink:0;';
-        infoBtn_s.textContent='…';
-        infoBtn_s.onclick=(e)=>{e.stopPropagation();openFoodModal(f);};
         chipWrap.appendChild(btn);
-        chipWrap.appendChild(infoBtn_s);
         chips.appendChild(chipWrap);
       });
       catEl.appendChild(chips);
