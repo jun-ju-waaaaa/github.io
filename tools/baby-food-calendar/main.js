@@ -1584,6 +1584,7 @@ function switchView(v){
   if(v==='foods') renderFoodMaster();
   if(v==='stats') renderStats();
   if(v==='cal')   renderCalendar();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ── INIT ──────────────────────────────────────────────────────────
