@@ -1220,7 +1220,7 @@ function openFirstTimeBriefModal(food){
     <div style="font-size:11px;margin-top:5px;opacity:.7;">（厚生労働省 授乳・離乳の支援ガイド 2019年版）</div>
   </div>`;
   html+=`<div style="background:var(--honey);border-radius:var(--rs);padding:10px 14px;font-size:12px;color:#7A5800;text-align:center;line-height:1.6;">
-    ✕ を閉じると、複数選択に追加されます<br>
+    閉じると選択に追加されます<br>
     <span style="font-size:11px;opacity:.8;">選択後にまとめて予定日を設定できます</span>
   </div>`;
   document.getElementById('modalBody').innerHTML=html;
