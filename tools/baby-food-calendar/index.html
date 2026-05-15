@@ -30,6 +30,18 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="style.css">
+<style>
+  .tool-notice{background:#FFF5F5;border:1px solid #FECACA;border-left:3px solid #DC2626;border-radius:8px;padding:10px 14px;margin:0 14px 8px;font-size:12px;color:#7F1D1D;line-height:1.65;}
+  .tool-notice a{color:#DC2626;text-decoration:none;font-weight:600;}
+  .disclaimer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:300;display:none;}
+  .disclaimer-modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,360px);background:#fff;border-radius:14px;z-index:301;display:none;box-shadow:0 8px 32px rgba(0,0,0,0.22);}
+  .dm-body{padding:20px;}
+  .dm-title{font-size:15px;font-weight:700;color:#991b1b;margin-bottom:12px;}
+  .dm-text{font-size:13px;line-height:1.75;color:#475569;margin-bottom:10px;}
+  .dm-list{font-size:12px;line-height:1.8;color:#475569;padding-left:16px;margin-bottom:16px;}
+  .dm-list li{margin-bottom:5px;}
+  .dm-btn{width:100%;padding:13px;border-radius:10px;border:none;background:#C85A5A;color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;min-height:44px;touch-action:manipulation;}
+</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -155,6 +167,11 @@
     <div class="detail-body" id="detailBody">
       <p class="empty-msg">カレンダーの日付をタップしてください</p>
     </div>
+  </div>
+
+  <!-- TOOL NOTICE -->
+  <div class="tool-notice">
+    📋 本ツールはスケジュール管理を目的としており、<strong>医療行為の代替ではありません</strong>。食材の進め方・アレルギー対応は必ずかかりつけの<strong>小児科医</strong>にご相談ください。<a href="/privacy/#disclaimer">免責事項</a>
   </div>
 
   <!-- DATA MANAGEMENT -->
@@ -297,6 +314,22 @@
     <div id="rangeLabelR" style="text-align:center;font-size:12px;font-weight:700;color:var(--lav2);min-height:20px;margin:6px 0 10px;"></div>
     <button onclick="confirmReschedule()"
       style="width:100%;padding:12px;border-radius:var(--rs);border:none;background:var(--lav2);color:var(--white);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;min-height:44px;touch-action:manipulation;">この日に変更</button>
+  </div>
+</div>
+
+<!-- DISCLAIMER MODAL (初回のみ表示) -->
+<div class="disclaimer-overlay" id="disclaimerOverlay"></div>
+<div class="disclaimer-modal" id="disclaimerModal">
+  <div class="dm-body">
+    <div class="dm-title">⚠️ ご利用前にご確認ください</div>
+    <p class="dm-text">本ツールは離乳食の記録・管理を<strong>補助</strong>することを目的としており、<strong>医療行為・栄養指導・育児アドバイスの代替ではありません。</strong></p>
+    <ul class="dm-list">
+      <li>食材の開始時期・進め方は必ず<strong>かかりつけの小児科医</strong>にご相談ください</li>
+      <li>アレルギー症状（発疹・嘔吐・呼吸困難など）が見られた場合は直ちに<strong>医療機関を受診</strong>してください</li>
+      <li>掲載する食材情報・月齢の目安は一般的な参考情報であり、個々のお子さまの状態を保証するものではありません</li>
+      <li>本ツールの利用によって生じたいかなる損害についても、運営者は責任を負いかねます</li>
+    </ul>
+    <button class="dm-btn" onclick="closeDisclaimerModal()">確認しました</button>
   </div>
 </div>
 
