@@ -722,10 +722,32 @@ function setAmount(idx,val){
   if(inp) inp.value=recs[idx].amount||'';
 }
 
+function recalcFoodStatus(food){
+  // 全日付のrecordsからその食材のエントリを収集
+  const entries=[];
+  Object.entries(S.records).forEach(([d,arr])=>{
+    arr.forEach(r=>{ if(r.food===food) entries.push({date:d,status:r.status}); });
+  });
+  if(entries.length===0){
+    delete S.foodStatus[food];
+    return;
+  }
+  entries.sort((a,b)=>a.date<b.date?-1:1);
+  const count=entries.filter(e=>e.status==='done').length;
+  const firstDate=entries[0].date;
+  const lastStatus=entries[entries.length-1].status;
+  S.foodStatus[food]={count,firstDate,lastStatus};
+}
+
 function removeEntry(type,idx){
   if(!selDate) return;
-  if(type==='record') S.records[selDate].splice(idx,1);
-  else S.plans[selDate].splice(idx,1);
+  if(type==='record'){
+    const food=S.records[selDate][idx]?.food;
+    S.records[selDate].splice(idx,1);
+    if(food) recalcFoodStatus(food);
+  } else {
+    S.plans[selDate].splice(idx,1);
+  }
   save(); renderCalendar(); renderDetail();
 }
 
