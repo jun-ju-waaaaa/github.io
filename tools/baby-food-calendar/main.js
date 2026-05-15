@@ -498,6 +498,11 @@ function renderDetail(){
       });
       html+='</div>';
     }
+    if(copiedFoods.length>0){
+      html+=buildPasteBanner();
+    } else if(plans.length>0){
+      html+=`<button onclick="copyDayPlans()" style="width:100%;margin-top:10px;padding:10px;border-radius:var(--rs);border:1.5px solid var(--honey2);background:var(--white);color:#7A5800;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;min-height:44px;touch-action:manipulation;">📋 この日の予定をコピー（${plans.length}品目）</button>`;
+    }
     body.innerHTML=html;
     bindSwipe();
   }
@@ -983,6 +988,14 @@ function copyDayFoods(){
   const recs=S.records[selDate]||[];
   copiedFoods=recs.filter(r=>r.status==='done').map(r=>r.food);
   if(!copiedFoods.length){ showToast('⚠️ コピーできる記録（食べた）がありません',true); return; }
+  renderDetail();
+  showToast(`📋 ${copiedFoods.length}品目をコピーしました`);
+}
+function copyDayPlans(){
+  if(!selDate) return;
+  const plans=S.plans[selDate]||[];
+  copiedFoods=plans.map(p=>p.food);
+  if(!copiedFoods.length){ showToast('⚠️ コピーできる予定がありません',true); return; }
   renderDetail();
   showToast(`📋 ${copiedFoods.length}品目をコピーしました`);
 }
