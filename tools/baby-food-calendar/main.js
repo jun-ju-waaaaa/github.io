@@ -752,23 +752,25 @@ function openFoodModal(food){
       </div>`;
     }).join('');
   }
-  const foodSafe=food.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  html+=`
-    <div style="margin-top:${recDates.length?'14px':'0'};background:var(--cream);border-radius:var(--rs);padding:12px 14px;">
-      <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:6px;">📆 日付を選んで追加（ドラッグで範囲選択）</div>
-      <div id="miniCalWrap"></div>
-      <div id="rangeLabel" style="text-align:center;font-size:12px;font-weight:700;color:var(--lav2);min-height:20px;margin:6px 0 8px;"></div>
-      <div style="display:flex;gap:6px;">
-        <button onclick="jumpToDate('${foodSafe}','plan')"
-          style="flex:1;padding:10px;border-radius:var(--rs);border:none;background:var(--honey2);color:#4A3000;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;min-height:44px;">📅 予定に追加</button>
-        <button onclick="jumpToDate('${foodSafe}','record')"
-          style="flex:1;padding:10px;border-radius:var(--rs);border:none;background:var(--mint2);color:var(--white);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;min-height:44px;">✅ 記録に追加</button>
-      </div>
-    </div>`;
+  if(curView !== 'stats'){
+    const foodSafe=food.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    html+=`
+      <div style="margin-top:${recDates.length?'14px':'0'};background:var(--cream);border-radius:var(--rs);padding:12px 14px;">
+        <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:6px;">📆 日付を選んで追加（ドラッグで範囲選択）</div>
+        <div id="miniCalWrap"></div>
+        <div id="rangeLabel" style="text-align:center;font-size:12px;font-weight:700;color:var(--lav2);min-height:20px;margin:6px 0 8px;"></div>
+        <div style="display:flex;gap:6px;">
+          <button onclick="jumpToDate('${foodSafe}','plan')"
+            style="flex:1;padding:10px;border-radius:var(--rs);border:none;background:var(--honey2);color:#4A3000;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;min-height:44px;">📅 予定に追加</button>
+          <button onclick="jumpToDate('${foodSafe}','record')"
+            style="flex:1;padding:10px;border-radius:var(--rs);border:none;background:var(--mint2);color:var(--white);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;min-height:44px;">✅ 記録に追加</button>
+        </div>
+      </div>`;
+  }
   document.getElementById('modalBody').innerHTML=html;
   document.getElementById('foodModal').classList.add('open');
   document.getElementById('overlay').classList.add('open');
-  initMiniCal();
+  if(curView !== 'stats') initMiniCal();
 }
 
 // ── MINI CALENDAR (range select) ──────────────────────────────────
