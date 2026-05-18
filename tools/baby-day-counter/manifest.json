@@ -1,0 +1,21 @@
+{
+  "name": "赤ちゃん生後計算",
+  "short_name": "生後計算",
+  "description": "赤ちゃんの生後週数・月齢・日齢を自動計算",
+  "start_url": "/tools/baby-day-counter/",
+  "display": "standalone",
+  "background_color": "#fff8fb",
+  "theme_color": "#ff4d94",
+  "icons": [
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ]
+}
