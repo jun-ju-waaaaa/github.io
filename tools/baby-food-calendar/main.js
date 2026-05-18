@@ -1633,10 +1633,14 @@ renderCalendar();
 renderDetail();
 
 // ── DISCLAIMER MODAL ──────────────────────────────────────────────
-if (!localStorage.getItem('bfc-disclaimer-v1')) {
-  document.getElementById('disclaimerOverlay').style.display = 'block';
-  document.getElementById('disclaimerModal').style.display  = 'block';
-}
+document.addEventListener('DOMContentLoaded', function () {
+  try {
+    if (!localStorage.getItem('bfc-disclaimer-v1')) {
+      document.getElementById('disclaimerOverlay').style.display = 'block';
+      document.getElementById('disclaimerModal').style.display  = 'block';
+    }
+  } catch (e) {}
+});
 function closeDisclaimerModal() {
   localStorage.setItem('bfc-disclaimer-v1', '1');
   document.getElementById('disclaimerOverlay').style.display = 'none';
