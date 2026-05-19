@@ -243,6 +243,25 @@ function getBabyMonths(){
   if(now.getDate() < birth.getDate()) months--;
   return Math.max(0, months);
 }
+const rakutenLinks = [
+  {
+    minMonths: 5, maxMonths: 6,
+    html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2583%2599%25E3%2583%2593%25E3%2583%25BC%25E3%2583%2595%25E3%2583%25BC%25E3%2583%2589%2B5%25E3%2583%25B6%25E6%259C%2588%2B%25E5%2588%259D%25E6%259C%259F%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc style="display:block;font-size:12px;font-weight:700;color:#8B4B4B;text-decoration:none;margin-top:6px;text-align:center;background:rgba(255,255,255,0.65);border:1px solid rgba(139,75,75,0.25);border-radius:6px;padding:6px 10px;">🛍️ ゴックン期のベビーフードを楽天で見る →</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+  },
+  {
+    minMonths: 7, maxMonths: 8,
+    html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2583%2599%25E3%2583%2593%25E3%2583%25BC%25E3%2583%2595%25E3%2583%25BC%25E3%2583%2589%2B7%25E3%2583%25B6%25E6%259C%2588%2B%25E4%25B8%25AD%25E6%259C%259F%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc style="display:block;font-size:12px;font-weight:700;color:#8B4B4B;text-decoration:none;margin-top:6px;text-align:center;background:rgba(255,255,255,0.65);border:1px solid rgba(139,75,75,0.25);border-radius:6px;padding:6px 10px;">🛍️ モグモグ期のベビーフードを楽天で見る →</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+  },
+  {
+    minMonths: 9, maxMonths: 11,
+    html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2583%2599%25E3%2583%2593%25E3%2583%25BC%25E3%2583%2595%25E3%2583%25BC%25E3%2583%2589%2B9%25E3%2583%25B6%25E6%259C%2588%2B%25E5%25BE%258C%25E6%259C%259F%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc style="display:block;font-size:12px;font-weight:700;color:#8B4B4B;text-decoration:none;margin-top:6px;text-align:center;background:rgba(255,255,255,0.65);border:1px solid rgba(139,75,75,0.25);border-radius:6px;padding:6px 10px;">🛍️ カミカミ期のベビーフードを楽天で見る →</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+  },
+  {
+    minMonths: 12, maxMonths: 18,
+    html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2583%2599%25E3%2583%2593%25E3%2583%25BC%25E3%2583%2595%25E3%2583%25BC%25E3%2583%2589%2B12%25E3%2583%25B6%25E6%259C%2588%2B%25E5%25AE%258C%25E4%25BA%2586%25E6%259C%259F%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc style="display:block;font-size:12px;font-weight:700;color:#8B4B4B;text-decoration:none;margin-top:6px;text-align:center;background:rgba(255,255,255,0.65);border:1px solid rgba(139,75,75,0.25);border-radius:6px;padding:6px 10px;">🛍️ パクパク期のベビーフードを楽天で見る →</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+  },
+];
+
 function saveBaby(){
   S.babyName  = document.getElementById('babyName').value;
   S.babyBirth = document.getElementById('babyBirth').value;
@@ -266,7 +285,8 @@ function updateAgeBadge(){
   if(!info){ b.style.display='none'; return; }
   b.style.display='block';
   const mealsText=info.meals?` ／ ${info.meals}`:'';
-  b.textContent=`生後${months}ヶ月 ${info.label}${mealsText}`;
+  const matched=rakutenLinks.find(r=>months>=r.minMonths&&months<=r.maxMonths);
+  b.innerHTML=`生後${months}ヶ月 ${info.label}${mealsText}${matched?matched.html:''}`;
 }
 
 function renderAgeBanner(){
