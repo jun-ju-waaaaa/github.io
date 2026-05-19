@@ -827,6 +827,25 @@
       </div>
     </div>
 
+    <!-- 月齢別楽天おすすめ -->
+    <div id="rakuten-recommend" style="
+      display:none;
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      background: linear-gradient(135deg, rgba(255,61,0,0.08), rgba(255,61,0,0.03));
+      border: 1px solid rgba(255,61,0,0.25);
+      border-radius: 10px;
+      font-size: 0.92rem;
+      align-items: center;
+      gap: 0.6rem;
+    ">
+      <span style="font-size:1.3rem;">🛍️</span>
+      <div>
+        <div style="font-size:0.75rem; color:#aaa; margin-bottom:2px;">今の月齢におすすめ</div>
+        <div id="rakuten-recommend-link" style="font-weight:bold;"></div>
+      </div>
+    </div>
+
     <!-- ✅ 新機能: 次の節目まで -->
     <div class="milestone-card" id="milestoneCard" aria-live="polite">
       <div class="milestone-title">
@@ -849,13 +868,6 @@
         </svg>
         Xでシェアする
       </button>
-    </div>
-
-    <!-- 楽天バナー -->
-    <div class="rakuten-banner">
-      <a href="https://hb.afl.rakuten.co.jp/hsc/53551bb3.9c847ae1.53547e07.fc9a698d/_RTLink131868?link_type=pict&ut=eyJwYWdlIjoic2hvcCIsInR5cGUiOiJwaWN0IiwiY29sIjoxLCJjYXQiOiIxMTAiLCJiYW4iOjE2MzczOTIsImFtcCI6dHJ1ZX0%3D" target="_blank" rel="nofollow sponsored noopener">
-        <img src="https://hbb.afl.rakuten.co.jp/hsb/53551bb3.9c847ae1.53547e07.fc9a698d/?me_id=1&me_adv_id=1637392&t=pict" alt="楽天ママ割" width="448" height="144">
-      </a>
     </div>
 
     <!-- 楽天モーションウィジェット -->
@@ -1137,6 +1149,9 @@
       // シェアボタン表示
       document.getElementById('shareSection').classList.add('visible');
 
+      // 楽天おすすめ更新
+      updateRakutenRecommend(days);
+
       // PWAバナー（iOS Safariのみ）
       const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
       const isStandalone = window.navigator.standalone;
@@ -1186,6 +1201,88 @@
       // 日付が選択されたら即計算（UX向上）
       if (this.value) calculate();
     });
+
+    // =====================
+    // 楽天月齢別おすすめリンク
+    // =====================
+    const rakutenLinks = [
+      {
+        minDays: 0, maxDays: 44,
+        label: "新生児グッズを楽天で見る",
+        html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E6%2596%25B0%25E7%2594%259F%25E5%2585%2590%2B%25E5%25BF%2585%25E9%259C%2580%25E5%2593%2581%2B%25E3%2582%25BB%25E3%2583%2583%25E3%2583%2588%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>楽天市場</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+      },
+      {
+        minDays: 45, maxDays: 74,
+        label: "授乳クッションを楽天で見る",
+        html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E6%258E%2588%25E4%25B9%25B3%25E3%2582%25AF%25E3%2583%2583%25E3%2582%25B7%25E3%2583%25A7%25E3%2583%25B3%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>楽天市場</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+      },
+      {
+        minDays: 75, maxDays: 104,
+        label: "抱っこ紐を楽天で見る",
+        html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E6%258A%25B1%25E3%2581%25A3%25E3%2581%2593%25E7%25B4%2590%2B%25E6%2596%25B0%25E7%2594%259F%25E5%2585%2590%25E5%25AF%25BE%25E5%25BF%259C%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>楽天市場</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+      },
+      {
+        minDays: 105, maxDays: 134,
+        label: "ベビーメリーを楽天で見る",
+        html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2583%2599%25E3%2583%2593%25E3%2583%25BC%2B%25E3%2583%25A1%25E3%2583%25AA%25E3%2583%25BC%2B3%25E3%2583%25B6%25E6%259C%2588%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>楽天市場</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+      },
+      {
+        minDays: 135, maxDays: 164,
+        label: "バウンサーを楽天で見る",
+        html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2583%2590%25E3%2582%25A6%25E3%2583%25B3%25E3%2582%25B5%25E3%2583%25BC%2B%25E3%2583%2599%25E3%2583%2593%25E3%2583%25BC%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>楽天市場</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+      },
+      {
+        minDays: 165, maxDays: 194,
+        label: "離乳食初期セットを楽天で見る",
+        html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E9%259B%25A2%25E4%25B9%25B3%25E9%25A3%259F%2B%25E5%2588%259D%25E6%259C%259F%2B%25E3%2582%25BB%25E3%2583%2583%25E3%2583%2588%2B%25E3%2582%25B9%25E3%2583%2597%25E3%2583%25BC%25E3%2583%25B3%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>楽天市場</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+      },
+      {
+        minDays: 195, maxDays: 224,
+        label: "ベビーフード（中期）を楽天で見る",
+        html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E9%259B%25A2%25E4%25B9%25B3%25E9%25A3%259F%2B%25E4%25B8%25AD%25E6%259C%259F%2B%25E3%2583%2599%25E3%2583%2593%25E3%2583%25BC%25E3%2583%2595%25E3%2583%25BC%25E3%2583%2589%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>楽天市場</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+      },
+      {
+        minDays: 225, maxDays: 254,
+        label: "ハイチェアを楽天で見る",
+        html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2583%2599%25E3%2583%2593%25E3%2583%25BC%25E3%2583%2581%25E3%2582%25A7%25E3%2582%25A2%2B%25E3%2583%258F%25E3%2582%25A4%25E3%2583%2581%25E3%2582%25A7%25E3%2582%25A2%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>楽天市場</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+      },
+      {
+        minDays: 255, maxDays: 284,
+        label: "つかまり立ちおもちゃを楽天で見る",
+        html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2581%25A4%25E3%2581%258B%25E3%2581%25BE%25E3%2582%258A%25E7%25AB%258B%25E3%2581%25A1%2B%25E3%2581%258A%25E3%2582%2582%25E3%2581%25A1%25E3%2582%2583%2B%25E8%25B5%25A4%25E3%2581%25A1%25E3%2582%2583%25E3%2582%2593%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>楽天市場</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+      },
+      {
+        minDays: 285, maxDays: 314,
+        label: "ベビーゲートを楽天で見る",
+        html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2583%2599%25E3%2583%2593%25E3%2583%25BC%25E3%2582%25B2%25E3%2583%25BC%25E3%2583%2588%2B%25E9%259A%258E%25E6%25AE%25B5%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>楽天市場</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+      },
+      {
+        minDays: 315, maxDays: 344,
+        label: "ファーストシューズを楽天で見る",
+        html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F%25E3%2583%2599%25E3%2583%2593%25E3%2583%25BC%2B%25E9%259D%25B4%2B%25E3%2583%2595%25E3%2582%25A1%25E3%2583%25BC%25E3%2582%25B9%25E3%2583%2588%25E3%2582%25B7%25E3%2583%25A5%25E3%2583%25BC%25E3%2582%25BA%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>楽天市場</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+      },
+      {
+        minDays: 345, maxDays: 365,
+        label: "1歳誕生日プレゼントを楽天で見る",
+        html: `<a href="//af.moshimo.com/af/c/click?a_id=5575137&p_id=54&pc_id=54&pl_id=616&url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2F1%25E6%25AD%25B3%2B%25E8%25AA%2595%25E7%2594%259F%25E6%2597%25A5%2B%25E3%2583%2597%25E3%2583%25AC%25E3%2582%25BC%25E3%2583%25B3%25E3%2583%2588%2B%25E3%2583%2599%25E3%2583%2593%25E3%2583%25BC%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade" attributionsrc>楽天市場</a><img src="//i.moshimo.com/af/i/impression?a_id=5575137&p_id=54&pc_id=54&pl_id=616" width="1" height="1" style="border:none;" alt="" loading="lazy">`
+      },
+    ];
+
+    function updateRakutenRecommend(days) {
+      const el = document.getElementById('rakuten-recommend');
+      if (days > 365) {
+        el.style.display = 'none';
+        return;
+      }
+      const link = rakutenLinks.find(r => days >= r.minDays && days <= r.maxDays);
+      if (!link) {
+        el.style.display = 'none';
+        return;
+      }
+      el.style.display = 'flex';
+      const linkHtml = link.html.replace(/>楽天市場</, ` style="color:#ff6b35; text-decoration:none; font-size:0.95rem;">${link.label}<`);
+      document.getElementById('rakuten-recommend-link').innerHTML = linkHtml;
+    }
 
     // =====================
     // 初期化：保存済み誕生日を復元
