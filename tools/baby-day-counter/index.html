@@ -833,7 +833,7 @@
     </div>
 
     <!-- 月齢別楽天おすすめ -->
-    <div id="rakuten-recommend" style="display:none; margin-top:1rem; padding:0.85rem 1rem; background:linear-gradient(135deg,rgba(255,61,0,0.08),rgba(255,61,0,0.03)); border:1px solid rgba(255,61,0,0.25); border-radius:10px; font-size:0.92rem; align-items:center; gap:0.6rem;">
+    <div id="rakuten-recommend" style="display:none; margin-top:1rem; padding:0.85rem 1rem; background:linear-gradient(135deg,rgba(255,61,0,0.08),rgba(255,61,0,0.03)); border:1px solid rgba(255,61,0,0.25); border-radius:10px; font-size:0.92rem;">
       <span style="font-size:1.3rem; flex-shrink:0;">🛍️</span>
       <div>
         <div style="font-size:0.75rem; color:var(--text-sub); margin-bottom:2px;">今の月齢におすすめ</div>
@@ -1276,8 +1276,8 @@
         return;
       }
       el.style.display = 'flex';
-      const linkHtml = link.html.replace(/>楽天市場</, ` style="color:#ff6b35; text-decoration:none; font-size:0.95rem; display:inline-block; padding:4px 0; touch-action:manipulation;">${link.label}<`);
-      document.getElementById('rakuten-recommend-link').innerHTML = linkHtml;
+      const linkHtml = link.html.replace(/>楽天市場</, ` style="display:block; width:100%; box-sizing:border-box; background:#ff4d94; color:white; text-decoration:none; font-size:1rem; font-weight:bold; padding:14px 20px; border-radius:50px; box-shadow:0 4px 12px rgba(255,77,148,0.3); touch-action:manipulation;">🛒 ${link.label} →<`);
+      document.getElementById('rakuten-recommend-link').innerHTML = `<div style="text-align:center; padding:8px 0;">${linkHtml}</div>`;
     }
 
     // =====================
